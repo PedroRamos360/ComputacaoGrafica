@@ -1,0 +1,230 @@
+# depslib dependency file v1.0
+1710341357 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_1_canvasglut\src\main.cpp
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	"gl_canvas2d.h"
+	"Bola.h"
+	"Relogio.h"
+	"Botao.h"
+
+1589218349 
+
+1632060799 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\glut.h
+	"freeglut_std.h"
+
+1632060799 std.h"
+
+1632060797 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1632060794 d:\ufsm\disciplinas\computacao grafica\demos\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1710341387 d:\ufsm\disciplinas\computacao grafica\demos\gl_1_canvasglut\src\gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1710341387 "
+
+1589217858 d:\ufsm\disciplinas\computacao grafica\demos\gl_1_canvasglut\src\vector2.h
+
+1589214882 d:\ufsm\disciplinas\computacao grafica\demos\gl_1_canvasglut\src\bola.h
+	"gl_canvas2d.h"
+
+1589214891 2d.h"
+
+1193164156 d:\ufsm\disciplinas\computacao grafica\demos\gl_1_canvasglut\src\relogio.h
+	"gl_canvas2d.h"
+
+1589214891 d:\ufsm\disciplinas\computacao grafica\demos\gl_1_canvasglut\src\botao.h
+	"gl_canvas2d.h"
+
+1705326017 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_1_canvasglut\src\gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1705326017 >
+
+1589218349 source:d:\ufsm\disciplinas\computacao grafica\demos\gl_1_canvasglut\src\relogio.cpp
+	"Relogio.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
+1710341420 source:/home/pedro/cg/Demos/1_canvasGlut/src/gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1710418623 /home/pedro/cg/Demos/1_canvasGlut/src/gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1632060799 /home/pedro/cg/Demos/include/GL/glut.h
+	"freeglut_std.h"
+
+1632060797 /home/pedro/cg/Demos/include/GL/freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1632060794 /home/pedro/cg/Demos/include/GL/freeglut_ext.h
+	<stdarg.h>
+
+1589217858 /home/pedro/cg/Demos/1_canvasGlut/src/Vector2.h
+
+1589218349 source:/home/pedro/cg/Demos/1_canvasGlut/src/Relogio.cpp
+	"Relogio.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
+1193164156 /home/pedro/cg/Demos/1_canvasGlut/src/Relogio.h
+	"gl_canvas2d.h"
+
+1710421945 source:/home/pedro/cg/Demos/1_canvasGlut/src/main.cpp
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	"gl_canvas2d.h"
+	"Bola.h"
+	"Relogio.h"
+	"Botao.h"
+	<unistd.h>
+
+1589214882 /home/pedro/cg/Demos/1_canvasGlut/src/Bola.h
+	"gl_canvas2d.h"
+
+1589214891 /home/pedro/cg/Demos/1_canvasGlut/src/Botao.h
+	"gl_canvas2d.h"
+
+1711394343 source:/home/pedro/Github/ComputacaoGrafica/T1/src/gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1711445719 /home/pedro/Github/ComputacaoGrafica/T1/src/gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1589217858 /home/pedro/Github/ComputacaoGrafica/T1/src/Vector2.h
+
+1711448018 source:/home/pedro/Github/ComputacaoGrafica/T1/src/main.cpp
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	"gl_canvas2d.h"
+	"./objects/Botao.h"
+	<unistd.h>
+	"./objects/Bmp.h"
+	"./objects/Image.h"
+
+1589214882 /home/pedro/Github/ComputacaoGrafica/T1/src/Bola.h
+	"gl_canvas2d.h"
+
+1193164156 /home/pedro/Github/ComputacaoGrafica/T1/src/Relogio.h
+	"gl_canvas2d.h"
+
+1589214891 /home/pedro/Github/ComputacaoGrafica/T1/src/Botao.h
+	"gl_canvas2d.h"
+
+1531759698 /home/pedro/Github/ComputacaoGrafica/T1/src/Bmp.h
+	<stdio.h>
+	<stdlib.h>
+
+1589218349 source:/home/pedro/Github/ComputacaoGrafica/T1/src/Relogio.cpp
+	"Relogio.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
+1650887927 source:/home/pedro/Github/ComputacaoGrafica/T1/src/bmp.cpp
+	"Bmp.h"
+	<string.h>
+
+1711387379 source:/home/pedro/Github/ComputacaoGrafica/T1/src/texture.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<ctype.h>
+	<unistd.h>
+	"Bmp.h"
+
+1650887927 source:/home/pedro/Github/ComputacaoGrafica/T1/src/objects/bmp.cpp
+	"Bmp.h"
+	<string.h>
+
+1531759698 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Bmp.h
+	<stdio.h>
+	<stdlib.h>
+
+1711394343 source:/home/pedro/Github/ComputacaoGrafica/T1/src/canvas/gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1711445719 /home/pedro/Github/ComputacaoGrafica/T1/src/canvas/gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1589217858 /home/pedro/Github/ComputacaoGrafica/T1/src/canvas/Vector2.h
+
+1589218349 source:/home/pedro/Github/ComputacaoGrafica/T1/src/objects/Relogio.cpp
+	"Relogio.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
+1711446162 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Relogio.h
+	"../gl_canvas2d.h"
+
+1711446152 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Botao.h
+	"../gl_canvas2d.h"
+
+1711447169 source:/home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.cpp
+	"Bmp.h"
+	"../gl_canvas2d.h"
+
+1711448552 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.h
+	"Bmp.h"
+	"../gl_canvas2d.h"
+
