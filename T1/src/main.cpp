@@ -4,21 +4,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "gl_canvas2d.h"
-#include "./objects/Botao.h"
+#include "./objects/Button.h"
 #include <unistd.h>
 #include "./objects/Bmp.h"
 #include "./objects/Image.h"
+#include <vector>
 
 using namespace std;
 
-int screenWidth = 500, screenHeight = 500;
+int screenWidth = 800, screenHeight = 600;
 
-Botao *bt = NULL;
+vector<Button> buttons;
+vector<Image> images;
+
+Image *mainImage = NULL;
+
 int opcao = 50;
 int mouseX, mouseY;
-
-Bmp *img1 = NULL;
-Image *mainImage = NULL;
 
 int xCircle = 250;
 int yCircle = 250;
@@ -36,12 +38,23 @@ void DrawMouseScreenCoords()
   CV::text(10, 320, str);
 }
 
+void buttonCallback(Image *image)
+{
+  image->setShouldRender(true);
+}
+
 void render()
 {
   CV::translate(x, y);
   CV::color(1, 1, 1);
   CV::rectFill(0, 0, screenWidth, screenHeight);
-  mainImage->renderImage();
+  for (int i = 0; i < 3; i++)
+  {
+    string label = "Carrega imagem " + to_string(i + 1);
+    Button *bt = new Button(screenWidth - 200, 20 + 30 * i, 20, label, buttonCallback, &images[i]);
+    buttons.push_back(*bt);
+    bt->Render();
+  }
 }
 
 void keyboard(int key)
@@ -66,13 +79,26 @@ void keyboardUp(int key)
 
 void mouse(int button, int state, int wheel, int direction, int x, int y)
 {
+  if (state == 1)
+  {
+    for (Button button : buttons)
+    {
+      button.handleColision(x, y);
+    }
+  }
 }
 
 int main(void)
 {
-  img1 = new Bmp("/home/pedro/Github/ComputacaoGrafica/T1/images/lena.bmp");
-  mainImage = new Image(0, 0, img1);
-  img1->convertBGRtoRGB();
+  vector<string> images = {"T1/images/lena.bmp", "T1/images/lena.bmp", "T1/images/lena.bmp"};
+  int index = 0;
+  for (string image : images)
+  {
+    Bmp *bmp = new Bmp(image.c_str());
+    bmp->convertBGRtoRGB();
+    Image *img = new Image(0, index * 50, bmp);
+    index++;
+  }
   CV::init(screenWidth, screenHeight, "Leitor de imagens");
   CV::run();
 }

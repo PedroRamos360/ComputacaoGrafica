@@ -14,21 +14,30 @@
 class Image
 {
 private:
-  void renderPoint(int x, int y, bool flip)
+  int x, y, rotation = 3;
+  Bmp *img;
+  bool shouldRender = false;
+  void renderPoint(int x, int y)
   {
-    if (flip)
+    int manipulatedX = x;
+    int manipulatedY = y;
+    if (this->rotation == UP || this->rotation == RIGHT)
     {
-      CV::point(y, x);
+      manipulatedY = img->getHeight() - y;
     }
-    else
+    if (this->rotation == DOWN || this->rotation == RIGHT)
     {
-      CV::point(x, y);
+      manipulatedX = img->getWidth() - x;
     }
+    if (this->rotation == LEFT || this->rotation == RIGHT)
+    {
+      CV::point(manipulatedY, manipulatedX);
+      return;
+    }
+    CV::point(manipulatedX, manipulatedY);
   }
 
 public:
-  int x, y, rotation = 3;
-  Bmp *img;
   Image(int x, int y, Bmp *img)
   {
     this->x = x;
@@ -38,37 +47,18 @@ public:
 
   void renderImage()
   {
-    printf("\nRotation: %d", this->rotation);
-    if (img != NULL)
+    if (img != NULL && this->shouldRender)
     {
       for (int h = 0; h < img->getHeight(); h++)
       {
         for (int w = 0; w < img->getWidth(); w++)
         {
-          int yinv;
-          int xinv;
-          if (this->rotation == DOWN || this->rotation == LEFT)
-          {
-            yinv = h;
-          }
-          else
-          {
-            yinv = img->getHeight() - h;
-          }
-          if (this->rotation == DOWN || this->rotation == RIGHT)
-          {
-            xinv = img->getWidth() - w;
-          }
-          else
-          {
-            xinv = w;
-          }
-          int pos = (yinv * img->getWidth() + xinv) * RGB_SIZE;
+          int pos = (h * img->getWidth() + w) * RGB_SIZE;
           float r = img->getImage()[pos] / 255.0f;
           float g = img->getImage()[pos + 1] / 255.0f;
           float b = img->getImage()[pos + 2] / 255.0f;
           CV::color(r, g, b);
-          this->renderPoint(w, h, this->rotation == LEFT || this->rotation == RIGHT);
+          this->renderPoint(w, h);
         }
       }
     }
@@ -88,6 +78,16 @@ public:
       this->rotation += 1;
     else
       this->rotation = 1;
+  }
+
+  bool getShouldRender() const
+  {
+    return shouldRender;
+  }
+
+  void setShouldRender(bool value)
+  {
+    shouldRender = value;
   }
 };
 
