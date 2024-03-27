@@ -141,7 +141,7 @@
 
 1589217858 /home/pedro/Github/ComputacaoGrafica/T1/src/Vector2.h
 
-1711459170 source:/home/pedro/Github/ComputacaoGrafica/T1/src/main.cpp
+1711536793 source:/home/pedro/Github/ComputacaoGrafica/T1/src/main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -186,7 +186,7 @@
 	<unistd.h>
 	"Bmp.h"
 
-1711459087 source:/home/pedro/Github/ComputacaoGrafica/T1/src/objects/bmp.cpp
+1711535100 source:/home/pedro/Github/ComputacaoGrafica/T1/src/objects/bmp.cpp
 	"Bmp.h"
 	<string.h>
 
@@ -225,13 +225,19 @@
 	"Bmp.h"
 	"../gl_canvas2d.h"
 
-1711457654 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.h
+1711535612 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.h
 	"Bmp.h"
 	"../gl_canvas2d.h"
 
-1711459369 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Button.h
+1711536888 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Button.h
 	"../gl_canvas2d.h"
 	<iostream>
 	<string.h>
 	"Image.h"
+	<thread>
+	<future>
+	<condition_variable>
+	<mutex>
+	<chrono>
+	<unistd.h>
 

@@ -5,6 +5,12 @@
 #include <iostream>
 #include <string.h>
 #include "Image.h"
+#include <thread>
+#include <future>
+#include <condition_variable>
+#include <mutex>
+#include <chrono>
+#include <unistd.h>
 using namespace std;
 
 class Button
@@ -13,6 +19,12 @@ class Button
   void (*onClick)(Image *);
   Image *image;
   string label;
+
+  void resetClickCount()
+  {
+    // std::this_thread::sleep_for(std::chrono::seconds(2));
+    // clickCount = 0;
+  }
 
 public:
   Button(float _x, float _y, float _alt, string _label, void (*_onClick)(Image *), Image *_image)
@@ -38,10 +50,8 @@ public:
   {
     if (mouseX >= x && mouseX <= (x + width) && mouseY >= y && mouseY <= (y + height))
     {
-      printf("=================== CLICOU +=================== \n");
-      if (image == NULL)
+      if (image != NULL)
       {
-        printf("image não é null\n");
         onClick(image);
       }
     }

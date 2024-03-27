@@ -14,8 +14,8 @@ using namespace std;
 
 int screenWidth = 800, screenHeight = 600;
 
-vector<Button> buttons;
-vector<Image> images;
+vector<Button *> buttons;
+vector<Image *> images;
 
 Image *mainImage = NULL;
 
@@ -40,7 +40,8 @@ void DrawMouseScreenCoords()
 
 void buttonCallback(Image *image)
 {
-  image->setShouldRender(true);
+  image->setShouldRender(!image->getShouldRender());
+  mainImage = image;
 }
 
 void render()
@@ -48,11 +49,17 @@ void render()
   CV::translate(x, y);
   CV::color(1, 1, 1);
   CV::rectFill(0, 0, screenWidth, screenHeight);
-  for (int i = 0; i < 3; i++)
+
+  for (Image *image : images)
   {
-    string label = "Carrega imagem " + to_string(i + 1);
-    Button *bt = new Button(screenWidth - 200, 20 + 30 * i, 20, label, buttonCallback, &images[i]);
-    buttons.push_back(*bt);
+    image->renderImage();
+  }
+  if (mainImage != NULL)
+  {
+    mainImage->renderImage();
+  }
+  for (Button *bt : buttons)
+  {
     bt->Render();
   }
 }
@@ -66,37 +73,38 @@ void keyboardUp(int key)
   switch (key)
   {
   case 202: // right
-    printf("\nRight");
     mainImage->rotateRight();
     break;
   case 200: // left
-    printf("\nLeft");
     mainImage->rotateLeft();
     break;
   }
-  printf("\nLiberou: %d", key);
 }
 
 void mouse(int button, int state, int wheel, int direction, int x, int y)
 {
   if (state == 1)
   {
-    for (Button button : buttons)
+    for (Button *button : buttons)
     {
-      button.handleColision(x, y);
+      button->handleColision(x, y);
     }
   }
 }
 
 int main(void)
 {
-  vector<string> images = {"T1/images/lena.bmp", "T1/images/lena.bmp", "T1/images/lena.bmp"};
+  vector<string> images_address = {"T1/images/lena.bmp", "T1/images/tree.bmp", "T1/images/car.bmp"};
   int index = 0;
-  for (string image : images)
+  for (string image : images_address)
   {
     Bmp *bmp = new Bmp(image.c_str());
     bmp->convertBGRtoRGB();
-    Image *img = new Image(0, index * 50, bmp);
+    Image *img = new Image(index * 50, -index * 50, bmp);
+    images.push_back(img);
+    string label = "Carrega imagem " + to_string(index + 1);
+    Button *bt = new Button(screenWidth - 200, 20 + 30 * index, 20, label, buttonCallback, img);
+    buttons.push_back(bt);
     index++;
   }
   CV::init(screenWidth, screenHeight, "Leitor de imagens");

@@ -90,9 +90,9 @@ void Bmp::load(const char *fileName)
   width = info.width;
   height = info.height;
   bits = info.bits;
-  bytesPerLine = (3 * (width + 1) / 4) * 4;
+  bytesPerLine = (width * 3 + 3) & (~3);
   imagesize = bytesPerLine * height;
-  int delta = bytesPerLine - (3 * width);
+  int delta = bytesPerLine - width * 3;
 
   printf("\nImagem: %dx%d - Bits: %d", width, height, bits);
   printf("\nbytesPerLine: %d", bytesPerLine);
@@ -108,11 +108,8 @@ void Bmp::load(const char *fileName)
     exit(0);
   }
 
-tryagain:
   if (width * height * 3 != imagesize)
   {
-    width = width - 1;
-    goto tryagain;
     printf("\nWarning: Arquivo BMP nao tem largura multipla de 4");
     getchar();
   }
@@ -137,9 +134,19 @@ tryagain:
     return;
   }
 
-  data = new unsigned char[imagesize];
+  int newWidth = (width + 3) & (~3);
+  int skipBytes = bytesPerLine - width * 3;
+
+  data = new unsigned char[newWidth * height * 3];
   fseek(fp, header.offset, SEEK_SET);
-  fread(data, sizeof(unsigned char), imagesize, fp);
+
+  for (int y = 0; y < height; y++)
+  {
+    fread(data + y * newWidth * 3, sizeof(unsigned char), width * 3, fp);
+    fseek(fp, skipBytes, SEEK_CUR);
+  }
+
+  width = newWidth;
 
   fclose(fp);
 }

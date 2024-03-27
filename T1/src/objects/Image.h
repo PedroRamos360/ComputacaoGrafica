@@ -16,7 +16,7 @@ class Image
 private:
   int x, y, rotation = 3;
   Bmp *img;
-  bool shouldRender = false;
+  bool shouldRender;
   void renderPoint(int x, int y)
   {
     int manipulatedX = x;
@@ -43,6 +43,7 @@ public:
     this->x = x;
     this->y = y;
     this->img = img;
+    this->shouldRender = false;
   }
 
   void renderImage()
@@ -58,7 +59,7 @@ public:
           float g = img->getImage()[pos + 1] / 255.0f;
           float b = img->getImage()[pos + 2] / 255.0f;
           CV::color(r, g, b);
-          this->renderPoint(w, h);
+          this->renderPoint(w + this->x, h + this->y);
         }
       }
     }
@@ -80,7 +81,7 @@ public:
       this->rotation = 1;
   }
 
-  bool getShouldRender() const
+  bool getShouldRender()
   {
     return shouldRender;
   }
