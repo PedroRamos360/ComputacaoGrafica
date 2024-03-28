@@ -130,7 +130,7 @@
 	"gl_canvas2d.h"
 	<GL/glut.h>
 
-1711445719 /home/pedro/Github/ComputacaoGrafica/T1/src/gl_canvas2d.h
+1711586756 /home/pedro/Github/ComputacaoGrafica/T1/src/gl_canvas2d.h
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
@@ -141,7 +141,7 @@
 
 1589217858 /home/pedro/Github/ComputacaoGrafica/T1/src/Vector2.h
 
-1711536793 source:/home/pedro/Github/ComputacaoGrafica/T1/src/main.cpp
+1711619356 source:/home/pedro/Github/ComputacaoGrafica/T1/src/main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -186,7 +186,7 @@
 	<unistd.h>
 	"Bmp.h"
 
-1711535100 source:/home/pedro/Github/ComputacaoGrafica/T1/src/objects/bmp.cpp
+1711588004 source:/home/pedro/Github/ComputacaoGrafica/T1/src/objects/bmp.cpp
 	"Bmp.h"
 	<string.h>
 
@@ -225,7 +225,7 @@
 	"Bmp.h"
 	"../gl_canvas2d.h"
 
-1711535612 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.h
+1711619313 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.h
 	"Bmp.h"
 	"../gl_canvas2d.h"
 

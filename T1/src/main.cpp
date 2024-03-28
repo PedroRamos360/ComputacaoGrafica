@@ -28,6 +28,7 @@ int circleRadius = 50;
 int x = 0;
 int y = 0;
 int rotation = 0;
+int mouseHold;
 
 void DrawMouseScreenCoords()
 {
@@ -38,15 +39,28 @@ void DrawMouseScreenCoords()
   CV::text(10, 320, str);
 }
 
+void setOtherImagesAsNonPrimary(Image *image)
+{
+  for (Image *img : images)
+  {
+    if (img != image)
+    {
+      img->setPrimaryImage(false);
+    }
+  }
+}
+
 void buttonCallback(Image *image)
 {
   image->setShouldRender(!image->getShouldRender());
+  image->setPrimaryImage(true);
+  setOtherImagesAsNonPrimary(image);
   mainImage = image;
 }
 
 void render()
 {
-  CV::translate(x, y);
+  CV::translate(0, 0);
   CV::color(1, 1, 1);
   CV::rectFill(0, 0, screenWidth, screenHeight);
 
@@ -62,6 +76,7 @@ void render()
   {
     bt->Render();
   }
+  DrawMouseScreenCoords();
 }
 
 void keyboard(int key)
@@ -83,11 +98,22 @@ void keyboardUp(int key)
 
 void mouse(int button, int state, int wheel, int direction, int x, int y)
 {
+  mouseX = x;
+  mouseY = y;
   if (state == 1)
   {
     for (Button *button : buttons)
     {
       button->handleColision(x, y);
+    }
+    mouseHold = 0;
+  }
+  if (state == 0 || mouseHold)
+  {
+    mouseHold = 1;
+    if (mainImage != NULL)
+    {
+      mainImage->handleColision(x, y);
     }
   }
 }
@@ -100,7 +126,7 @@ int main(void)
   {
     Bmp *bmp = new Bmp(image.c_str());
     bmp->convertBGRtoRGB();
-    Image *img = new Image(index * 50, -index * 50, bmp);
+    Image *img = new Image(index * 50 + 10, -index * 50 - 10, bmp);
     images.push_back(img);
     string label = "Carrega imagem " + to_string(index + 1);
     Button *bt = new Button(screenWidth - 200, 20 + 30 * index, 20, label, buttonCallback, img);
