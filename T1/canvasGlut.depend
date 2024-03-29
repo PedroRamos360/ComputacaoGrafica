@@ -141,7 +141,7 @@
 
 1589217858 /home/pedro/Github/ComputacaoGrafica/T1/src/Vector2.h
 
-1711619356 source:/home/pedro/Github/ComputacaoGrafica/T1/src/main.cpp
+1711619471 source:/home/pedro/Github/ComputacaoGrafica/T1/src/main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -225,7 +225,7 @@
 	"Bmp.h"
 	"../gl_canvas2d.h"
 
-1711619313 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.h
+1711740312 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.h
 	"Bmp.h"
 	"../gl_canvas2d.h"
 

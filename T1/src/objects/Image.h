@@ -5,9 +5,9 @@
 #include "../gl_canvas2d.h"
 
 #define UP 3
-#define RIGHT 4
+#define LEFT 4
 #define DOWN 1
-#define LEFT 2
+#define RIGHT 2
 
 #define RGB_SIZE 3
 
@@ -24,20 +24,68 @@ private:
   {
     int manipulatedX = x;
     int manipulatedY = y;
-    if (this->rotation == UP || this->rotation == RIGHT)
+    if (this->rotation == UP || this->rotation == LEFT)
     {
       manipulatedY = img->getHeight() - y;
     }
-    if (this->rotation == DOWN || this->rotation == RIGHT)
+    if (this->rotation == DOWN || this->rotation == LEFT)
     {
       manipulatedX = img->getWidth() - x;
     }
-    if (this->rotation == LEFT || this->rotation == RIGHT)
+    if (this->rotation == RIGHT || this->rotation == LEFT)
     {
       CV::point(manipulatedY, manipulatedX);
       return;
     }
     CV::point(manipulatedX, manipulatedY);
+  }
+  void drawImage()
+  {
+    for (int h = 0; h < img->getHeight(); h++)
+    {
+      for (int w = 0; w < img->getWidth(); w++)
+      {
+        int pos = (h * img->getWidth() + w) * RGB_SIZE;
+        float r = img->getImage()[pos] / 255.0f;
+        float g = img->getImage()[pos + 1] / 255.0f;
+        float b = img->getImage()[pos + 2] / 255.0f;
+        CV::color(r, g, b);
+        this->renderPoint(w + this->x, h + this->y);
+        this->drawImageCanvas(h, w);
+      }
+    }
+  }
+
+  void drawImageCanvas(int h, int w)
+  {
+    if (!this->primaryImage)
+    {
+      return;
+    }
+    if (h == 0)
+    {
+      CV::color(0.5, 0.5, 0.5);
+      for (int i = 0; i < 5; i++)
+      {
+        this->renderPoint(w + this->x, this->y - i);
+        this->renderPoint(w + this->x, this->y + i + img->getHeight());
+      }
+    }
+    if (w == 0)
+    {
+      CV::color(0.5, 0.5, 0.5);
+      for (int i = 0; i < 5; i++)
+      {
+        this->renderPoint(this->x - i, h + this->y);
+        this->renderPoint(this->x + i + img->getWidth(), h + this->y);
+      }
+    }
+  }
+
+  void drawImageBorder()
+  {
+    CV::color(0, 0, 0);
+    CV::rect(this->x, this->y, this->x + img->getWidth(), this->y + img->getHeight());
   }
 
 public:
@@ -49,49 +97,58 @@ public:
     this->shouldRender = false;
   }
 
-  void renderImage()
+    void renderImage()
   {
     if (img != NULL && this->shouldRender)
     {
-      for (int h = 0; h < img->getHeight(); h++)
-      {
-        for (int w = 0; w < img->getWidth(); w++)
-        {
-          int pos = (h * img->getWidth() + w) * RGB_SIZE;
-          float r = img->getImage()[pos] / 255.0f;
-          float g = img->getImage()[pos + 1] / 255.0f;
-          float b = img->getImage()[pos + 2] / 255.0f;
-          CV::color(r, g, b);
-          this->renderPoint(w + this->x, h + this->y);
-        }
-      }
-      if (this->primaryImage)
-      {
-        CV::color(0.5, 0.5, 0.5);
-        printf("x: %d, y: %d\n", this->x, this->y);
-        printf("rect: %d, %d, %d, %d\n", this->x, this->y, this->x + img->getWidth(), this->y + img->getHeight());
-        printf("multiplier %f\n", img->getWidth() / img->getHeight());
-        printf("heigh and width %d, %d\n", img->getHeight(), img->getWidth());
-        for (int i = 0; i < 5; i++)
-        {
-
-          CV::rect(this->x - i, -this->y + i, this->x + img->getWidth() + i, -this->y + img->getHeight() - i);
-        }
-      }
+      this->drawImage();
+      // this->drawImageBorder();
     }
   }
 
   void handleColision(int x, int y)
   {
-    if (x >= this->x && x <= this->x + img->getWidth() && y >= this->y && y <= this->y + img->getHeight())
+    bool colision;
+    int yMultiplier = 1;
+    int xMultiplier = 1;
+    switch (rotation)
     {
-      if (this->lastColisionX && this->lastColisionY)
-      {
-        this->x += x - this->lastColisionX;
-        this->y -= y - this->lastColisionY;
-      }
-      this->lastColisionX = x;
-      this->lastColisionY = y;
+    case UP:
+      yMultiplier = -1;
+      break;
+    case LEFT:
+      xMultiplier = -1;
+      break;
+    case DOWN:
+      yMultiplier = 1;
+      break;
+    case RIGHT:
+      xMultiplier = 1;
+      break;
+    }
+    int multipliedX = this->x * xMultiplier;
+    int multipliedY = this->y * yMultiplier;
+    colision = x >= multipliedX && x <= multipliedX + img->getWidth() && y >= multipliedY && y <= multipliedY + img->getHeight();
+
+    if (colision)
+    {
+      this->x = x - img->getWidth() / 2;
+      this->y = y - img->getHeight() / 2;
+      // if (this->lastColisionX && this->lastColisionY)
+      // {
+      //   if (rotation == UP || rotation == DOWN)
+      //   {
+      //     this->x += (x - this->lastColisionX) * xMultiplier;
+      //     this->y += (y - this->lastColisionY) * yMultiplier;
+      //   }
+      //   if (rotation == LEFT || rotation == RIGHT)
+      //   {
+      //     this->x += (y - this->lastColisionY) * yMultiplier;
+      //     this->y += (x - this->lastColisionX) * xMultiplier;
+      //   }
+      // }
+      // this->lastColisionX = x;
+      // this->lastColisionY = y;
     }
   }
 
