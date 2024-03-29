@@ -47,8 +47,8 @@ private:
   {
     int centerX = this->x + img->getWidth() / 2;
     int centerY = this->y + img->getHeight() / 2;
-    int translatedX = x - centerX;
-    int translatedY = y - centerY;
+    int translatedX = point.x - centerX;
+    int translatedY = point.y - centerY;
     int rotatedX, rotatedY;
     switch (this->rotation)
     {
@@ -73,50 +73,15 @@ private:
       rotatedY = translatedY;
       break;
     }
-    Point output;
-    output.x = rotatedX + centerX;
-    output.y = rotatedY + centerY;
+    Point output = {rotatedX + centerX, rotatedY + centerY};
     return output;
   }
 
   void renderPoint(int x, int y)
   {
-    int centerX = this->x + img->getWidth() / 2;
-    int centerY = this->y + img->getHeight() / 2;
+    Point rotated = rotatePoint({x, y});
 
-    int translatedX = x - centerX;
-    int translatedY = y - centerY;
-
-    int rotatedX, rotatedY;
-
-    switch (this->rotation)
-    {
-    case UP:
-      rotatedX = translatedX;
-      rotatedY = -translatedY;
-      break;
-    case DOWN:
-      rotatedX = -translatedX;
-      rotatedY = translatedY;
-      break;
-    case LEFT:
-      rotatedX = -translatedY;
-      rotatedY = -translatedX;
-      break;
-    case RIGHT:
-      rotatedX = translatedY;
-      rotatedY = translatedX;
-      break;
-    default:
-      rotatedX = translatedX;
-      rotatedY = translatedY;
-      break;
-    }
-
-    int manipulatedX = rotatedX + centerX;
-    int manipulatedY = rotatedY + centerY;
-
-    CV::point(manipulatedX, manipulatedY);
+    CV::point(rotated.x, rotated.y);
   }
 
   void drawImage()
@@ -164,32 +129,38 @@ private:
 
   ColisionCoords getColisionCoords()
   {
-    int manipulatedX = this->x;
-    int manipulatedY = this->y;
-    switch (rotation)
-    {
-    case UP:
-      manipulatedY *= -1;
-      break;
-    case DOWN:
-      manipulatedX *= -1;
-      break;
-    case RIGHT:
-      manipulatedX = this->y;
-      manipulatedY = this->x;
-      break;
-    case LEFT:
-      manipulatedX = this->y * -1;
-      manipulatedY = this->x * -1;
-      break;
-    }
+    Point rotated = rotatePoint({this->x, this->y});
 
     ColisionCoords output;
 
-    output.xStart = manipulatedX;
-    output.xEnd = manipulatedX + img->getWidth();
-    output.yStart = manipulatedY;
-    output.yEnd = manipulatedY + img->getHeight();
+    output.xStart = rotated.x;
+    output.xEnd = rotated.x + img->getWidth();
+    output.yStart = rotated.y;
+    output.yEnd = rotated.y + img->getHeight();
+
+    switch (rotation)
+    {
+    case UP:
+      output.yStart = rotated.y - img->getHeight();
+      output.yEnd = rotated.y;
+      break;
+    case DOWN:
+      output.xStart = rotated.x - img->getWidth();
+      output.xEnd = rotated.x;
+      break;
+    case LEFT:
+      output.xStart = rotated.x - img->getWidth();
+      output.xEnd = rotated.x;
+      output.yStart = rotated.y - img->getHeight();
+      output.yEnd = rotated.y;
+      break;
+    case RIGHT:
+      output.xStart = rotated.x;
+      output.xEnd = rotated.x + img->getWidth();
+      output.yStart = rotated.y;
+      output.yEnd = rotated.y + img->getHeight();
+      break;
+    }
 
     return output;
   }
@@ -225,27 +196,8 @@ public:
     bool colision = x >= coords.xStart && x <= coords.xEnd && y >= coords.yStart && y <= coords.yEnd;
     if (colision)
     {
-      int manipulatedX = x;
-      int manipulatedY = y;
-      switch (rotation)
-      {
-      case UP:
-        manipulatedY = invertY(y);
-        break;
-      case DOWN:
-        manipulatedX = invertX(x);
-        break;
-      case LEFT:
-        manipulatedX = invertX(y);
-        manipulatedY = invertY(x);
-        break;
-      case RIGHT:
-        manipulatedX = y;
-        manipulatedY = x;
-        break;
-      }
-      this->x = manipulatedX - img->getWidth() / 2;
-      this->y = manipulatedY - img->getHeight() / 2;
+      this->x = x - img->getWidth() / 2;
+      this->y = y - img->getHeight() / 2;
     }
   }
 

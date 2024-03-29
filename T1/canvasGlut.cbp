@@ -41,20 +41,13 @@
 			<Add option="-lGLU" />
 			<Add option="-lglut" />
 		</Linker>
-		<Unit filename="src/Bmp.h" />
-		<Unit filename="src/Bola.h" />
-		<Unit filename="src/Botao.h" />
-		<Unit filename="src/Relogio.h" />
 		<Unit filename="src/Vector2.h" />
 		<Unit filename="src/gl_canvas2d.cpp" />
 		<Unit filename="src/gl_canvas2d.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/objects/Bmp.h" />
-		<Unit filename="src/objects/Bola.h" />
-		<Unit filename="src/objects/Botao.h" />
+		<Unit filename="src/objects/Button.h" />
 		<Unit filename="src/objects/Image.h" />
-		<Unit filename="src/objects/Relogio.cpp" />
-		<Unit filename="src/objects/Relogio.h" />
 		<Unit filename="src/objects/bmp.cpp" />
 		<Extensions />
 	</Project>
