@@ -9,6 +9,7 @@
 #include "./objects/Bmp.h"
 #include "./objects/Image.h"
 #include <vector>
+#include "./objects/ManipulatedImage.h"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ vector<Button *> buttons;
 vector<Image *> images;
 
 Image *mainImage = NULL;
+ManipulatedImage *manipulatedImage = NULL;
 
 int opcao = 50;
 int mouseX, mouseY;
@@ -56,13 +58,12 @@ void buttonCallback(Image *image)
   image->setPrimaryImage(true);
   setOtherImagesAsNonPrimary(image);
   mainImage = image;
+  manipulatedImage = new ManipulatedImage(image, screenWidth - image->getWidth(), screenHeight - image->getHeight());
 }
 
 void render()
 {
   CV::translate(0, 0);
-  CV::color(1, 1, 1);
-  CV::rectFill(0, 0, screenWidth, screenHeight);
 
   for (Image *image : images)
   {
@@ -76,7 +77,10 @@ void render()
   {
     bt->Render();
   }
-  DrawMouseScreenCoords();
+  if (manipulatedImage != NULL)
+  {
+    manipulatedImage->renderIsolatedChannel();
+  }
 }
 
 void keyboard(int key)
@@ -93,7 +97,17 @@ void keyboardUp(int key)
   case 200: // left
     mainImage->rotateLeft();
     break;
+  case 114: // r
+    manipulatedImage->setChannel(RED);
+    break;
+  case 103: // g
+    manipulatedImage->setChannel(GREEN);
+    break;
+  case 98: // b
+    manipulatedImage->setChannel(BLUE);
+    break;
   }
+  printf("key: %d\n", key);
 }
 
 void mouse(int button, int state, int wheel, int direction, int x, int y)
