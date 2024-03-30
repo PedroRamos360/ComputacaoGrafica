@@ -10,6 +10,7 @@
 #include "./objects/Image.h"
 #include <vector>
 #include "./objects/ManipulatedImage.h"
+#include "./objects/Histogram.h"
 
 using namespace std;
 
@@ -18,8 +19,8 @@ int screenWidth = 800, screenHeight = 600;
 vector<Button *> buttons;
 vector<Image *> images;
 
-Image *mainImage = NULL;
 ManipulatedImage *manipulatedImage = NULL;
+Histogram *histogram = NULL;
 
 int opcao = 50;
 int mouseX, mouseY;
@@ -32,6 +33,8 @@ int y = 0;
 int rotation = 0;
 int mouseHold;
 
+#define HISTOGRAM_SIZE 256
+
 void DrawMouseScreenCoords()
 {
   char str[100];
@@ -41,45 +44,83 @@ void DrawMouseScreenCoords()
   CV::text(10, 320, str);
 }
 
-void setOtherImagesAsNonPrimary(Image *image)
+void setAllImagesAsNonPrimary()
 {
   for (Image *img : images)
   {
-    if (img != image)
+    img->setPrimaryImage(false);
+  }
+}
+
+void orderImagesByPrimary(Image *image)
+{
+  for (int i = 0; i < images.size(); i++)
+  {
+    if (images[i] == image)
     {
-      img->setPrimaryImage(false);
+      Image *primaryImage = images[i];
+      images.erase(images.begin() + i);
+      images.push_back(primaryImage);
+      break;
     }
   }
+}
+
+Image *getLastVisibleImage()
+{
+  for (int i = images.size() - 1; i >= 0; i--)
+  {
+    Image *image = images[i];
+    if (image->getShouldRender())
+    {
+      return image;
+    }
+  }
+  return NULL;
 }
 
 void buttonCallback(Image *image)
 {
   image->setShouldRender(!image->getShouldRender());
-  image->setPrimaryImage(true);
-  setOtherImagesAsNonPrimary(image);
-  mainImage = image;
-  manipulatedImage = new ManipulatedImage(image, screenWidth - image->getWidth(), screenHeight - image->getHeight());
+  setAllImagesAsNonPrimary();
+  if (image->getShouldRender())
+  {
+    orderImagesByPrimary(image);
+    image->setPrimaryImage(true);
+    manipulatedImage = new ManipulatedImage(image, screenWidth, screenHeight);
+    histogram = new Histogram(screenWidth, screenHeight, image);
+  }
+  else
+  {
+    Image *primaryImage = getLastVisibleImage();
+    if (!primaryImage == NULL)
+    {
+      orderImagesByPrimary(primaryImage);
+      primaryImage->setPrimaryImage(true);
+      manipulatedImage = new ManipulatedImage(primaryImage, screenWidth, screenHeight);
+      histogram = new Histogram(screenWidth, screenHeight, primaryImage);
+    }
+  }
 }
 
 void render()
 {
   CV::translate(0, 0);
-
+  if (manipulatedImage != NULL)
+  {
+    manipulatedImage->renderIsolatedChannel();
+  }
+  if (histogram != NULL)
+  {
+    histogram->renderGrayHistogram();
+  }
   for (Image *image : images)
   {
     image->renderImage();
   }
-  if (mainImage != NULL)
-  {
-    mainImage->renderImage();
-  }
   for (Button *bt : buttons)
   {
     bt->Render();
-  }
-  if (manipulatedImage != NULL)
-  {
-    manipulatedImage->renderIsolatedChannel();
   }
 }
 
@@ -92,19 +133,28 @@ void keyboardUp(int key)
   switch (key)
   {
   case 202: // right
-    mainImage->rotateRight();
+    if (!images.back() == NULL)
+      images.back()->rotateRight();
     break;
   case 200: // left
-    mainImage->rotateLeft();
+    if (!images.back() == NULL)
+      images.back()->rotateLeft();
     break;
   case 114: // r
-    manipulatedImage->setChannel(RED);
+    if (!manipulatedImage == NULL)
+      manipulatedImage->setChannel(RED);
     break;
   case 103: // g
-    manipulatedImage->setChannel(GREEN);
+    if (!manipulatedImage == NULL)
+      manipulatedImage->setChannel(GREEN);
     break;
   case 98: // b
-    manipulatedImage->setChannel(BLUE);
+    if (!manipulatedImage == NULL)
+      manipulatedImage->setChannel(BLUE);
+    break;
+  case 104: // h
+    if (!histogram == NULL)
+      histogram->setShouldRender(!histogram->getShouldRender());
     break;
   }
   printf("key: %d\n", key);
@@ -125,9 +175,9 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
   if (state == 0 || mouseHold)
   {
     mouseHold = 1;
-    if (mainImage != NULL)
+    if (images.back() != NULL)
     {
-      mainImage->handleColision(x, y);
+      images.back()->handleColision(x, y);
     }
   }
 }
@@ -140,7 +190,7 @@ int main(void)
   {
     Bmp *bmp = new Bmp(image.c_str());
     bmp->convertBGRtoRGB();
-    Image *img = new Image(index * 50 + 10, -index * 50 - 10, bmp);
+    Image *img = new Image(index * 100 + 10, index * 100 + 10, bmp);
     images.push_back(img);
     string label = "Carrega imagem " + to_string(index + 1);
     Button *bt = new Button(screenWidth - 200, 20 + 30 * index, 20, label, buttonCallback, img);

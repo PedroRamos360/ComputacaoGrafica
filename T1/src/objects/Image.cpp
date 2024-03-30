@@ -221,3 +221,8 @@ int Image::getHeight()
 {
   return img->getHeight();
 }
+
+bool Image::isPrimaryImage()
+{
+  return primaryImage;
+}

@@ -51,6 +51,7 @@ public:
   bool getShouldRender();
   void setShouldRender(bool value);
   void setPrimaryImage(bool value);
+  bool isPrimaryImage();
   Bmp *getBmp();
   int getWidth();
   int getHeight();

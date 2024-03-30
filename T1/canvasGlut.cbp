@@ -47,7 +47,9 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/objects/Bmp.h" />
 		<Unit filename="src/objects/Button.h" />
+		<Unit filename="src/objects/Image.cpp" />
 		<Unit filename="src/objects/Image.h" />
+		<Unit filename="src/objects/ManipulatedImage.h" />
 		<Unit filename="src/objects/bmp.cpp" />
 		<Extensions />
 	</Project>

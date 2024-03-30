@@ -4,7 +4,8 @@ enum Channel
 {
   RED = 0,
   GREEN = 1,
-  BLUE = 2
+  BLUE = 2,
+  NONE = 3
 };
 
 class ManipulatedImage
@@ -13,14 +14,14 @@ private:
   Bmp *img;
   int x;
   int y;
-  Channel channel;
+  Channel channel = NONE;
 
 public:
-  ManipulatedImage(Image *image, int x, int y)
+  ManipulatedImage(Image *image, int screenWidth, int screenHeight)
   {
     this->img = image->getBmp();
-    this->x = x;
-    this->y = y;
+    this->x = screenWidth - img->getWidth();
+    this->y = screenHeight - img->getHeight();
   }
 
   int invertY(int y)
@@ -30,6 +31,8 @@ public:
 
   void renderIsolatedChannel()
   {
+    if (this->channel == NONE)
+      return;
     for (int h = 0; h < img->getHeight(); h++)
     {
       for (int w = 0; w < img->getWidth(); w++)

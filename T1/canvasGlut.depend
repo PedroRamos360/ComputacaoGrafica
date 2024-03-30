@@ -141,7 +141,7 @@
 
 1589217858 /home/pedro/Github/ComputacaoGrafica/T1/src/Vector2.h
 
-1711795580 source:/home/pedro/Github/ComputacaoGrafica/T1/src/main.cpp
+1711828843 source:/home/pedro/Github/ComputacaoGrafica/T1/src/main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -154,6 +154,7 @@
 	"./objects/Image.h"
 	<vector>
 	"./objects/ManipulatedImage.h"
+	"./objects/Histogram.h"
 
 1589214882 /home/pedro/Github/ComputacaoGrafica/T1/src/Bola.h
 	"gl_canvas2d.h"
@@ -222,12 +223,12 @@
 1711446152 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Botao.h
 	"../gl_canvas2d.h"
 
-1711795708 source:/home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.cpp
+1711820366 source:/home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.cpp
 	"Bmp.h"
 	"../gl_canvas2d.h"
 	"Image.h"
 
-1711795798 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.h
+1711820371 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Image.h
 	"Bmp.h"
 	"../gl_canvas2d.h"
 
@@ -243,6 +244,11 @@
 	<chrono>
 	<unistd.h>
 
-1711795619 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/ManipulatedImage.h
+1711820998 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/ManipulatedImage.h
 	"Image.h"
+
+1711828906 /home/pedro/Github/ComputacaoGrafica/T1/src/objects/Histogram.h
+	"Image.h"
+	<map>
+	<random>
 
