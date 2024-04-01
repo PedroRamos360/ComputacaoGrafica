@@ -6,13 +6,6 @@ Histogram::Histogram(int screenWidth, int screenHeight, Image *image)
   this->y = screenHeight - 10;
   this->image = image;
   this->calculateHistogramValues();
-  printf("Histogram created\n");
-
-  // Print histogram values
-  for (int i = 0; i < 256; i++)
-  {
-    printf("Histogram[%d] = %d\n", i, this->histogram[i]);
-  }
 }
 
 void Histogram::initializeHistogramWithZeros()

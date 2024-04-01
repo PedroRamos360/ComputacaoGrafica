@@ -91,29 +91,9 @@ private:
     buttons.push_back(bt);
   }
 
-  void init()
+  void createButtonsForColorChannels(int *lastY)
   {
-    int index = 0;
-    for (Image *image : this->images)
-    {
-      createImageAssociatedButton(index, image);
-      index++;
-    }
-
-    int lastY = 20 + 30 * index;
-
-    auto histButtonCallback = [this]()
-    {
-      if (histogram == NULL)
-        return;
-      histogram->setShouldRender(!histogram->getShouldRender());
-    };
-    float histButtonX = screenWidth - 200;
-    lastY += 30;
-    float histButtonY = lastY;
-    Button *histogramButton = new Button(histButtonX, histButtonY, BUTTON_HEIGHT, "Mostra histograma", histButtonCallback);
-    buttons.push_back(histogramButton);
-
+    int buttonX = screenWidth - 200;
     vector<string> channelButtons = {"Imagem Vermelha", "Imagem Verde", "Imagem Azul"};
     for (string channelButton : channelButtons)
     {
@@ -131,10 +111,37 @@ private:
 
         manipulatedImage->setChannel(channel);
       };
-      lastY += 30;
-      Button *button = new Button(histButtonX, lastY, BUTTON_HEIGHT, channelButton, channelButtonCallback);
+      *lastY += 30;
+      Button *button = new Button(buttonX, *lastY, BUTTON_HEIGHT, channelButton, channelButtonCallback);
       buttons.push_back(button);
     }
+  }
+
+  void createHistogramButton(int *lastY)
+  {
+    auto histButtonCallback = [this]()
+    {
+      if (histogram == NULL)
+        return;
+      histogram->setShouldRender(!histogram->getShouldRender());
+    };
+    float histButtonX = screenWidth - 200;
+    float histButtonY = *lastY;
+    Button *histogramButton = new Button(histButtonX, histButtonY, BUTTON_HEIGHT, "Mostra histograma", histButtonCallback);
+    buttons.push_back(histogramButton);
+  }
+
+  void init()
+  {
+    int index = 0;
+    for (Image *image : this->images)
+    {
+      createImageAssociatedButton(index, image);
+      index++;
+    }
+    int lastY = 20 + 30 * index;
+    createHistogramButton(&lastY);
+    createButtonsForColorChannels(&lastY);
   }
 
 public:
