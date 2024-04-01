@@ -15,47 +15,15 @@ using namespace std;
 
 class Button
 {
+private:
   float height, width, x, y;
-  void (*onClick)(Image *);
-  Image *image;
+  function<void()> onClick;
   string label;
 
-  void resetClickCount()
-  {
-    // std::this_thread::sleep_for(std::chrono::seconds(2));
-    // clickCount = 0;
-  }
-
 public:
-  Button(float _x, float _y, float _alt, string _label, void (*_onClick)(Image *), Image *_image)
-  {
-    height = _alt;
-    width = _label.size() * 11;
-    x = _x;
-    y = _y;
-    label = _label;
-    onClick = _onClick;
-    image = _image;
-  }
-
-  void Render()
-  {
-    CV::color(0, 1, 0);
-    CV::rectFill(x, y, x + width, y + height);
-    CV::color(0, 0, 0);
-    CV::text(x + label.size() / 1.5, y + height / 2, label.c_str());
-  }
-
-  void handleColision(int mouseX, int mouseY)
-  {
-    if (mouseX >= x && mouseX <= (x + width) && mouseY >= y && mouseY <= (y + height))
-    {
-      if (image != NULL)
-      {
-        onClick(image);
-      }
-    }
-  }
+  Button(float x, float y, float height, string label, function<void()> onClick);
+  void Render();
+  void handleColision(int mouseX, int mouseY);
 };
 
 #endif

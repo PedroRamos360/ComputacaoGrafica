@@ -11,16 +11,17 @@
 #include <vector>
 #include "./objects/ManipulatedImage.h"
 #include "./objects/Histogram.h"
+#include "./objects/ButtonManager.h"
 
 using namespace std;
 
 int screenWidth = 800, screenHeight = 600;
 
-vector<Button *> buttons;
 vector<Image *> images;
 
 ManipulatedImage *manipulatedImage = NULL;
 Histogram *histogram = NULL;
+ButtonManager *buttonManager = NULL;
 
 int opcao = 50;
 int mouseX, mouseY;
@@ -44,65 +45,6 @@ void DrawMouseScreenCoords()
   CV::text(10, 320, str);
 }
 
-void setAllImagesAsNonPrimary()
-{
-  for (Image *img : images)
-  {
-    img->setPrimaryImage(false);
-  }
-}
-
-void orderImagesByPrimary(Image *image)
-{
-  for (int i = 0; i < images.size(); i++)
-  {
-    if (images[i] == image)
-    {
-      Image *primaryImage = images[i];
-      images.erase(images.begin() + i);
-      images.push_back(primaryImage);
-      break;
-    }
-  }
-}
-
-Image *getLastVisibleImage()
-{
-  for (int i = images.size() - 1; i >= 0; i--)
-  {
-    Image *image = images[i];
-    if (image->getShouldRender())
-    {
-      return image;
-    }
-  }
-  return NULL;
-}
-
-void buttonCallback(Image *image)
-{
-  image->setShouldRender(!image->getShouldRender());
-  setAllImagesAsNonPrimary();
-  if (image->getShouldRender())
-  {
-    orderImagesByPrimary(image);
-    image->setPrimaryImage(true);
-    manipulatedImage = new ManipulatedImage(image, screenWidth, screenHeight);
-    histogram = new Histogram(screenWidth, screenHeight, image);
-  }
-  else
-  {
-    Image *primaryImage = getLastVisibleImage();
-    if (!primaryImage == NULL)
-    {
-      orderImagesByPrimary(primaryImage);
-      primaryImage->setPrimaryImage(true);
-      manipulatedImage = new ManipulatedImage(primaryImage, screenWidth, screenHeight);
-      histogram = new Histogram(screenWidth, screenHeight, primaryImage);
-    }
-  }
-}
-
 void render()
 {
   CV::translate(0, 0);
@@ -118,10 +60,7 @@ void render()
   {
     image->renderImage();
   }
-  for (Button *bt : buttons)
-  {
-    bt->Render();
-  }
+  buttonManager->render();
 }
 
 void keyboard(int key)
@@ -166,10 +105,7 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
   mouseY = y;
   if (state == 1)
   {
-    for (Button *button : buttons)
-    {
-      button->handleColision(x, y);
-    }
+    buttonManager->handleColisions(x, y);
     mouseHold = 0;
   }
   if (state == 0 || mouseHold)
@@ -192,11 +128,9 @@ int main(void)
     bmp->convertBGRtoRGB();
     Image *img = new Image(index * 100 + 10, index * 100 + 10, bmp);
     images.push_back(img);
-    string label = "Carrega imagem " + to_string(index + 1);
-    Button *bt = new Button(screenWidth - 200, 20 + 30 * index, 20, label, buttonCallback, img);
-    buttons.push_back(bt);
     index++;
   }
+  buttonManager = new ButtonManager(images, screenWidth, screenHeight, histogram, manipulatedImage);
   CV::init(screenWidth, screenHeight, "Leitor de imagens");
   CV::run();
 }
