@@ -46,9 +46,14 @@
 		<Unit filename="src/gl_canvas2d.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/objects/Bmp.h" />
+		<Unit filename="src/objects/Button.cpp" />
 		<Unit filename="src/objects/Button.h" />
+		<Unit filename="src/objects/ButtonManager.h" />
+		<Unit filename="src/objects/Histogram.cpp" />
+		<Unit filename="src/objects/Histogram.h" />
 		<Unit filename="src/objects/Image.cpp" />
 		<Unit filename="src/objects/Image.h" />
+		<Unit filename="src/objects/ManipulatedImage.cpp" />
 		<Unit filename="src/objects/ManipulatedImage.h" />
 		<Unit filename="src/objects/bmp.cpp" />
 		<Extensions />

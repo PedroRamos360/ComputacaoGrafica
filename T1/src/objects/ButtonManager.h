@@ -4,6 +4,7 @@
 #include "ManipulatedImage.h"
 #include "Button.h"
 #include <string.h>
+#include <map>
 
 using namespace std;
 
@@ -119,16 +120,29 @@ private:
 
   void createHistogramButton(int *lastY)
   {
-    auto histButtonCallback = [this]()
+    map<string, HistogramChannel> channelMap;
+    channelMap["0Histograma cinza"] = H_GRAY;
+    channelMap["1Histograma vermelho"] = H_RED;
+    channelMap["2Histograma verde"] = H_GREEN;
+    channelMap["3Histograma azul"] = H_BLUE;
+
+    for (auto const &[label, channel] : channelMap)
     {
-      if (histogram == NULL)
-        return;
-      histogram->setShouldRender(!histogram->getShouldRender());
-    };
-    float histButtonX = screenWidth - 200;
-    float histButtonY = *lastY;
-    Button *histogramButton = new Button(histButtonX, histButtonY, BUTTON_HEIGHT, "Mostra histograma", histButtonCallback);
-    buttons.push_back(histogramButton);
+      auto histButtonCallback = [this, channel]()
+      {
+        if (histogram == NULL)
+          return;
+        histogram->setShouldRender(true);
+        histogram->setChannel(channel);
+      };
+      float histButtonX = screenWidth - 200;
+      float histButtonY = *lastY;
+      string labelCopy = label;
+      labelCopy.erase(labelCopy.begin());
+      Button *histogramButton = new Button(histButtonX, histButtonY, BUTTON_HEIGHT, labelCopy, histButtonCallback);
+      buttons.push_back(histogramButton);
+      *lastY += 30;
+    }
   }
 
   void init()

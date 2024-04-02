@@ -9,8 +9,8 @@
 #include "./objects/Bmp.h"
 #include "./objects/Image.h"
 #include <vector>
-#include "./objects/ManipulatedImage.h"
 #include "./objects/Histogram.h"
+#include "./objects/ManipulatedImage.h"
 #include "./objects/ButtonManager.h"
 
 using namespace std;
@@ -54,7 +54,7 @@ void render()
   }
   if (histogram != NULL)
   {
-    histogram->renderGrayHistogram();
+    histogram->render();
   }
   for (Image *image : images)
   {

@@ -29,18 +29,46 @@ void Histogram::calculateHistogramValues()
       float g = bmp->getImage()[pos + 1];
       float b = bmp->getImage()[pos + 2];
       int gray = static_cast<int>(0.299 * r + 0.587 * g + 0.114 * b);
-      this->histogram[gray]++;
+      switch (channel)
+      {
+      case H_GRAY:
+        this->histogram[gray]++;
+        break;
+      case H_RED:
+        this->histogram[static_cast<int>(r)]++;
+        break;
+      case H_GREEN:
+        this->histogram[static_cast<int>(g)]++;
+        break;
+      case H_BLUE:
+        this->histogram[static_cast<int>(b)]++;
+        break;
+      }
     }
   }
 }
 
-void Histogram::renderGrayHistogram()
+void Histogram::render()
 {
   if (!this->shouldRender)
   {
     return;
   }
-  CV::color(0, 0, 0);
+  switch (channel)
+  {
+  case H_GRAY:
+    CV::color(0, 0, 0);
+    break;
+  case H_RED:
+    CV::color(1, 0, 0);
+    break;
+  case H_GREEN:
+    CV::color(0, 1, 0);
+    break;
+  case H_BLUE:
+    CV::color(0, 0, 1);
+    break;
+  }
   CV::rect(this->x, this->y, this->x + this->width, this->y - this->height);
   int partialWidth = this->width / 256;
   int maxCount = 0;
@@ -68,4 +96,10 @@ void Histogram::setShouldRender(bool shouldRender)
 bool Histogram::getShouldRender()
 {
   return this->shouldRender;
+}
+
+void Histogram::setChannel(HistogramChannel channel)
+{
+  this->channel = channel;
+  calculateHistogramValues();
 }
