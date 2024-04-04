@@ -120,7 +120,7 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 
 int main(void)
 {
-  vector<string> images_address = {"T1/images/lena.bmp", "T1/images/tree.bmp", "T1/images/car.bmp"};
+  vector<string> images_address = {"T1/images/lenabugada.bmp", "T1/images/treebugada.bmp", "T1/images/carbugado.bmp"};
   int index = 0;
   for (string image : images_address)
   {
@@ -131,6 +131,6 @@ int main(void)
     index++;
   }
   buttonManager = new ButtonManager(images, screenWidth, screenHeight, histogram, manipulatedImage);
-  CV::init(screenWidth, screenHeight, "Leitor de imagens");
+  CV::init(screenWidth, screenHeight, "Leitor de imagens (Use as setas do teclado para rotacionar)");
   CV::run();
 }
