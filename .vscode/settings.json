@@ -1,7 +1,0 @@
-{
-  "files.associations": {
-    "string": "cpp",
-    "future": "cpp",
-    "chrono": "cpp"
-  }
-}
