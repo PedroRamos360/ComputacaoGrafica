@@ -36,15 +36,6 @@ int mouseHold;
 
 #define HISTOGRAM_SIZE 256
 
-void DrawMouseScreenCoords()
-{
-  char str[100];
-  sprintf(str, "Mouse: (%d,%d)", mouseX, mouseY);
-  CV::text(10, 300, str);
-  sprintf(str, "Screen: (%d,%d)", screenWidth, screenHeight);
-  CV::text(10, 320, str);
-}
-
 void render()
 {
   CV::translate(0, 0);
@@ -96,7 +87,6 @@ void keyboardUp(int key)
       histogram->setShouldRender(!histogram->getShouldRender());
     break;
   }
-  printf("key: %d\n", key);
 }
 
 void mouse(int button, int state, int wheel, int direction, int x, int y)
