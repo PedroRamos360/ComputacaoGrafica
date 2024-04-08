@@ -37,9 +37,9 @@
 			<Add directory="../include" />
 		</Compiler>
 		<Linker>
-			<Add option="-lGL" />
-			<Add option="-lGLU" />
-			<Add option="-lglut" />
+			<Add library="../lib/libfreeglut32.a" />
+			<Add library="../lib/libopengl32.a" />
+			<Add library="../lib/libglu32.a" />
 		</Linker>
 		<Unit filename="src/Vector2.h" />
 		<Unit filename="src/gl_canvas2d.cpp" />

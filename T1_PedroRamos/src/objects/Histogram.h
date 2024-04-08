@@ -1,3 +1,9 @@
+/*
+Classe para renderizar o histograma, realiza o cálculo dos valores do histograma conforme a imagem principal
+é alterada e faz a renderização do histograma, a função setChannel é usada para escolher o histograma de qual
+canal será renderizado.
+*/
+
 #ifndef HISTOGRAM_H
 #define HISTOGRAM_H
 

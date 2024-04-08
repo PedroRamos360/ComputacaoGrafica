@@ -1,3 +1,9 @@
+/*
+Classe para lidar com as imagens, cada uma das imagens geradas na tela é uma instância dessa classe,
+através dela que é realizada a rotação, renderização, alterações em contraste e brilho, colisão da 
+imagem com o mouse e o drag da imagem.
+*/
+
 #ifndef IMAGE_H
 #define IMAGE_H
 
@@ -32,6 +38,8 @@ private:
   bool shouldRender;
   Bmp *img;
   bool primaryImage = true;
+  int brightness = 0;
+  float contrast = 1;
 
   int invertX(int x);
   int invertY(int y);
@@ -55,6 +63,10 @@ public:
   Bmp *getBmp();
   int getWidth();
   int getHeight();
+  void increaseBrightness();
+  void decreaseBrightness();
+  void increaseContrast();
+  void decreaseContrast();
 };
 
 #endif // IMAGE_H

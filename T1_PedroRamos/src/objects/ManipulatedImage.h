@@ -1,3 +1,9 @@
+/*
+Classe para gerar as imagens com canais separados RGB que é renderizada no canto da tela, poderia ter feito
+junto na classe Image, mas como a implementação dessa é bem mais simples, sem rotações nem colisão, decidi
+fazer em uma classe separada para isolar a lógica.
+*/
+
 #ifndef MANIPULATEDIMAGE_H
 #define MANIPULATEDIMAGE_H
 

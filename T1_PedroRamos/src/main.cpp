@@ -1,3 +1,29 @@
+/*
+Trabalho 1 - Computação Gráfica - Manipulação de Imagens
+Autor: Pedro Henrique Warken Ramos
+
+Recursos implementados:
+- Rotação de imagens (FLIP)
+- Renderização de imagens com larguras não divisíveis por 4
+- Drag de imagens
+- Renderização de histograma cinza (luminância) e RGB
+- Renderização de imagens com canal isolado R, G e B
+- Quadro ao redor da imagem para indicar qual é a imagem principal
+
+Funcionalidades bônus implementadas:
+- Aumento e diminuição do brilho da imagem
+- Aumento e diminuição do contraste da imagem
+
+Informações importantes:
+- A rotação das imagens é feita com as setas para esquerda e direita do teclado
+- Aumento de brilho na seta UP diminuição na seta DOWN
+- Aumento de contraste na tecla V diminuição na tecla C
+- Para arrastar a imagem é preciso clicar na imgem principal e segurar enquanto move o mouse
+- Os botões de carregamento das imagens servem para mostrar elas e para deixar de mostrar,
+se quiser selecionar uma nova imagem principal é só clicar para renderizar ela pelo menu de botões
+- As demais funções são realizadas de forma auto explicativa no menu de botões
+*/
+
 #include <GL/glut.h>
 #include <GL/freeglut_ext.h>
 #include <math.h>
@@ -86,6 +112,22 @@ void keyboardUp(int key)
     if (!histogram == NULL)
       histogram->setShouldRender(!histogram->getShouldRender());
     break;
+  case 201:
+    if (!images.back() == NULL)
+      images.back()->increaseBrightness();
+    break;
+  case 203:
+    if (!images.back() == NULL)
+      images.back()->decreaseBrightness();
+    break;
+  case 'c':
+    if (!images.back() == NULL)
+      images.back()->decreaseContrast();
+    break;
+  case 'v':
+    if (!images.back() == NULL)
+      images.back()->increaseContrast();
+    break;
   }
 }
 
@@ -110,7 +152,7 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 
 int main(void)
 {
-  vector<string> images_address = {"T1/images/lenabugada.bmp", "T1/images/treebugada.bmp", "T1/images/carbugado.bmp"};
+  vector<string> images_address = {"T1_PedroRamos/images/lenabugada.bmp", "T1_PedroRamos/images/treebugada.bmp", "T1_PedroRamos/images/carbugado.bmp"};
   int index = 0;
   for (string image : images_address)
   {

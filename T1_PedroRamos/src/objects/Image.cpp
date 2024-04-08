@@ -67,9 +67,9 @@ void Image::drawImage()
     for (int w = 0; w < img->getWidth(); w++)
     {
       int pos = (h * img->getWidth() + w) * RGB_SIZE;
-      float r = img->getImage()[pos] / 255.0f;
-      float g = img->getImage()[pos + 1] / 255.0f;
-      float b = img->getImage()[pos + 2] / 255.0f;
+      float r = (this->brightness + img->getImage()[pos] * this->contrast) / 255.0f;
+      float g = (this->brightness + img->getImage()[pos + 1] * this->contrast) / 255.0f;
+      float b = (this->brightness + img->getImage()[pos + 2] * this->contrast) / 255.0f;
       CV::color(r, g, b);
       this->renderPoint(w + this->x, h + this->y);
       this->drawImageCanvas(h, w);
@@ -225,4 +225,20 @@ int Image::getHeight()
 bool Image::isPrimaryImage()
 {
   return primaryImage;
+}
+
+void Image::increaseBrightness() {
+  this->brightness += 10;
+}
+
+void Image::decreaseBrightness() {
+  this->brightness -= 10;
+}
+
+void Image::increaseContrast() {
+  this->contrast += 0.1;
+}
+
+void Image::decreaseContrast() {
+  this->contrast -= 0.1;
 }
