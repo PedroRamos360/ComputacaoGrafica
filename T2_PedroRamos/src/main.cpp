@@ -10,12 +10,13 @@
 #include "gl_canvas2d.h"
 
 int screenWidth = 1280, screenHeight = 720;
+int mouseX = 0, mouseY = 0;
+
+Camp *camp = NULL;
 
 void render()
 {
-  Camp *camp = new Camp(screenWidth, screenHeight);
   camp->render();
-  free(camp);
 }
 
 void keyboard(int key)
@@ -28,10 +29,17 @@ void keyboardUp(int key)
 
 void mouse(int button, int state, int wheel, int direction, int x, int y)
 {
+  mouseX = x;
+  mouseY = y;
+  if (state == 1)
+  {
+    camp->handleMouseClick();
+  }
 }
 
 int main(void)
 {
-  CV::init(screenWidth, screenHeight, "Titulo da Janela: Canvas 2D - Pressione 1, 2, 3");
+  camp = new Camp(&screenWidth, &screenHeight, &mouseX, &mouseY);
+  CV::init(screenWidth, screenHeight, "Balance as bolas!");
   CV::run();
 }
