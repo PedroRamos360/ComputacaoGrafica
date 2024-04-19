@@ -19,12 +19,31 @@ private:
 
   void removeBallsOutOfCamp()
   {
-    for (int i = 0; i < balls.size(); i++)
+    for (int i = 0; i < this->balls.size(); i++)
     {
-      if (balls[i]->x < -CAMP_HALF_WIDTH || balls[i]->x > CAMP_HALF_WIDTH || balls[i]->y < -CAMP_HALF_HEIGHT || balls[i]->y > CAMP_HALF_HEIGHT)
+      if (this->balls[i]->y < this->balls[i]->radius)
       {
-        delete balls[i];
-        balls.erase(balls.begin() + i);
+        delete this->balls[i];
+        this->balls.erase(this->balls.begin() + i);
+      }
+    }
+  }
+
+  void bounceBalls()
+  {
+    for (int i = 0; i < this->balls.size(); i++)
+    {
+      if (this->balls[i]->x < -CAMP_HALF_WIDTH + balls[i]->radius && this->balls[i]->direction.x < 0)
+      {
+        this->balls[i]->direction.x *= -1;
+      }
+      if (this->balls[i]->x > CAMP_HALF_WIDTH - balls[i]->radius && this->balls[i]->direction.x > 0)
+      {
+        this->balls[i]->direction.x *= -1;
+      }
+      if (this->balls[i]->y > 2 * CAMP_HALF_HEIGHT - balls[i]->radius && this->balls[i]->direction.y > 0)
+      {
+        this->balls[i]->direction.y *= -1;
       }
     }
   }
@@ -52,11 +71,6 @@ public:
     player->shoot();
   }
 
-  void printBallsPos()
-  {
-    int i = 0;
-  }
-
   void render()
   {
     CV::translate(*screenWidth / 2, *screenHeight / 2);
@@ -64,8 +78,8 @@ public:
     CV::rect(-CAMP_HALF_WIDTH, -CAMP_HALF_HEIGHT, CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT);
     player->render();
     renderBalls();
+    bounceBalls();
     removeBallsOutOfCamp();
-    printBallsPos();
     CV::translate(0, 0);
   }
 };

@@ -98,7 +98,7 @@
 1193164156 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\relogio.h
 	"gl_canvas2d.h"
 
-1713444991 source:c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\main.cpp
+1713446074 source:c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -107,19 +107,19 @@
 	"objects/Camp.h"
 	"gl_canvas2d.h"
 
-1713445292 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\camp.h
+1713490477 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\camp.h
 	<stdio.h>
 	<stdlib.h>
 	"../gl_canvas2d.h"
 	"Player.h"
 	<vector>
 
-1713445012 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\player.h
+1713490648 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\player.h
 	"../gl_canvas2d.h"
 	"Ball.h"
 	<vector>
 
-1713446037 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\ball.h
+1713490576 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\ball.h
 	"../Vector2.h"
 	"../gl_canvas2d.h"
 	<iostream>

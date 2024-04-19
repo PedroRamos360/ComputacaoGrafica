@@ -9,9 +9,7 @@ using namespace std;
 class Ball
 {
 private:
-  int radius = 10;
-  Vector2 direction;
-  int speed = 5;
+  float speed = 10;
   int *screenWidth, *screenHeight;
   long lastTime = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
   int campHalfWidth;
@@ -20,13 +18,16 @@ private:
   void move()
   {
     long now = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
-    x += direction.x * speed * (now - lastTime) /10;
-    y += direction.y * speed * (now - lastTime) /10;
+    long dt = now - lastTime;
+    x += direction.x * speed * dt / 20;
+    y += direction.y * speed * dt / 20;
     lastTime = now;
   }
 
 public:
-  int x = 0, y = 0;
+  float x = 0, y = 10;
+  int radius = 10;
+  Vector2 direction;
   Ball(Vector2 direction, int *screenWidth, int *screenHeight, int campHalfWidth, int campHalfHeight)
   {
     this->direction = direction;

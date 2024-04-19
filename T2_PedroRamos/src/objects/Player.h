@@ -18,6 +18,7 @@ private:
   int *screenWidth, *screenHeight;
   int campHalfWidth;
   int campHalfHeight;
+  bool canShoot = false;
   Point origin;
   vector<Ball *> &balls;
 
@@ -38,7 +39,14 @@ private:
       angle += 2 * PI;
     direction = direction * lineSize;
     if (angle >= 0 && angle <= PI)
+    {
+      this->canShoot = true;
       CV::line(0, 0, direction.x, direction.y);
+    }
+    else
+    {
+      this->canShoot = false;
+    }
   }
 
 public:
@@ -51,6 +59,8 @@ public:
 
   void shoot()
   {
+    if (!canShoot)
+      return;
     Vector2 direction = getDirection();
     Ball *ball = new Ball(direction, screenWidth, screenHeight, campHalfWidth, campHalfHeight);
     balls.push_back(ball);
