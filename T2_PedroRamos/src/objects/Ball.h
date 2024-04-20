@@ -25,8 +25,8 @@ private:
   }
 
 public:
-  float x = 0, y = 10;
-  int radius = 10;
+  int radius = 5;
+  float x = 0, y = radius;
   Vector2 direction;
   Ball(Vector2 direction, int *screenWidth, int *screenHeight, int campHalfWidth, int campHalfHeight)
   {
@@ -39,7 +39,6 @@ public:
 
   void render()
   {
-    printf("time: %d\n", time(0));
     CV::translate(*screenWidth / 2, *screenHeight / 2 - this->campHalfHeight);
     CV::color(0, 0, 0);
     CV::circleFill(x, y, radius, 50);

@@ -55,6 +55,12 @@ public:
     Vector2 aux(x * v, y * v);
     return (aux);
   }
+
+  Vector2 plusScalar(float scalar)
+  {
+    Vector2 aux(x + scalar, y + scalar);
+    return (aux);
+  }
 };
 
 #endif
