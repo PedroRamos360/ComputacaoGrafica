@@ -12,7 +12,7 @@ private:
 
   void allocateBlocks()
   {
-    Vector2 campStart = Vector2(*this->screenWidth / 2 - this->campHalfWidth, *this->screenHeight / 2 + this->campHalfHeight);
+    Vector2 campStart = Vector2(-this->campHalfWidth, this->campHalfHeight * 2);
     for (int i = 0; i < 5; i++)
     {
       Block *block = new Block(campStart.x, campStart.y, 10);
@@ -33,10 +33,12 @@ public:
 
   void render()
   {
+    CV::translate(*screenWidth / 2, *screenHeight / 2 - this->campHalfHeight);
     for (int i = 0; i < blocks.size(); i++)
     {
       blocks[i]->render();
     }
+    CV::translate(0, 0);
   }
 
   vector<Block *> getBlocks()

@@ -56,6 +56,11 @@ public:
     return (aux);
   }
 
+  Vector2 operator*(const Vector2 &v)
+  {
+    Vector2 aux(this->x * v.x, this->y * v.y);
+  }
+
   Vector2 plusScalar(float scalar)
   {
     Vector2 aux(x + scalar, y + scalar);

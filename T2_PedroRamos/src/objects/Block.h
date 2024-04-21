@@ -29,4 +29,9 @@ public:
     CV::color(1, 1, 1);
     CV::text(rectCenter.x, rectCenter.y, to_string(this->lives).c_str());
   }
+
+  void decreaseLife()
+  {
+    this->lives--;
+  }
 };

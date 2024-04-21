@@ -31,6 +31,15 @@ private:
     }
   }
 
+  float getSignal(float value)
+  {
+    if (value > 0)
+      return 1;
+    if (value < 0)
+      return -1;
+    return 0;
+  }
+
   void bounceBalls()
   {
     for (int i = 0; i < this->balls.size(); i++)
@@ -50,19 +59,39 @@ private:
     }
   }
 
-  void checkColisionWithBlocks()
+  void checkCollisionWithBlocks()
   {
-    for (auto block : grid->getBlocks())
+    for (auto ball : this->balls)
     {
-      for (auto ball : this->balls)
+      for (auto block : grid->getBlocks())
       {
-        float dx = ball->x - std::max(block->x, std::min(ball->x, block->x + block->size));
-        float dy = ball->y - std::max(block->y, std::min(ball->y, block->y + block->size));
-        bool collision = (dx * dx + dy * dy) < (ball->radius * ball->radius);
+        Vector2 ballCenter = Vector2(ball->x, ball->y);
+        Vector2 blockCenter = Vector2(block->x + block->size / 2, block->y - block->size / 2);
+        float overlapX = ball->radius + block->size / 2 - abs(ballCenter.x - blockCenter.x);
+        float overlapY = ball->radius + block->size / 2 - abs(ballCenter.y - blockCenter.y);
+        bool collisionX = overlapX > 0;
+        bool collisionY = overlapY > 0;
+        bool collision = collisionX && collisionY;
         if (collision)
         {
-          printf("Colidiu");
-          ball->direction = ball->direction * -1;
+          float deltaBlockYBallY = blockCenter.y - ballCenter.y;
+          float deltaBlockXBallX = blockCenter.x - ballCenter.x;
+          if (overlapX >= overlapY)
+          {
+            if (this->getSignal(deltaBlockXBallX) == this->getSignal(ball->direction.x > 0))
+            {
+              ball->direction.x *= -1;
+              block->decreaseLife();
+            }
+          }
+          else
+          {
+            if (this->getSignal(deltaBlockYBallY) == this->getSignal(ball->direction.y > 0))
+            {
+              ball->direction.y *= -1;
+              block->decreaseLife();
+            }
+          }
         }
       }
     }
@@ -97,10 +126,10 @@ public:
     CV::translate(*screenWidth / 2, *screenHeight / 2);
     CV::color(0, 0, 0);
     CV::rect(-CAMP_HALF_WIDTH, -CAMP_HALF_HEIGHT, CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT);
+    checkCollisionWithBlocks();
     player->render();
     grid->render();
     renderBalls();
-    checkColisionWithBlocks();
     bounceBalls();
     removeBallsOutOfCamp();
     CV::translate(0, 0);
