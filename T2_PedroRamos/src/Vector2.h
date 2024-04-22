@@ -56,15 +56,19 @@ public:
     return (aux);
   }
 
-  Vector2 operator*(const Vector2 &v)
-  {
-    Vector2 aux(this->x * v.x, this->y * v.y);
-  }
-
   Vector2 plusScalar(float scalar)
   {
     Vector2 aux(x + scalar, y + scalar);
     return (aux);
+  }
+
+  Vector2 reflect(const Vector2 &normal)
+  {
+    Vector2 normalized = Vector2(normal.x, normal.y);
+    float dotProduct = x * normalized.x + y * normalized.y;
+    Vector2 reflection = Vector2(x, y) - normalized * (2 * dotProduct);
+    reflection.normalize();
+    return (reflection);
   }
 };
 

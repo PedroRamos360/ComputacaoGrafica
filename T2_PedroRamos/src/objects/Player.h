@@ -68,6 +68,7 @@ public:
 
   void render()
   {
+    origin = {*screenWidth / 2, *screenHeight / 2 - this->campHalfHeight};
     CV::translate(origin.x, origin.y);
     drawAim();
     CV::translate(0, 0);

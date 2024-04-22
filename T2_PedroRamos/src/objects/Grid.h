@@ -13,7 +13,8 @@ private:
   void allocateBlocks()
   {
     Vector2 campStart = Vector2(-this->campHalfWidth, this->campHalfHeight * 2);
-    for (int i = 0; i < 5; i++)
+    campStart.y -= 150;
+    for (int i = 0; i < 8; i++)
     {
       Block *block = new Block(campStart.x, campStart.y, 10);
       campStart.x += block->size;

@@ -59,50 +59,67 @@ private:
     }
   }
 
+  void onCollide(Block *block, Ball *ball)
+  {
+    if (block->getBlockId() != ball->lastCollidedBlockId)
+    {
+      ball->lastCollidedBlockId = block->getBlockId();
+      block->decreaseLife();
+    }
+  }
+
   void checkCollisionWithBlocks()
   {
     for (auto ball : this->balls)
-    {
       for (auto block : grid->getBlocks())
       {
         Vector2 ballCenter = Vector2(ball->x, ball->y);
         Vector2 blockCenter = Vector2(block->x + block->size / 2, block->y - block->size / 2);
+        bool collidedX = ball->x + ball->radius > block->x && ball->x - ball->radius < block->x + block->size;
+        bool collidedY = ball->y + ball->radius > block->y - block->size && ball->y - ball->radius < block->y;
         float overlapX = ball->radius + block->size / 2 - abs(ballCenter.x - blockCenter.x);
         float overlapY = ball->radius + block->size / 2 - abs(ballCenter.y - blockCenter.y);
-        bool collisionX = overlapX > 0;
-        bool collisionY = overlapY > 0;
-        bool collision = collisionX && collisionY;
-        if (collision)
+        bool collision = overlapX > 0 && overlapY > 0;
+        if (collidedX && collidedY && ball->lastCollidedBlockId == "")
         {
-          float deltaBlockYBallY = blockCenter.y - ballCenter.y;
-          float deltaBlockXBallX = blockCenter.x - ballCenter.x;
-          if (overlapX >= overlapY)
+          if (overlapX < overlapY)
           {
-            if (this->getSignal(deltaBlockXBallX) == this->getSignal(ball->direction.x > 0))
+            if (ballCenter.x < blockCenter.x)
             {
-              ball->direction.x *= -1;
-              block->decreaseLife();
+              ball->direction = ball->direction.reflect(Vector2(-1, 0));
+              onCollide(block, ball);
+            }
+            else
+            {
+              ball->direction = ball->direction.reflect(Vector2(1, 0));
+              onCollide(block, ball);
             }
           }
           else
           {
-            if (this->getSignal(deltaBlockYBallY) == this->getSignal(ball->direction.y > 0))
+            if (ballCenter.y < blockCenter.y)
             {
-              ball->direction.y *= -1;
-              block->decreaseLife();
+              ball->direction = ball->direction.reflect(Vector2(0, -1));
+              onCollide(block, ball);
+            }
+            else
+            {
+              ball->direction = ball->direction.reflect(Vector2(0, 1));
+              onCollide(block, ball);
             }
           }
         }
+        else if (!collision)
+        {
+          ball->lastCollidedBlockId = "";
+        }
       }
-    }
   }
 
   void renderBalls()
   {
     for (int i = 0; i < balls.size(); i++)
-    {
       balls[i]->render();
-    }
   }
 
 public:

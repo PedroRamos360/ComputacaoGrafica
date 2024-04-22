@@ -27,6 +27,7 @@ private:
 public:
   int radius = 5;
   float x = 0, y = radius;
+  string lastCollidedBlockId = "";
   Vector2 direction;
   Ball(Vector2 direction, int *screenWidth, int *screenHeight, int campHalfWidth, int campHalfHeight)
   {

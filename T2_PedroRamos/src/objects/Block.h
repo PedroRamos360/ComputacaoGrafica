@@ -1,13 +1,47 @@
 #include "../gl_canvas2d.h"
 #include "../Vector2.h"
 #include <string>
+#include <random>
+#include <iostream>
 
 using namespace std;
+
+string generateUUID()
+{
+  static random_device rd;
+  static mt19937 gen(rd());
+  static uniform_int_distribution<> dis(0, 15);
+  const char *hexChars = "0123456789abcdef";
+  string uuid;
+  uuid.reserve(36);
+  for (int i = 0; i < 36; ++i)
+  {
+    if (i == 8 || i == 13 || i == 18 || i == 23)
+    {
+      uuid += '-';
+    }
+    else if (i == 14)
+    {
+      uuid += '4'; // Version 4 UUID
+    }
+    else if (i == 19)
+    {
+      uuid += hexChars[dis(gen) & 0x3 | 0x8]; // Variant 1 (RFC 4122)
+    }
+    else
+    {
+      uuid += hexChars[dis(gen)];
+    }
+  }
+
+  return uuid;
+}
 
 class Block
 {
 private:
   int lives;
+  string blockId;
 
 public:
   float x, y;
@@ -15,6 +49,7 @@ public:
   Block(float x, float y, int lives)
   {
     this->x = x;
+    this->blockId = generateUUID();
     this->y = y;
     this->lives = lives;
   }
@@ -33,5 +68,10 @@ public:
   void decreaseLife()
   {
     this->lives--;
+  }
+
+  string getBlockId()
+  {
+    return this->blockId;
   }
 };
