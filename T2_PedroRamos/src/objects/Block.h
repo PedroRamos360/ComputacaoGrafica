@@ -70,6 +70,11 @@ public:
     this->lives--;
   }
 
+  int getLives()
+  {
+    return this->lives;
+  }
+
   string getBlockId()
   {
     return this->blockId;

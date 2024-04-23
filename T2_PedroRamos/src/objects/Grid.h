@@ -37,7 +37,15 @@ public:
     CV::translate(*screenWidth / 2, *screenHeight / 2 - this->campHalfHeight);
     for (int i = 0; i < blocks.size(); i++)
     {
-      blocks[i]->render();
+      if (blocks[i]->getLives() > 0)
+      {
+        blocks[i]->render();
+      }
+      else
+      {
+        delete blocks[i];
+        blocks.erase(blocks.begin() + i);
+      }
     }
     CV::translate(0, 0);
   }
