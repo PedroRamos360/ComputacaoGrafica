@@ -38,8 +38,8 @@
 		</Compiler>
 		<Linker>
 			<Add library="../lib/libfreeglut32.a" />
-			<Add library="../lib/libopengl32.a"/>
-			<Add library="../lib/libglu32.a"/>
+			<Add library="../lib/libopengl32.a" />
+			<Add library="../lib/libglu32.a" />
 		</Linker>
 		<Unit filename="src/Bola.h" />
 		<Unit filename="src/Botao.h" />
@@ -49,6 +49,12 @@
 		<Unit filename="src/gl_canvas2d.cpp" />
 		<Unit filename="src/gl_canvas2d.h" />
 		<Unit filename="src/main.cpp" />
-
+		<Unit filename="src/objects/Ball.h" />
+		<Unit filename="src/objects/Block.cpp" />
+		<Unit filename="src/objects/Block.h" />
+		<Unit filename="src/objects/Camp.h" />
+		<Unit filename="src/objects/Grid.h" />
+		<Unit filename="src/objects/Player.h" />
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

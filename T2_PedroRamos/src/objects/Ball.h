@@ -50,20 +50,13 @@ public:
 
   bool collidesWithBlock(const Block &block)
   {
-    float nextX = x + direction.x;
-    float nextY = y + direction.y;
+    float nextX = x + direction.x * speed;
+    float nextY = y + direction.y * speed;
     if (nextX + radius >= block.x && nextX - radius <= block.x + block.size &&
         nextY + radius >= block.y - block.size && nextY - radius <= block.y)
     {
-      float deltaX = nextX - x;
-      float deltaY = nextY - y;
-      float dist = sqrt(deltaX * deltaX + deltaY * deltaY);
-      if (dist <= radius)
-      {
-        return true;
-      }
+      return true;
     }
-
     return false;
   }
 };
