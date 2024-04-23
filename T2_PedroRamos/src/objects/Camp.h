@@ -61,57 +61,25 @@ private:
 
   void onCollide(Block *block, Ball *ball)
   {
-    if (block->getBlockId() != ball->lastCollidedBlockId)
-    {
-      ball->lastCollidedBlockId = block->getBlockId();
-      block->decreaseLife();
-    }
+    block->decreaseLife();
+    Vector2 ballCenter = Vector2(ball->x, ball->y);
+    Vector2 blockCenter = Vector2(block->x + block->size / 2, block->y - block->size / 2);
+    float overlapX = ball->radius + block->size / 2 - abs(ballCenter.x - blockCenter.x);
+    float overlapY = ball->radius + block->size / 2 - abs(ballCenter.y - blockCenter.y);
+    if (overlapX < overlapY)
+      ball->direction = ball->direction.reflect(Vector2(getSignal(ballCenter.x - blockCenter.x), 0));
+    else
+      ball->direction = ball->direction.reflect(Vector2(0, getSignal(ballCenter.y - blockCenter.y)));
   }
 
-  void checkCollisionWithBlocks()
+  void continuousCollisonBallBlock()
   {
     for (auto ball : this->balls)
       for (auto block : grid->getBlocks())
       {
-        Vector2 ballCenter = Vector2(ball->x, ball->y);
-        Vector2 blockCenter = Vector2(block->x + block->size / 2, block->y - block->size / 2);
-        bool collidedX = ball->x + ball->radius > block->x && ball->x - ball->radius < block->x + block->size;
-        bool collidedY = ball->y + ball->radius > block->y - block->size && ball->y - ball->radius < block->y;
-        float overlapX = ball->radius + block->size / 2 - abs(ballCenter.x - blockCenter.x);
-        float overlapY = ball->radius + block->size / 2 - abs(ballCenter.y - blockCenter.y);
-        bool collision = overlapX > 0 && overlapY > 0;
-        if (collidedX && collidedY && ball->lastCollidedBlockId == "")
+        if (ball->collidesWithBlock(*block))
         {
-          if (overlapX < overlapY)
-          {
-            if (ballCenter.x < blockCenter.x)
-            {
-              ball->direction = ball->direction.reflect(Vector2(-1, 0));
-              onCollide(block, ball);
-            }
-            else
-            {
-              ball->direction = ball->direction.reflect(Vector2(1, 0));
-              onCollide(block, ball);
-            }
-          }
-          else
-          {
-            if (ballCenter.y < blockCenter.y)
-            {
-              ball->direction = ball->direction.reflect(Vector2(0, -1));
-              onCollide(block, ball);
-            }
-            else
-            {
-              ball->direction = ball->direction.reflect(Vector2(0, 1));
-              onCollide(block, ball);
-            }
-          }
-        }
-        else if (!collision)
-        {
-          ball->lastCollidedBlockId = "";
+          onCollide(block, ball);
         }
       }
   }
@@ -143,7 +111,7 @@ public:
     CV::translate(*screenWidth / 2, *screenHeight / 2);
     CV::color(0, 0, 0);
     CV::rect(-CAMP_HALF_WIDTH, -CAMP_HALF_HEIGHT, CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT);
-    checkCollisionWithBlocks();
+    continuousCollisonBallBlock();
     player->render();
     grid->render();
     renderBalls();

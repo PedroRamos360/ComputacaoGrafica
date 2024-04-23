@@ -3,13 +3,14 @@
 #include <iostream>
 #include <chrono>
 #include <ctime>
+#include "Block.h"
 
 using namespace std;
 
 class Ball
 {
 private:
-  float speed = 10;
+  float speed = 7;
   int *screenWidth, *screenHeight;
   long lastTime = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
   int campHalfWidth;
@@ -27,8 +28,8 @@ private:
 public:
   int radius = 5;
   float x = 0, y = radius;
-  string lastCollidedBlockId = "";
   Vector2 direction;
+  string lastCollidedBlockId = "";
   Ball(Vector2 direction, int *screenWidth, int *screenHeight, int campHalfWidth, int campHalfHeight)
   {
     this->direction = direction;
@@ -45,5 +46,24 @@ public:
     CV::circleFill(x, y, radius, 50);
     this->move();
     CV::translate(0, 0);
+  }
+
+  bool collidesWithBlock(const Block &block)
+  {
+    float nextX = x + direction.x;
+    float nextY = y + direction.y;
+    if (nextX + radius >= block.x && nextX - radius <= block.x + block.size &&
+        nextY + radius >= block.y - block.size && nextY - radius <= block.y)
+    {
+      float deltaX = nextX - x;
+      float deltaY = nextY - y;
+      float dist = sqrt(deltaX * deltaX + deltaY * deltaY);
+      if (dist <= radius)
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 };
