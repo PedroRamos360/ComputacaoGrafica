@@ -7,6 +7,8 @@
 #include "../Vector2.h"
 #include <random>
 
+#define BLOCK_SIZE 50
+
 using namespace std;
 
 class Block
@@ -17,7 +19,7 @@ private:
 
 public:
   float x, y;
-  int size = 50;
+  int size = BLOCK_SIZE;
   Block(float x, float y, int lives);
   void render();
   void decreaseLife();

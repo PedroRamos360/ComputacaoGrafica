@@ -4,6 +4,7 @@
 #include "Player.h"
 #include <vector>
 #include "Grid.h"
+#include "ScoreBoard.h"
 
 #define CAMP_HALF_WIDTH 200
 #define CAMP_HALF_HEIGHT 300
@@ -18,6 +19,11 @@ private:
   vector<Ball *> balls;
   Player *player;
   Grid *grid;
+  ScoreBoard *scoreBoard;
+  bool playerCanShoot = true;
+  Vector2 directionLastShoot;
+  int playersShotLeft;
+  long lastShootTime;
 
   void removeBallsOutOfCamp()
   {
@@ -99,11 +105,40 @@ public:
     this->mouseY = mouseY;
     player = new Player(mouseX, mouseY, screenWidth, screenHeight, CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT, balls);
     grid = new Grid(CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT, screenWidth, screenHeight);
+    scoreBoard = new ScoreBoard(screenWidth, screenHeight, CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT);
   }
 
   void handleMouseClick()
   {
-    player->shoot();
+    if (this->playerCanShoot)
+    {
+      this->playersShotLeft = scoreBoard->getBallsCount();
+      this->directionLastShoot = player->getDirection();
+      this->playerCanShoot = !player->shoot(this->directionLastShoot);
+      this->playersShotLeft--;
+      this->lastShootTime = getEpochTime();
+    }
+  }
+
+  void shootRestOfBalls()
+  {
+    long deltaEpoch = getEpochTime() - this->lastShootTime;
+    if (!this->playerCanShoot && this->playersShotLeft > 0 && deltaEpoch > 100)
+    {
+      this->playersShotLeft--;
+      player->shoot(this->directionLastShoot, true);
+      this->lastShootTime = getEpochTime();
+    }
+  }
+
+  void checkNextLevel()
+  {
+    if (!this->playerCanShoot && this->balls.size() == 0)
+    {
+      scoreBoard->increaseScore();
+      grid->reduceBlocksHeight(scoreBoard->getBallsCount());
+      this->playerCanShoot = true;
+    }
   }
 
   void render()
@@ -114,9 +149,12 @@ public:
     continuousCollisonBallBlock();
     player->render();
     grid->render();
+    scoreBoard->render();
     renderBalls();
     bounceBalls();
     removeBallsOutOfCamp();
+    checkNextLevel();
+    shootRestOfBalls();
     CV::translate(0, 0);
   }
 };

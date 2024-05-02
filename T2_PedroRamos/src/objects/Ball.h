@@ -7,18 +7,23 @@
 
 using namespace std;
 
+long getEpochTime()
+{
+  return chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+}
+
 class Ball
 {
 private:
   float speed = 7;
   int *screenWidth, *screenHeight;
-  long lastTime = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+  long lastTime = getEpochTime();
   int campHalfWidth;
   int campHalfHeight;
 
   void move()
   {
-    long now = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+    long now = getEpochTime();
     long dt = now - lastTime;
     x += direction.x * speed * dt / 20;
     y += direction.y * speed * dt / 20;

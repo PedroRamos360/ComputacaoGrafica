@@ -43,7 +43,6 @@
 		</Linker>
 		<Unit filename="src/Bola.h" />
 		<Unit filename="src/Botao.h" />
-		<Unit filename="src/Relogio.cpp" />
 		<Unit filename="src/Relogio.h" />
 		<Unit filename="src/Vector2.h" />
 		<Unit filename="src/gl_canvas2d.cpp" />

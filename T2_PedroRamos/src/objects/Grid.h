@@ -1,6 +1,9 @@
 #include <vector>
 #include "Block.h"
 #include "../Vector2.h"
+#include <iostream>
+#include <algorithm>
+#include <random>
 
 using namespace std;
 
@@ -10,15 +13,21 @@ private:
   int campHalfWidth, campHalfHeight, *screenWidth, *screenHeight;
   vector<Block *> blocks;
 
-  void allocateBlocks()
+  void allocateBlocks(int lifes)
   {
     Vector2 campStart = Vector2(-this->campHalfWidth, this->campHalfHeight * 2);
-    campStart.y -= 150;
+    string chars = "11110000";
+    random_device rd;
+    unsigned seed = getEpochTime();
+    shuffle(chars.begin(), chars.end(), default_random_engine(seed));
     for (int i = 0; i < 8; i++)
     {
-      Block *block = new Block(campStart.x, campStart.y, 10);
-      campStart.x += block->size;
-      blocks.push_back(block);
+      if (chars[i] == '1')
+      {
+        Block *block = new Block(campStart.x, campStart.y, lifes);
+        blocks.push_back(block);
+      }
+      campStart.x += BLOCK_SIZE;
     }
   }
 
@@ -29,7 +38,7 @@ public:
     this->campHalfWidth = campHalfWidth;
     this->screenHeight = screenHeight;
     this->screenWidth = screenWidth;
-    allocateBlocks();
+    allocateBlocks(1);
   }
 
   void render()
@@ -53,5 +62,14 @@ public:
   vector<Block *> getBlocks()
   {
     return this->blocks;
+  }
+
+  void reduceBlocksHeight(int score)
+  {
+    for (int i = 0; i < blocks.size(); i++)
+    {
+      blocks[i]->y -= blocks[i]->size;
+    }
+    this->allocateBlocks(score);
   }
 };

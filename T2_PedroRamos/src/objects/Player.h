@@ -22,13 +22,6 @@ private:
   Point origin;
   vector<Ball *> &balls;
 
-  Vector2 getDirection()
-  {
-    Vector2 direction = Vector2(*mouseX - this->origin.x, *mouseY - this->origin.y);
-    direction.normalize();
-    return direction;
-  }
-
   void drawAim()
   {
     CV::color(0, 0, 0);
@@ -57,13 +50,20 @@ public:
     origin = {*screenWidth / 2, *screenHeight / 2 - this->campHalfHeight};
   }
 
-  void shoot()
+  bool shoot(Vector2 direction, bool overrideCanShoot = false)
   {
-    if (!canShoot)
-      return;
-    Vector2 direction = getDirection();
+    if (!canShoot && !overrideCanShoot)
+      return false;
     Ball *ball = new Ball(direction, screenWidth, screenHeight, campHalfWidth, campHalfHeight);
     balls.push_back(ball);
+    return true;
+  }
+
+  Vector2 getDirection()
+  {
+    Vector2 direction = Vector2(*mouseX - this->origin.x, *mouseY - this->origin.y);
+    direction.normalize();
+    return direction;
   }
 
   void render()
