@@ -80,6 +80,11 @@ void questao3_2020_2(Square *square)
   rotateSquare(square->points, 45);
 }
 
+void questao4_2019_1(Square *square)
+{
+
+}
+
 void renderSquare(Square *square)
 {
   for (int i = 0; i < 4; i++)

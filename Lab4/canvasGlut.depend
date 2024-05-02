@@ -173,7 +173,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1710341420 source:c:\users\ramos\documents\github\computacaografica\lab4\src\gl_canvas2d.cpp
+1714482613 source:c:\users\ramos\documents\github\computacaografica\lab4\src\gl_canvas2d.cpp
 	"gl_canvas2d.h"
 	<GL/glut.h>
 
@@ -188,7 +188,7 @@
 
 1589217858 c:\users\ramos\documents\github\computacaografica\lab4\src\vector2.h
 
-1714048974 source:c:\users\ramos\documents\github\computacaografica\lab4\src\main.cpp
+1714051594 source:c:\users\ramos\documents\github\computacaografica\lab4\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
