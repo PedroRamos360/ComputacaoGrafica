@@ -98,7 +98,7 @@
 1193164156 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\relogio.h
 	"gl_canvas2d.h"
 
-1713446074 source:c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\main.cpp
+1715019667 source:c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -107,7 +107,7 @@
 	"objects/Camp.h"
 	"gl_canvas2d.h"
 
-1714662096 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\camp.h
+1715020122 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\camp.h
 	<stdio.h>
 	<stdlib.h>
 	"../gl_canvas2d.h"
@@ -115,6 +115,7 @@
 	<vector>
 	"Grid.h"
 	"ScoreBoard.h"
+	"Gameover.h"
 
 1714662082 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\player.h
 	"../gl_canvas2d.h"
@@ -129,7 +130,7 @@
 	<ctime>
 	"Block.h"
 
-1714661621 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\grid.h
+1715019502 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\grid.h
 	<vector>
 	"Block.h"
 	"../Vector2.h"
@@ -137,17 +138,22 @@
 	<algorithm>
 	<random>
 
-1714661476 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\block.h
+1715017878 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\block.h
 	<string>
 	<iostream>
 	"../gl_canvas2d.h"
 	"../Vector2.h"
 	<random>
 
-1713834904 source:c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\block.cpp
+1715017875 source:c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\block.cpp
 	"Block.h"
 
 1714658533 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\scoreboard.h
+	"../gl_canvas2d.h"
+	<string>
+	<iostream>
+
+1715020923 c:\users\ramos\documents\github\computacaografica\t2_pedroramos\src\objects\gameover.h
 	"../gl_canvas2d.h"
 	<string>
 	<iostream>

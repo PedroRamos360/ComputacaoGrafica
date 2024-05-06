@@ -25,6 +25,10 @@ void keyboard(int key)
 
 void keyboardUp(int key)
 {
+  if (key == 203)
+  {
+    camp->handleArrowDown();
+  }
 }
 
 void mouse(int button, int state, int wheel, int direction, int x, int y)
@@ -40,6 +44,6 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 int main(void)
 {
   camp = new Camp(&screenWidth, &screenHeight, &mouseX, &mouseY);
-  CV::init(screenWidth, screenHeight, "Balance as bolas!");
+  CV::init(screenWidth, screenHeight, "Balls Bounce - Pedro Henrique Warken Ramos");
   CV::run();
 }

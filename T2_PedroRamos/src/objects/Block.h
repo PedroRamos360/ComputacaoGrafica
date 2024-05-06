@@ -15,7 +15,6 @@ class Block
 {
 private:
   int lives;
-  string blockId;
 
 public:
   float x, y;
@@ -24,7 +23,6 @@ public:
   void render();
   void decreaseLife();
   int getLives();
-  string getBlockId();
 };
 
 #endif // BLOCK_H

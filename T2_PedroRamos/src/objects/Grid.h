@@ -72,4 +72,16 @@ public:
     }
     this->allocateBlocks(score);
   }
+
+  bool checkGameOver()
+  {
+    for (int i = 0; i < blocks.size(); i++)
+    {
+      if (blocks[i]->y <= (*this->screenHeight - 2 * this->campHalfHeight) / 2)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
 };
