@@ -1,6 +1,7 @@
 #include "../gl_canvas2d.h"
 #include <string>
 #include <iostream>
+#include "Button.h"
 
 using namespace std;
 
@@ -11,13 +12,15 @@ class Gameover
 private:
   float x, y;
   int *screenHeight, *screenWidth, finalScore;
+  Button *resetButton;
 
 public:
-  Gameover(int *screenHeight, int *screenWidth, int finalScore)
+  Gameover(int *screenHeight, int *screenWidth, int finalScore, function<void()> onClickReset)
   {
     this->screenHeight = screenHeight;
     this->screenWidth = screenWidth;
     this->finalScore = finalScore;
+    this->resetButton = new Button(*this->screenWidth / 2 - 20, *this->screenHeight / 2 - 20, 20, "Reset", onClickReset);
   }
 
   void render()
@@ -32,5 +35,11 @@ public:
     int xScore = score.length() / 2 * PIXELS_BY_CHAR;
     CV::text(-xScore, 20, score.c_str());
     CV::translate(0, 0);
+    this->resetButton->Render();
+  }
+
+  bool handleResetClick(int mouseX, int mouseY)
+  {
+    return this->resetButton->handleColision(mouseX, mouseY);
   }
 };

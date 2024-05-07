@@ -40,4 +40,9 @@ public:
   {
     this->ballsCount++;
   }
+
+  void reset()
+  {
+    this->ballsCount = 1;
+  }
 };

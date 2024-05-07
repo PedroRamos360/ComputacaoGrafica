@@ -15,7 +15,7 @@ long getEpochTime()
 class Ball
 {
 private:
-  float speed = 7;
+  float speed = 14;
   int *screenWidth, *screenHeight;
   long lastTime = getEpochTime();
   int campHalfWidth;
@@ -55,8 +55,8 @@ public:
 
   bool collidesWithBlock(const Block &block)
   {
-    float nextX = x + direction.x * speed;
-    float nextY = y + direction.y * speed;
+    float nextX = x + direction.x * speed / 2;
+    float nextY = y + direction.y * speed / 2;
     if (nextX + radius >= block.x && nextX - radius <= block.x + block.size &&
         nextY + radius >= block.y - block.size && nextY - radius <= block.y)
     {

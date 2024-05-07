@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <cstdlib>
 
 using namespace std;
 
@@ -16,9 +17,14 @@ private:
   void allocateBlocks(int lifes)
   {
     Vector2 campStart = Vector2(-this->campHalfWidth, this->campHalfHeight * 2);
-    string chars = "11110000";
     random_device rd;
     unsigned seed = getEpochTime();
+    string chars = "";
+    for (int i = 0; i < 7; i++)
+    {
+      int randomBit = rand() % 2;
+      chars += to_string(randomBit);
+    }
     shuffle(chars.begin(), chars.end(), default_random_engine(seed));
     for (int i = 0; i < 8; i++)
     {
@@ -70,7 +76,8 @@ public:
     {
       blocks[i]->y -= blocks[i]->size;
     }
-    this->allocateBlocks(score);
+    int increaseLifesBy = score / 2;
+    this->allocateBlocks(score * increaseLifesBy);
   }
 
   bool checkGameOver()
@@ -83,5 +90,15 @@ public:
       }
     }
     return false;
+  }
+
+  void reset()
+  {
+    for (int i = 0; i < blocks.size(); i++)
+    {
+      delete blocks[i];
+    }
+    blocks.clear();
+    allocateBlocks(1);
   }
 };

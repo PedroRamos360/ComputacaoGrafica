@@ -6,6 +6,7 @@
 #include "Grid.h"
 #include "ScoreBoard.h"
 #include "Gameover.h"
+#include <winsock.h>
 
 #define CAMP_HALF_WIDTH 200
 #define CAMP_HALF_HEIGHT 300
@@ -21,19 +22,21 @@ private:
   Player *player;
   Grid *grid;
   ScoreBoard *scoreBoard;
+  Gameover *gameoverScreen;
   bool playerCanShoot = true;
   Vector2 directionLastShoot;
   int playersShotLeft;
   long lastShootTime;
   bool gameover = false;
 
-  void removeBallsOutOfCamp(bool bypass = false)
+  void removeBallsOutOfCamp()
   {
     for (int i = 0; i < this->balls.size(); i++)
     {
-      if ((this->balls[i]->y < this->balls[i]->radius) || bypass)
+      if (this->balls[i]->y < this->balls[i]->radius)
       {
         delete this->balls[i];
+        this->balls.erase(this->balls.begin() + i);
       }
     }
   }
@@ -100,7 +103,7 @@ private:
   void shootRestOfBalls()
   {
     long deltaEpoch = getEpochTime() - this->lastShootTime;
-    if (!this->playerCanShoot && this->playersShotLeft > 0 && deltaEpoch > 100)
+    if (!this->playerCanShoot && this->playersShotLeft > 0 && deltaEpoch > 50)
     {
       this->playersShotLeft--;
       player->shoot(this->directionLastShoot, true);
@@ -142,11 +145,17 @@ public:
     player = new Player(mouseX, mouseY, screenWidth, screenHeight, CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT, balls);
     grid = new Grid(CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT, screenWidth, screenHeight);
     scoreBoard = new ScoreBoard(screenWidth, screenHeight, CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT);
+    gameoverScreen = NULL;
   }
 
   void handleMouseClick()
   {
-    if (this->playerCanShoot)
+    bool gameOverClicked = false;
+    if (this->gameoverScreen)
+    {
+      gameOverClicked = this->gameoverScreen->handleResetClick(*mouseX, *mouseY);
+    }
+    if (this->playerCanShoot && !gameOverClicked)
     {
       this->playersShotLeft = scoreBoard->getBallsCount();
       this->directionLastShoot = player->getDirection();
@@ -158,8 +167,21 @@ public:
 
   void handleArrowDown()
   {
-    removeBallsOutOfCamp(true);
+    for (Ball *ball : this->balls)
+    {
+      delete ball;
+      balls.clear();
+    }
     checkNextLevel(true);
+  }
+
+  void restart()
+  {
+    this->gameover = false;
+    this->playerCanShoot = true;
+    this->scoreBoard->reset();
+    this->grid->reset();
+    this->gameoverScreen = NULL;
   }
 
   void render()
@@ -169,7 +191,8 @@ public:
     CV::rect(-CAMP_HALF_WIDTH, -CAMP_HALF_HEIGHT, CAMP_HALF_WIDTH, CAMP_HALF_HEIGHT);
     if (this->gameover)
     {
-      Gameover *gameoverScreen = new Gameover(screenHeight, screenWidth, scoreBoard->getBallsCount());
+      gameoverScreen = new Gameover(screenHeight, screenWidth, scoreBoard->getBallsCount(), [this]()
+                                    { this->restart(); });
       gameoverScreen->render();
       delete gameoverScreen;
     }
