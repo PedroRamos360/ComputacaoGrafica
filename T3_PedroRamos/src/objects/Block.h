@@ -1,3 +1,6 @@
+/* Classe que renderiza os blocos na tela e tem funções para reduzir a vida e buscar as vidas
+de um bloco específico*/
+
 #ifndef BLOCK_H
 #define BLOCK_H
 

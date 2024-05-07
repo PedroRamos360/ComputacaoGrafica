@@ -1,3 +1,6 @@
+/* Classe para renderizar o score board no canto direito do campo, aqui que fica a contagem
+de score da aplicação (score e bolas são interpretados como sendo a mesma coisa porque progridem juntos)*/
+
 #include "../gl_canvas2d.h"
 #include <string>
 #include <iostream>

@@ -1,3 +1,6 @@
+/* Classe que lida com toda lógica relacionada com as bolas na tela, renderização, velocidade e
+colisão com blocos usa epochTime para garantir um movimento independente do FPS*/
+
 #include "../Vector2.h"
 #include "../gl_canvas2d.h"
 #include <iostream>
@@ -15,7 +18,7 @@ long getEpochTime()
 class Ball
 {
 private:
-  float speed = 14;
+  float speed = 10;
   int *screenWidth, *screenHeight;
   long lastTime = getEpochTime();
   int campHalfWidth;
@@ -55,8 +58,8 @@ public:
 
   bool collidesWithBlock(const Block &block)
   {
-    float nextX = x + direction.x * speed / 2;
-    float nextY = y + direction.y * speed / 2;
+    float nextX = x + direction.x;
+    float nextY = y + direction.y;
     if (nextX + radius >= block.x && nextX - radius <= block.x + block.size &&
         nextY + radius >= block.y - block.size && nextY - radius <= block.y)
     {

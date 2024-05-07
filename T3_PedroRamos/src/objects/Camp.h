@@ -1,3 +1,8 @@
+/* Classe que contém o jogo inteiro inicializa todas as demais classes e lida com as interações entre elas
+relações das bolas com os blocos, inicializão do scoreboard e do gameover, controle de tiros do jogador, colisão
+das bolas com as paredes (do campo), remoção das bolas quando saem da tela por baixo, handleArroDown para lidar
+com a funcionalidade de puxar as bolas para baixo*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "../gl_canvas2d.h"
@@ -167,6 +172,8 @@ public:
 
   void handleArrowDown()
   {
+    if (this->balls.size() == 0)
+      return;
     for (Ball *ball : this->balls)
     {
       delete ball;

@@ -1,3 +1,6 @@
+/*Classe que representa o jogador (canhão) calcula o vetor direção baseado na posição do mouse
+e desenha o canhão, limita o ângulo que o jogador pode atirar e quando pode atirar ou não*/
+
 #include "../gl_canvas2d.h"
 #include "Ball.h"
 #include <vector>
@@ -31,7 +34,7 @@ private:
     if (angle < 0)
       angle += 2 * PI;
     direction = direction * lineSize;
-    if (angle >= 0 && angle <= PI)
+    if (angle >= PI / 10 && angle <= PI - PI / 10)
     {
       this->canShoot = true;
       CV::line(0, 0, direction.x, direction.y);
@@ -39,6 +42,11 @@ private:
     else
     {
       this->canShoot = false;
+      if (angle >= 0 && angle <= PI)
+      {
+        CV::color(1, 0, 0);
+        CV::line(0, 0, direction.x, direction.y);
+      }
     }
   }
 

@@ -1,3 +1,8 @@
+/* Classe que Lida com toda lógica de renderizar os blocos em conjunto em um sistema de grid
+e geração aleatória de blocos, define quantas vidas cada bloco tem a progressão de dificuldade
+e a redução da altura dos blocos quando passa de nível e também tem uma função de reset para
+quando o jogador reinicia o jogo*/
+
 #include <vector>
 #include "Block.h"
 #include "../Vector2.h"
@@ -19,8 +24,8 @@ private:
     Vector2 campStart = Vector2(-this->campHalfWidth, this->campHalfHeight * 2);
     random_device rd;
     unsigned seed = getEpochTime();
-    string chars = "";
-    for (int i = 0; i < 7; i++)
+    string chars = "1";
+    for (int i = 0; i < 6; i++)
     {
       int randomBit = rand() % 2;
       chars += to_string(randomBit);
@@ -76,8 +81,8 @@ public:
     {
       blocks[i]->y -= blocks[i]->size;
     }
-    int increaseLifesBy = score / 2;
-    this->allocateBlocks(score * increaseLifesBy);
+    int difficulty = (score / 10) * 10;
+    this->allocateBlocks(score + difficulty);
   }
 
   bool checkGameOver()
