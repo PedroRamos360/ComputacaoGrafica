@@ -29,7 +29,7 @@ public:
   {
     CV::translate(*this->screenWidth / 2 + this->campHalfWidth + SCORE_BOARD_PADDING, *this->screenHeight / 2 + this->campHalfHeight);
     CV::color(0, 0, 0);
-    string ballsCountText = "Balls: " + to_string(this->ballsCount);
+    string ballsCountText = "Bolas: " + to_string(this->ballsCount);
     CV::text(0, 0, ballsCountText.c_str());
     CV::translate(0, 0);
   }

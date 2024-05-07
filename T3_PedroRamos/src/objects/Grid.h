@@ -87,9 +87,10 @@ public:
 
   bool checkGameOver()
   {
+    printf("threshold: %d\n", (*this->screenHeight - 2 * this->campHalfHeight) / 2);
     for (int i = 0; i < blocks.size(); i++)
     {
-      if (blocks[i]->y <= (*this->screenHeight - 2 * this->campHalfHeight) / 2)
+      if (blocks[i]->y <= blocks[i]->size)
       {
         return true;
       }

@@ -34,7 +34,7 @@ public:
     int xGameOver = gameOver.length() / 2 * PIXELS_BY_CHAR;
     CV::text(-xGameOver, 40, gameOver.c_str());
     CV::color(0, 0, 0);
-    string score = "Pontuação: " + to_string(this->finalScore);
+    string score = "Score: " + to_string(this->finalScore);
     int xScore = score.length() / 2 * PIXELS_BY_CHAR;
     CV::text(-xScore, 20, score.c_str());
     CV::translate(0, 0);
