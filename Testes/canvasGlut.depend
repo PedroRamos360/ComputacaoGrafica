@@ -115,11 +115,11 @@
 	<stdio.h>
 	<stdlib.h>
 
-1710341420 source:c:\users\ramos\documents\github\computacaografica\1_canvasglut\src\gl_canvas2d.cpp
+1710341420 source:c:\users\ramos\documents\github\computacaografica\testes\src\gl_canvas2d.cpp
 	"gl_canvas2d.h"
 	<GL/glut.h>
 
-1710341387 c:\users\ramos\documents\github\computacaografica\1_canvasglut\src\gl_canvas2d.h
+1710341387 c:\users\ramos\documents\github\computacaografica\testes\src\gl_canvas2d.h
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
@@ -145,55 +145,13 @@
 1713401341 c:\users\ramos\documents\github\computacaografica\include\gl\freeglut_ext.h
 	<stdarg.h>
 
-1589217858 c:\users\ramos\documents\github\computacaografica\1_canvasglut\src\vector2.h
+1589217858 c:\users\ramos\documents\github\computacaografica\testes\src\vector2.h
 
-1710341357 source:c:\users\ramos\documents\github\computacaografica\1_canvasglut\src\main.cpp
+1715178314 source:c:\users\ramos\documents\github\computacaografica\testes\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
-	"gl_canvas2d.h"
-	"Bola.h"
-	"Relogio.h"
-	"Botao.h"
-
-1589214882 c:\users\ramos\documents\github\computacaografica\1_canvasglut\src\bola.h
-	"gl_canvas2d.h"
-
-1193164156 c:\users\ramos\documents\github\computacaografica\1_canvasglut\src\relogio.h
-	"gl_canvas2d.h"
-
-1589214891 c:\users\ramos\documents\github\computacaografica\1_canvasglut\src\botao.h
-	"gl_canvas2d.h"
-
-1589218349 source:c:\users\ramos\documents\github\computacaografica\1_canvasglut\src\relogio.cpp
-	"Relogio.h"
-	<math.h>
-	<stdio.h>
-	<stdlib.h>
-
-1714482613 source:c:\users\ramos\documents\github\computacaografica\lab4\src\gl_canvas2d.cpp
-	"gl_canvas2d.h"
-	<GL/glut.h>
-
-1714048240 c:\users\ramos\documents\github\computacaografica\lab4\src\gl_canvas2d.h
-	<stdio.h>
-	<stdlib.h>
-	<math.h>
-	<string.h>
-	<GL/glut.h>
-	<GL/freeglut_ext.h>
-	"Vector2.h"
-
-1715089213 c:\users\ramos\documents\github\computacaografica\lab4\src\vector2.h
-
-1715169326 source:c:\users\ramos\documents\github\computacaografica\lab4\src\main.cpp
-	<GL/glut.h>
-	<GL/freeglut_ext.h>
-	<math.h>
-	<stdio.h>
-	<stdlib.h>
-	<cmath>
 	"gl_canvas2d.h"
 

@@ -19,6 +19,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <cmath>
 
 #include "gl_canvas2d.h"
 
@@ -61,28 +62,24 @@ void scale(float inc, Square *square)
   square->points[3].y += inc / 2;
 }
 
-void rotateSquare(Vector2 square[], double angle)
+void scaleMultiply(float scale, Square *square)
 {
-  double angleRad = angle * PI / 180.0;
-  for (int i = 0; i < 4; ++i)
+  for (int i = 0; i < 4; i++)
   {
-    double newX = cos(angleRad) * square[i].x - sin(angleRad) * square[i].y;
-    double newY = sin(angleRad) * square[i].x + cos(angleRad) * square[i].y;
-    square[i].x = newX;
-    square[i].y = newY;
+    square->points[i].x *= scale;
+    square->points[i].y *= scale;
   }
 }
 
-void questao3_2020_2(Square *square)
+void rotateSquare(Vector2 square[], double angle)
 {
-  translateRect(-l / 2 - x, -l / 2 - y, square);
-  scale(-30, square);
-  rotateSquare(square->points, 45);
-}
-
-void questao4_2019_1(Square *square)
-{
-
+  for (int i = 0; i < 4; ++i)
+  {
+    double newX = cos(angle) * square[i].x - sin(angle) * square[i].y;
+    double newY = sin(angle) * square[i].x + cos(angle) * square[i].y;
+    square[i].x = newX;
+    square[i].y = newY;
+  }
 }
 
 void renderSquare(Square *square)
@@ -94,6 +91,43 @@ void renderSquare(Square *square)
     else
       CV::line(square->points[i].x, square->points[i].y, square->points[i + 1].x, square->points[i + 1].y);
   }
+}
+
+void questao3_2020_2(Square *square)
+{
+  translateRect(-l / 2 - x, -l / 2 - y, square);
+  CV::color(1, 0, 0);
+  renderSquare(square);
+  scale(-30, square);
+  CV::color(0, 1, 0);
+  renderSquare(square);
+  rotateSquare(square->points, PI / 4);
+  CV::color(0, 0, 1);
+  renderSquare(square);
+}
+
+void questao4_2019_1(Square *square)
+{
+  translateRect(-x, -y, square);
+  CV::color(1, 0, 0);
+  renderSquare(square);
+  scaleMultiply(0.6666666f, square);
+  CV::color(0, 1, 0);
+  renderSquare(square);
+  float newL = l * 0.6666666f;
+  translateRect(-newL / 2, 0, square);
+  CV::color(0, 0, 1);
+  renderSquare(square);
+  Vector2 dirXYSquare = Vector2(x, y + l);
+  dirXYSquare.normalize();
+  Vector2 xAxisVector = Vector2(1, 0);
+  float angle = acos(dirXYSquare * xAxisVector);
+  rotateSquare(square->points, angle);
+  CV::color(1, 0, 1);
+  renderSquare(square);
+  translateRect(x, y + l, square);
+  CV::color(0, 1, 1);
+  renderSquare(square);
 }
 
 void renderAxis()
@@ -109,9 +143,8 @@ void render()
   renderAxis();
   Square *square = (Square *)malloc(sizeof(Square));
   *square = originalSquare;
-  questao3_2020_2(square);
-  renderSquare(square);
   renderSquare(&originalSquare);
+  questao4_2019_1(square);
 }
 
 void keyboard(int key)
