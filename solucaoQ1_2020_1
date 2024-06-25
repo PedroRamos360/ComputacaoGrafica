@@ -1,0 +1,7 @@
+epsilon = 0.0000001
+p1 = Bezier(0.5)
+p2 = Bezier(0.5 + epsilon)
+tangente = p1 - p2
+tangente = tangente / |tangente|
+perpendicular = Vector2(tangente.y, tangente.x)
+line(p1 + 1.5 * perpendicular, p1 - 1.5 * perpendicular)
