@@ -21,11 +21,20 @@ Vector3 *getSidewaysCilinder(float height, float raio);
 void renderPistonCapsule();
 void renderPiston();
 void renderCrank();
+void renderCrankIntersection();
+void renderMovingCrank();
 
 int totalPoints = 100;
 float notFov = 600;
 float zStart = 20;
 Vector3 basePos = Vector3(0, -5, 0);
+
+float bigRadius = 2;
+float smallRadius = 1.5;
+float bigHeight = 15;
+float smallHeight = 10;
+float pistonTranslateY = -5;
+float baseCrankSize = 8;
 
 void render()
 {
@@ -34,6 +43,8 @@ void render()
   renderPistonCapsule();
   renderPiston();
   renderCrank();
+  renderCrankIntersection();
+  renderMovingCrank();
   Sleep(1 / 100.0 * 1000.0);
 }
 
@@ -41,7 +52,7 @@ void renderPistonCapsule()
 {
   Vector3 p;
   Vector2 *saida = (Vector2 *)malloc(sizeof(Vector2) * totalPoints);
-  Vector3 *entrada = getCilinderPoints(10, 2);
+  Vector3 *entrada = getCilinderPoints(smallHeight, bigRadius);
   for (int i = 0; i < totalPoints; i++)
   {
     p = entrada[i];
@@ -58,10 +69,11 @@ void renderPiston()
 {
   Vector3 p;
   Vector2 *saida = (Vector2 *)malloc(sizeof(Vector2) * totalPoints);
-  Vector3 *entrada = getCilinderPoints(10, 1.5);
+  Vector3 *entrada = getCilinderPoints(bigHeight, smallRadius);
   for (int i = 0; i < totalPoints; i++)
   {
     p = entrada[i];
+    p = translateY(p, pistonTranslateY);
     p = translateZ(p, zStart);
     saida[i] = projeta(p, notFov);
   }
@@ -74,16 +86,58 @@ void renderPiston()
 void renderCrank()
 {
   Vector3 p;
+  float crankSize = baseCrankSize;
   Vector2 *saida = (Vector2 *)malloc(sizeof(Vector2) * totalPoints);
-  Vector3 *entrada = getSidewaysCilinder(10, 1.5);
+  Vector3 *entrada = getSidewaysCilinder(crankSize, smallRadius);
   for (int i = 0; i < totalPoints; i++)
   {
     p = entrada[i];
     p = translateZ(p, zStart);
-    p = translateX(p, -10);
+    p = translateX(p, -crankSize - smallRadius);
+    p = translateY(p, pistonTranslateY + smallRadius);
     saida[i] = projeta(p, notFov);
   }
   CV::color(0, 0.5, 0);
+  drawCilinder(saida);
+  free(saida);
+  free(entrada);
+}
+
+void renderCrankIntersection()
+{
+  Vector3 p;
+  float crankSize = baseCrankSize;
+  Vector2 *saida = (Vector2 *)malloc(sizeof(Vector2) * totalPoints);
+  Vector3 *entrada = getCilinderPoints(crankSize, smallRadius);
+  for (int i = 0; i < totalPoints; i++)
+  {
+    p = entrada[i];
+    p = translateZ(p, zStart);
+    p = translateX(p, -crankSize - smallRadius * 2);
+    p = translateY(p, pistonTranslateY);
+    saida[i] = projeta(p, notFov);
+  }
+  CV::color(0, 0.5, 0.5);
+  drawCilinder(saida);
+  free(saida);
+  free(entrada);
+}
+
+void renderMovingCrank()
+{
+  Vector3 p;
+  float crankSize = 15;
+  Vector2 *saida = (Vector2 *)malloc(sizeof(Vector2) * totalPoints);
+  Vector3 *entrada = getSidewaysCilinder(crankSize, smallRadius);
+  for (int i = 0; i < totalPoints; i++)
+  {
+    p = entrada[i];
+    p = translateZ(p, zStart);
+    p = translateX(p, -crankSize - smallRadius - baseCrankSize);
+    p = translateY(p, pistonTranslateY + smallRadius + baseCrankSize);
+    saida[i] = projeta(p, notFov);
+  }
+  CV::color(0.5, 0.5, 0);
   drawCilinder(saida);
   free(saida);
   free(entrada);
@@ -178,11 +232,11 @@ void keyboard(int key)
 {
   if (key == 'w')
   {
-    basePos.y += 1;
+    basePos.y -= 1;
   }
   else if (key == 's')
   {
-    basePos.y -= 1;
+    basePos.y += 1;
   }
   else if (key == 'a')
   {
