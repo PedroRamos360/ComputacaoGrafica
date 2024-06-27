@@ -170,11 +170,17 @@
 
 1719319000 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\vector2.h
 
-1719320656 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\main.cpp
+1719447957 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
+	"./Vector3.h"
+	"./Vector2.h"
 	"gl_canvas2d.h"
+
+1717506186 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\vector3.h
+	<math.h>
+	<stdio.h>
 
