@@ -20,6 +20,39 @@ public:
     z = _z;
   }
 
+  Vector3 operator+(Vector3 v)
+  {
+    return Vector3(x + v.x, y + v.y, z + v.z);
+  }
+
+  Vector3 operator-(Vector3 v)
+  {
+    return Vector3(x - v.x, y - v.y, z - v.z);
+  }
+
+  Vector3 operator*(Vector3 v)
+  {
+    return Vector3(x * v.x, y * v.y, z * v.z);
+  }
+
+  Vector3 operator*(float v)
+  {
+    return Vector3(x * v, y * v, z * v);
+  }
+
+  Vector3 crossProduct(const Vector3 &v) const
+  {
+    return Vector3(
+        y * v.z - z * v.y,
+        z * v.x - x * v.z,
+        x * v.y - y * v.x);
+  }
+
+  float dotProduct(Vector3 v)
+  {
+    return x * v.x + y * v.y + z * v.z;
+  }
+
   void set(float _x, float _y, float _z)
   {
     x = _x;
