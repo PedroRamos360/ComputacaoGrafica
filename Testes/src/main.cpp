@@ -15,18 +15,29 @@ void engrenage()
   CV::color(1, 0, 0);
   float raio1 = 100, raio2 = 120, ang = 0;
   float raio = raio1;
-  float lastX = raio1 * cos(ang + angInit);
-  float lastY = raio1 * sin(ang + angInit);
+  float innerCircleRadius = 50;
+  float lastInnerX = innerCircleRadius * cos(ang);
+  float lastInnerY = innerCircleRadius * sin(ang);
+  float lastX = raio1 * cos(ang);
+  float lastY = raio1 * sin(ang);
   float passo = (2 * PI) / 80;
   for (ang; ang <= 2 * PI + passo; ang += passo)
   {
-    float x1 = raio * cos(ang + angInit);
-    float y1 = raio * sin(ang + angInit);
+    float x1 = raio * cos(ang);
+    float y1 = raio * sin(ang);
+    float innerX = innerCircleRadius * cos(ang);
+    float innerY = innerCircleRadius * sin(ang);
     ang += passo;
-    float x2 = raio * cos(ang + angInit);
-    float y2 = raio * sin(ang + angInit);
+    float innerX2 = innerCircleRadius * cos(ang);
+    float innerY2 = innerCircleRadius * sin(ang);
+    float x2 = raio * cos(ang);
+    float y2 = raio * sin(ang);
     CV::line(x1, y1, x2, y2);
     CV::line(lastX, lastY, x1, y1);
+    CV::line(innerX, innerY, innerX2, innerY2);
+    CV::line(lastInnerX, lastInnerY, innerX, innerY);
+    lastInnerX = innerX2;
+    lastInnerY = innerY2;
     lastX = x2;
     lastY = y2;
     if (raio == raio1)
@@ -34,7 +45,6 @@ void engrenage()
     else
       raio = raio1;
   }
-  angInit -= 0.01;
 }
 
 void espiral()
@@ -52,7 +62,8 @@ void espiral()
   angInit -= 0.001;
 }
 
-void relogio(int h, int m)
+int h, m = 0;
+void relogio()
 {
   CV::translate(screenWidth / 2, screenHeight / 2);
   CV::color(0, 0, 0);
@@ -75,19 +86,18 @@ void relogio(int h, int m)
   x = 80 * cos(-min * m + PI / 2);
   y = 80 * sin(-min * m + PI / 2);
   CV::line(0, 0, x, y);
-}
-
-int h, m = 0;
-void render()
-{
-  relogio(h, m);
   h++;
   if (h > 12)
     h = 0;
   m++;
   if (m > 60)
     m = 0;
-  Sleep(500);
+}
+
+void render()
+{
+  engrenage();
+  Sleep(10);
 }
 
 void keyboard(int key)

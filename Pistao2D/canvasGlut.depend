@@ -147,7 +147,30 @@
 
 1589217858 c:\users\ramos\documents\github\computacaografica\testes\src\vector2.h
 
-1719881552 source:c:\users\ramos\documents\github\computacaografica\testes\src\main.cpp
+1718062228 source:c:\users\ramos\documents\github\computacaografica\testes\src\main.cpp
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	"gl_canvas2d.h"
+
+1719318414 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1710341387 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1719319000 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\vector2.h
+
+1719320656 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
