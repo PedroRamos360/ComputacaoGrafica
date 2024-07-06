@@ -25,8 +25,7 @@ Vector3 translateY(Vector3 p, float d);
 Vector2 projeta(Vector3 p, float d);
 void drawGear(Vector2 *p);
 void drawCilinder(Vector2 *p);
-Vector3 *getCilinderPoints(float height, float raio);
-Vector3 *getSidewaysCilinder(float height, float raio);
+Vector3 *getCilinderPoints(float height, float raio, bool isSideways = false);
 Vector3 *getGearPoints(float z);
 void renderPistonCapsule();
 void renderPiston();
@@ -160,7 +159,7 @@ void renderMovingCrank()
   Vector3 p;
   float crankSize = baseCrankSize;
   Vector2 *saida = (Vector2 *)malloc(sizeof(Vector2) * totalPoints);
-  Vector3 *entrada = getSidewaysCilinder(crankSize, smallRadius);
+  Vector3 *entrada = getCilinderPoints(crankSize, smallRadius, true);
   movingCrankCenter = Vector3(crankSize, 0, 0);
   bool shouldDraw = true;
   for (int i = 0; i < totalPoints; i++)
@@ -209,7 +208,7 @@ void renderMainCrank()
   Vector3 p;
   float crankSize = 15;
   Vector2 *saida = (Vector2 *)malloc(sizeof(Vector2) * totalPoints);
-  Vector3 *entrada = getSidewaysCilinder(crankSize, smallRadius);
+  Vector3 *entrada = getCilinderPoints(crankSize, smallRadius, true);
   bool shouldDraw = true;
   for (int i = 0; i < totalPoints; i++)
   {
@@ -372,32 +371,27 @@ Vector2 projeta(Vector3 p, float d)
   return r;
 }
 
-Vector3 *getCilinderPoints(float height, float raio)
+Vector3 *getCilinderPoints(float height, float raio, bool isSideways)
 {
   Vector3 *p = (Vector3 *)malloc(sizeof(Vector3) * totalPoints);
   float angulo = 0;
   for (int i = 0; i < totalPoints / 2; i++)
   {
     angulo = i * (2 * PI / (totalPoints / 2));
-    float x = raio * cos(angulo);
-    float z = raio * sin(angulo);
-    p[i] = Vector3(x, 0, z);
-    p[i + totalPoints / 2] = Vector3(x, height, z);
-  }
-  return p;
-}
-
-Vector3 *getSidewaysCilinder(float height, float raio)
-{
-  Vector3 *p = (Vector3 *)malloc(sizeof(Vector3) * totalPoints);
-  float angulo = 0;
-  for (int i = 0; i < totalPoints / 2; i++)
-  {
-    angulo = i * (2 * PI / (totalPoints / 2));
-    float z = raio * cos(angulo);
-    float y = raio * sin(angulo);
-    p[i] = Vector3(0, y, z);
-    p[i + totalPoints / 2] = Vector3(height, y, z);
+    if (isSideways)
+    {
+      float z = raio * cos(angulo);
+      float y = raio * sin(angulo);
+      p[i] = Vector3(0, y, z);
+      p[i + totalPoints / 2] = Vector3(height, y, z);
+    }
+    else
+    {
+      float x = raio * cos(angulo);
+      float z = raio * sin(angulo);
+      p[i] = Vector3(x, 0, z);
+      p[i + totalPoints / 2] = Vector3(x, height, z);
+    }
   }
   return p;
 }
