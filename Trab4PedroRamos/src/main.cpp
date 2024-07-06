@@ -7,20 +7,17 @@
 #include "./Vector3.h"
 #include "./Vector2.h"
 #include "./KeyboardManager.h"
-#include "./Prism.h"
+#include "./GearsManager.h"
 
 #include "gl_canvas2d.h"
 int screenWidth = 1200, screenHeight = 800;
 
 Vector3 *getCilinderPoints(float height, float raio, bool isSideways = false);
-Vector3 *getGearPoints(float z);
 void renderPistonCapsule();
 void renderPiston();
 void renderMovingCrank();
 void renderCrankIntersection();
 void renderMainCrank();
-void renderMainGear();
-void renderAuxiliarGear();
 
 int totalPoints = 100;
 float notFov = 600;
@@ -40,6 +37,9 @@ Vector3 movingCrankCenter = Vector3(0, 0, 0);
 float rpmControl = 0.01f;
 float mainRotation = 0;
 KeyboardManager keyboardManager = KeyboardManager(&cameraRotation, &rpmControl, &basePos);
+BaseTransformer baseTransformer = BaseTransformer(&zStart, &basePos, &cameraRotation);
+GearsManager gearsManager = GearsManager(&totalPoints, &mainRotation, &smallRadius, &baseCrankSize, &crankYTranslation, &notFov, &baseTransformer);
+
 int pistonDir = -1;
 
 void render()
@@ -51,25 +51,7 @@ void render()
   renderPiston();
   renderCrankIntersection();
   renderMainCrank();
-  renderMainGear();
-  renderAuxiliarGear();
-}
-
-Vector3 baseTransform(Vector3 p)
-{
-  p = p.translateZ(zStart);
-  p = p.translateX(basePos.x);
-  p = p.translateY(basePos.y);
-  p = p.translateZ(basePos.z);
-  p = p.rotateY(cameraRotation);
-  return p;
-}
-
-bool shouldDrawVec(Vector3 p, bool shouldDraw)
-{
-  if (!shouldDraw)
-    return false;
-  return p.z > 0;
+  gearsManager.renderGears();
 }
 
 void renderPistonCapsule()
@@ -86,8 +68,8 @@ void renderPistonCapsule()
   {
     p = entrada[i];
     p = p.rotateX(angle - PI / 2, Vector3(0, smallHeight, 0));
-    p = baseTransform(p);
-    shouldDraw = shouldDrawVec(p, shouldDraw);
+    p = baseTransformer.transform(p);
+    shouldDraw = p.shouldDrawVec(shouldDraw);
     saida[i] = p.project(notFov);
   }
   CV::color(1, 0, 0);
@@ -100,7 +82,7 @@ void renderPistonCapsule()
 Vector3 pistonVecOperations(Vector3 p)
 {
   p = p.translateY(pistonTranslateY);
-  p = baseTransform(p);
+  p = baseTransformer.transform(p);
   return p;
 }
 
@@ -119,7 +101,7 @@ void renderPiston()
     p = entrada[i];
     p = p.rotateX(angle - PI / 2, Vector3(0, smallHeight - pistonTranslateY, 0));
     p = pistonVecOperations(p);
-    shouldDraw = shouldDrawVec(p, shouldDraw);
+    shouldDraw = p.shouldDrawVec(shouldDraw);
     saida[i] = p.project(notFov);
   }
   CV::color(0, 0, 1);
@@ -150,8 +132,8 @@ void renderMovingCrank()
   {
     p = entrada[i];
     p = movingCrankVecOperations(p, crankSize);
-    p = baseTransform(p);
-    shouldDraw = shouldDrawVec(p, shouldDraw);
+    p = baseTransformer.transform(p);
+    shouldDraw = p.shouldDrawVec(shouldDraw);
     saida[i] = p.project(notFov);
   }
   movingCrankCenter = movingCrankVecOperations(movingCrankCenter, crankSize);
@@ -176,8 +158,8 @@ void renderCrankIntersection()
     p = p.rotateX(mainRotation, Vector3(0, (baseCrankSize + smallRadius), 0));
     p = p.translateX(-crankSize - smallRadius * 2);
     p = p.translateY(crankYTranslation);
-    p = baseTransform(p);
-    shouldDraw = shouldDrawVec(p, shouldDraw);
+    p = baseTransformer.transform(p);
+    shouldDraw = p.shouldDrawVec(shouldDraw);
     saida[i] = p.project(notFov);
   }
   CV::color(0, 0.5, 0.5);
@@ -200,77 +182,13 @@ void renderMainCrank()
     p = p.rotateX(mainRotation);
     p = p.translateX(-crankSize - smallRadius - baseCrankSize);
     p = p.translateY(smallRadius + baseCrankSize + crankYTranslation);
-    p = baseTransform(p);
-    shouldDraw = shouldDrawVec(p, shouldDraw);
+    p = baseTransformer.transform(p);
+    shouldDraw = p.shouldDrawVec(shouldDraw);
     saida[i] = p.project(notFov);
   }
   CV::color(0.5, 0.5, 0);
   if (shouldDraw)
     Prism::draw(saida, totalPoints / 2, 1);
-  free(saida);
-  free(entrada);
-}
-
-int baseGearPoints = (totalPoints * 2);
-int gearPoints = baseGearPoints - (baseGearPoints % 4);
-int lastLineOffset = 4;
-int offsetToNextGear = gearPoints + lastLineOffset;
-
-Vector3 gearTransformations(Vector3 p, int rotationDir = 1)
-{
-  float angToAdd = 0;
-  if (rotationDir == -1)
-    angToAdd = (2 * PI) / (gearPoints / 2);
-  p = p.rotateY(PI / 2, Vector3(0, 0, 0));
-  p = p.rotateX(mainRotation * rotationDir + angToAdd, Vector3(0, 0, 0));
-  p = p.translateX(-25);
-  p = p.translateY(smallRadius + baseCrankSize + crankYTranslation);
-  return p;
-}
-
-void renderMainGear()
-{
-  Vector3 p;
-  Vector2 *saida = (Vector2 *)malloc(sizeof(Vector2) * totalPoints * 6);
-  Vector3 *entrada = getGearPoints(1);
-  bool shouldDraw = true;
-  for (int i = 0; i < offsetToNextGear * 2; i++)
-  {
-    p = entrada[i];
-    p = gearTransformations(p);
-    p = baseTransform(p);
-    shouldDraw = shouldDrawVec(p, true);
-    saida[i] = p.project(notFov);
-  }
-  CV::color(0, 0.5, 0.5);
-  if (shouldDraw)
-  {
-    Prism::draw(saida, offsetToNextGear, 2);
-  }
-  free(saida);
-  free(entrada);
-}
-
-void renderAuxiliarGear()
-{
-  Vector3 p;
-  Vector2 *saida = (Vector2 *)malloc(sizeof(Vector2) * totalPoints * 6);
-  Vector3 *entrada = getGearPoints(1);
-  bool shouldDraw = true;
-  for (int i = 0; i < offsetToNextGear * 2; i++)
-  {
-    p = entrada[i];
-    p = gearTransformations(p, -1);
-    p = p.translateZ(11);
-    p = baseTransform(p);
-    shouldDraw = shouldDrawVec(p, true);
-    saida[i] = p.project(notFov);
-  }
-  CV::color(0, 0.5, 0.5);
-  if (shouldDraw)
-  {
-    Prism::draw(saida, offsetToNextGear, 2);
-  }
   free(saida);
   free(entrada);
 }
@@ -296,51 +214,6 @@ Vector3 *getCilinderPoints(float height, float raio, bool isSideways)
       p[i] = Vector3(x, 0, z);
       p[i + totalPoints / 2] = Vector3(x, height, z);
     }
-  }
-  return p;
-}
-
-Vector3 *getGearPoints(float height)
-{
-  Vector3 *p = (Vector3 *)malloc(sizeof(Vector3) * offsetToNextGear * 2);
-  float raio1 = 5, raio2 = 6, ang = 0;
-  float raio = raio1;
-  float innerCircleRadius = 5;
-  float lastInnerX = innerCircleRadius * cos(ang);
-  float lastInnerY = innerCircleRadius * sin(ang);
-  float lastX = raio1 * cos(ang);
-  float lastY = raio1 * sin(ang);
-  float passo = (2 * PI) / (gearPoints / 2);
-  int i = 0;
-  for (ang; ang <= 2 * PI + passo; ang += passo)
-  {
-    float x1 = raio * cos(ang);
-    float y1 = raio * sin(ang);
-    float innerX = innerCircleRadius * cos(ang);
-    float innerY = innerCircleRadius * sin(ang);
-    ang += passo;
-    float innerX2 = innerCircleRadius * cos(ang);
-    float innerY2 = innerCircleRadius * sin(ang);
-    float x2 = raio * cos(ang);
-    float y2 = raio * sin(ang);
-    p[i] = Vector3(x1, y1, 0);
-    p[i + 1] = Vector3(x2, y2, 0);
-    p[i + 2] = Vector3(lastX, lastY, 0);
-    p[i + 3] = Vector3(x1, y1, 0);
-    p[i + offsetToNextGear] = Vector3(x1, y1, height);
-    p[i + 1 + offsetToNextGear] = Vector3(x2, y2, height);
-    p[i + 2 + offsetToNextGear] = Vector3(lastX, lastY, height);
-    p[i + 3 + offsetToNextGear] = Vector3(x1, y1, height);
-    lastInnerX = innerX2;
-    lastInnerY = innerY2;
-    lastX = x2;
-    lastY = y2;
-    if (raio == raio1)
-      raio = raio2;
-    else
-      raio = raio1;
-
-    i += 4;
   }
   return p;
 }

@@ -172,7 +172,7 @@
 
 1719828656 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\vector2.h
 
-1720303328 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\main.cpp
+1720307012 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -180,9 +180,11 @@
 	<stdlib.h>
 	"./Vector3.h"
 	"./Vector2.h"
+	"./KeyboardManager.h"
+	"./GearsManager.h"
 	"gl_canvas2d.h"
 
-1720303098 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\vector3.h
+1720306830 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\vector3.h
 	<math.h>
 	<stdio.h>
 	"Vector2.h"
@@ -198,4 +200,23 @@
 	<GLES3/gl3.h>
 	<GL/gl.h>
 	<GL/glu.h>
+
+1720304624 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\keyboardmanager.h
+	"Vector3.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
+1720306968 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\gearsmanager.h
+	"./Vector3.h"
+	"./Vector2.h"
+	"./Prism.h"
+	"./BaseTransformer.h"
+
+1720305563 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\prism.h
+	"Vector2.h"
+	"gl_canvas2d.h"
+
+1720306781 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\basetransformer.h
+	"Vector3.h"
 

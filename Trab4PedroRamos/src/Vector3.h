@@ -129,6 +129,13 @@ public:
     return r;
   }
 
+  bool shouldDrawVec(bool shouldDraw)
+  {
+    if (!shouldDraw)
+      return false;
+    return z > 0;
+  }
+
   float dotProduct(Vector3 v)
   {
     return x * v.x + y * v.y + z * v.z;
