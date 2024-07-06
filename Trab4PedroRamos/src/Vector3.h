@@ -2,6 +2,7 @@
 #include <stdio.h>
 #ifndef __VECTOR_3_H__
 #define __VECTOR_3_H__
+#include "Vector2.h"
 
 class Vector3
 {
@@ -46,6 +47,86 @@ public:
         y * v.z - z * v.y,
         z * v.x - x * v.z,
         x * v.y - y * v.x);
+  }
+
+  Vector3 translateZ(float d)
+  {
+    Vector3 r;
+    r.x = x;
+    r.y = y;
+    r.z = z + d;
+    return r;
+  }
+
+  Vector3 translateX(float d)
+  {
+    Vector3 r;
+    r.x = x + d;
+    r.y = y;
+    r.z = z;
+    return r;
+  }
+
+  Vector3 translateY(float d)
+  {
+    Vector3 r;
+    r.x = x;
+    r.y = y + d;
+    r.z = z;
+    return r;
+  }
+
+  Vector3 rotateY(float ang, Vector3 center = Vector3(0, 0, 0))
+  {
+    Vector3 r;
+    x -= center.x;
+    y -= center.y;
+    z -= center.z;
+    r.x = x * cos(ang) - z * sin(ang);
+    r.y = y;
+    r.z = x * sin(ang) + z * cos(ang);
+    r.x += center.x;
+    r.y += center.y;
+    r.z += center.z;
+    return r;
+  }
+
+  Vector3 rotateZ(float ang, Vector3 center = Vector3(0, 0, 0))
+  {
+    Vector3 r;
+    x -= center.x;
+    y -= center.y;
+    z -= center.z;
+    r.x = x * cos(ang) - y * sin(ang);
+    r.y = x * sin(ang) + y * cos(ang);
+    r.z = z;
+    r.x += center.x;
+    r.y += center.y;
+    r.z += center.z;
+    return r;
+  }
+
+  Vector3 rotateX(float ang, Vector3 center = Vector3(0, 0, 0))
+  {
+    Vector3 r;
+    x -= center.x;
+    y -= center.y;
+    z -= center.z;
+    r.x = x;
+    r.y = y * cos(ang) - z * sin(ang);
+    r.z = y * sin(ang) + z * cos(ang);
+    r.x += center.x;
+    r.y += center.y;
+    r.z += center.z;
+    return r;
+  }
+
+  Vector2 project(float d)
+  {
+    Vector2 r;
+    r.x = x * d / z;
+    r.y = y * d / z;
+    return r;
   }
 
   float dotProduct(Vector3 v)

@@ -14,6 +14,8 @@
 
 #include "gl_canvas2d.h"
 #include <GL/glut.h>
+#include <windows.h>
+#include <GL/wglext.h>
 
 // conjunto de cores predefinidas. Pode-se adicionar mais cores.
 float Colors[14][3] =
@@ -341,6 +343,12 @@ void CV::init(int w, int h, const char *title)
   glutPassiveMotionFunc(motion);
   glutMotionFunc(motion);
   glutMouseWheelFunc(mouseWheelCB);
+
+  PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
+  if (wglSwapIntervalEXT)
+  {
+    wglSwapIntervalEXT(1);
+  }
 
   printf("GL Version: %s", glGetString(GL_VERSION));
 }

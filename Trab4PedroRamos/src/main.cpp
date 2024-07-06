@@ -1,5 +1,5 @@
 #include <GL/glut.h>
-#include <GL/freeglut_ext.h> //callback da wheel do mouse.
+#include <GL/freeglut_ext.h>
 
 #include <math.h>
 #include <stdio.h>
@@ -10,19 +10,6 @@
 #include "gl_canvas2d.h"
 int screenWidth = 1200, screenHeight = 800;
 
-struct GearPoints
-{
-  Vector3 *firstGear;
-  Vector3 *secondGear;
-};
-
-Vector3 rotateY(Vector3 p, float ang, Vector3 center = Vector3(0, 0, 0));
-Vector3 rotateZ(Vector3 p, float ang, Vector3 center = Vector3(0, 0, 0));
-Vector3 rotateX(Vector3 p, float ang, Vector3 center = Vector3(0, 0, 0));
-Vector3 translateZ(Vector3 p, float d);
-Vector3 translateX(Vector3 p, float d);
-Vector3 translateY(Vector3 p, float d);
-Vector2 projeta(Vector3 p, float d);
 void drawGear(Vector2 *p);
 void drawCilinder(Vector2 *p);
 Vector3 *getCilinderPoints(float height, float raio, bool isSideways = false);
@@ -38,14 +25,12 @@ void renderAuxiliarGear();
 int totalPoints = 100;
 float notFov = 600;
 float zStart = 40;
-// Vector3 basePos = Vector3(35.835564, 1, -20.321634);
 Vector3 basePos = Vector3(0, 0, 0);
 
 float bigRadius = 2;
 float smallRadius = 1.5;
 float crankYTranslation = -19;
 float baseCrankSize = 8;
-// float cameraRotation = 1.7;
 float cameraRotation = 0;
 float pistonYDirection = -1;
 float virabrequimRadius = smallRadius + baseCrankSize;
@@ -53,6 +38,8 @@ float bigHeight = virabrequimRadius * 2;
 float smallHeight = bigHeight - smallRadius * 2;
 float pistonTranslateY = -19;
 Vector3 movingCrankCenter = Vector3(0, 0, 0);
+float rpmControl = 0.01f;
+float mainRotation = 0;
 
 void render()
 {
@@ -65,16 +52,15 @@ void render()
   renderMainCrank();
   renderMainGear();
   renderAuxiliarGear();
-  Sleep(1 / 100.0 * 1000.0);
 }
 
 Vector3 baseTransform(Vector3 p)
 {
-  p = translateZ(p, zStart);
-  p = translateX(p, basePos.x);
-  p = translateY(p, basePos.y);
-  p = translateZ(p, basePos.z);
-  p = rotateY(p, cameraRotation);
+  p = p.translateZ(zStart);
+  p = p.translateX(basePos.x);
+  p = p.translateY(basePos.y);
+  p = p.translateZ(basePos.z);
+  p = p.rotateY(cameraRotation);
   return p;
 }
 
@@ -98,10 +84,10 @@ void renderPistonCapsule()
   for (int i = 0; i < totalPoints; i++)
   {
     p = entrada[i];
-    p = rotateX(p, angle - PI / 2, Vector3(0, smallHeight, 0));
+    p = p.rotateX(angle - PI / 2, Vector3(0, smallHeight, 0));
     p = baseTransform(p);
     shouldDraw = shouldDrawVec(p, shouldDraw);
-    saida[i] = projeta(p, notFov);
+    saida[i] = p.project(notFov);
   }
   CV::color(1, 0, 0);
   if (shouldDraw)
@@ -112,7 +98,7 @@ void renderPistonCapsule()
 
 Vector3 pistonVecOperations(Vector3 p)
 {
-  p = translateY(p, pistonTranslateY);
+  p = p.translateY(pistonTranslateY);
   p = baseTransform(p);
   return p;
 }
@@ -131,10 +117,10 @@ void renderPiston()
   for (int i = 0; i < totalPoints; i++)
   {
     p = entrada[i];
-    p = rotateX(p, angle - PI / 2, Vector3(0, smallHeight - pistonTranslateY, 0));
+    p = p.rotateX(angle - PI / 2, Vector3(0, smallHeight - pistonTranslateY, 0));
     p = pistonVecOperations(p);
     shouldDraw = shouldDrawVec(p, shouldDraw);
-    saida[i] = projeta(p, notFov);
+    saida[i] = p.project(notFov);
   }
   CV::color(0, 0, 1);
   pistonTranslateY = movingCrankCenter.y - 2;
@@ -144,13 +130,11 @@ void renderPiston()
   free(entrada);
 }
 
-float mainRotation = 0;
-
 Vector3 movingCrankVecOperations(Vector3 p, float crankSize)
 {
-  p = rotateX(p, mainRotation, Vector3(0, baseCrankSize, 0));
-  p = translateX(p, -crankSize - smallRadius);
-  p = translateY(p, smallRadius + crankYTranslation);
+  p = p.rotateX(mainRotation, Vector3(0, baseCrankSize, 0));
+  p = p.translateX(-crankSize - smallRadius);
+  p = p.translateY(smallRadius + crankYTranslation);
   return p;
 }
 
@@ -168,10 +152,10 @@ void renderMovingCrank()
     p = movingCrankVecOperations(p, crankSize);
     p = baseTransform(p);
     shouldDraw = shouldDrawVec(p, shouldDraw);
-    saida[i] = projeta(p, notFov);
+    saida[i] = p.project(notFov);
   }
   movingCrankCenter = movingCrankVecOperations(movingCrankCenter, crankSize);
-  mainRotation += 0.01f;
+  mainRotation += rpmControl;
   CV::color(0, 0.5, 0);
   if (shouldDraw)
     drawCilinder(saida);
@@ -189,12 +173,12 @@ void renderCrankIntersection()
   for (int i = 0; i < totalPoints; i++)
   {
     p = entrada[i];
-    p = rotateX(p, mainRotation, Vector3(0, (baseCrankSize + smallRadius), 0));
-    p = translateX(p, -crankSize - smallRadius * 2);
-    p = translateY(p, crankYTranslation);
+    p = p.rotateX(mainRotation, Vector3(0, (baseCrankSize + smallRadius), 0));
+    p = p.translateX(-crankSize - smallRadius * 2);
+    p = p.translateY(crankYTranslation);
     p = baseTransform(p);
     shouldDraw = shouldDrawVec(p, shouldDraw);
-    saida[i] = projeta(p, notFov);
+    saida[i] = p.project(notFov);
   }
   CV::color(0, 0.5, 0.5);
   if (shouldDraw)
@@ -213,12 +197,12 @@ void renderMainCrank()
   for (int i = 0; i < totalPoints; i++)
   {
     p = entrada[i];
-    p = rotateX(p, mainRotation);
-    p = translateX(p, -crankSize - smallRadius - baseCrankSize);
-    p = translateY(p, smallRadius + baseCrankSize + crankYTranslation);
+    p = p.rotateX(mainRotation);
+    p = p.translateX(-crankSize - smallRadius - baseCrankSize);
+    p = p.translateY(smallRadius + baseCrankSize + crankYTranslation);
     p = baseTransform(p);
     shouldDraw = shouldDrawVec(p, shouldDraw);
-    saida[i] = projeta(p, notFov);
+    saida[i] = p.project(notFov);
   }
   CV::color(0.5, 0.5, 0);
   if (shouldDraw)
@@ -237,10 +221,10 @@ Vector3 gearTransformations(Vector3 p, int rotationDir = 1)
   float angToAdd = 0;
   if (rotationDir == -1)
     angToAdd = (2 * PI) / (gearPoints / 2);
-  p = rotateY(p, PI / 2, Vector3(0, 0, 0));
-  p = rotateX(p, mainRotation * rotationDir + angToAdd, Vector3(0, 0, 0));
-  p = translateX(p, -25);
-  p = translateY(p, smallRadius + baseCrankSize + crankYTranslation);
+  p = p.rotateY(PI / 2, Vector3(0, 0, 0));
+  p = p.rotateX(mainRotation * rotationDir + angToAdd, Vector3(0, 0, 0));
+  p = p.translateX(-25);
+  p = p.translateY(smallRadius + baseCrankSize + crankYTranslation);
   return p;
 }
 
@@ -256,7 +240,7 @@ void renderMainGear()
     p = gearTransformations(p);
     p = baseTransform(p);
     shouldDraw = shouldDrawVec(p, true);
-    saida[i] = projeta(p, notFov);
+    saida[i] = p.project(notFov);
   }
   CV::color(0, 0.5, 0.5);
   if (shouldDraw)
@@ -277,10 +261,10 @@ void renderAuxiliarGear()
   {
     p = entrada[i];
     p = gearTransformations(p, -1);
-    p = translateZ(p, 11);
+    p = p.translateZ(11);
     p = baseTransform(p);
     shouldDraw = shouldDrawVec(p, true);
-    saida[i] = projeta(p, notFov);
+    saida[i] = p.project(notFov);
   }
   CV::color(0, 0.5, 0.5);
   if (shouldDraw)
@@ -289,86 +273,6 @@ void renderAuxiliarGear()
   }
   free(saida);
   free(entrada);
-}
-
-Vector3 rotateY(Vector3 p, float ang, Vector3 center)
-{
-  Vector3 r;
-  p.x -= center.x;
-  p.y -= center.y;
-  p.z -= center.z;
-  r.x = p.x * cos(ang) - p.z * sin(ang);
-  r.y = p.y;
-  r.z = p.x * sin(ang) + p.z * cos(ang);
-  r.x += center.x;
-  r.y += center.y;
-  r.z += center.z;
-  return r;
-}
-
-Vector3 rotateZ(Vector3 p, float ang, Vector3 center)
-{
-  Vector3 r;
-  p.x -= center.x;
-  p.y -= center.y;
-  p.z -= center.z;
-  r.x = p.x * cos(ang) - p.y * sin(ang);
-  r.y = p.x * sin(ang) + p.y * cos(ang);
-  r.z = p.z;
-  r.x += center.x;
-  r.y += center.y;
-  r.z += center.z;
-  return r;
-}
-
-Vector3 rotateX(Vector3 p, float ang, Vector3 center)
-{
-  Vector3 r;
-  p.x -= center.x;
-  p.y -= center.y;
-  p.z -= center.z;
-  r.x = p.x;
-  r.y = p.y * cos(ang) - p.z * sin(ang);
-  r.z = p.y * sin(ang) + p.z * cos(ang);
-  r.x += center.x;
-  r.y += center.y;
-  r.z += center.z;
-  return r;
-}
-
-Vector3 translateZ(Vector3 p, float d)
-{
-  Vector3 r;
-  r.x = p.x;
-  r.y = p.y;
-  r.z = p.z + d;
-  return r;
-}
-
-Vector3 translateX(Vector3 p, float d)
-{
-  Vector3 r;
-  r.x = p.x + d;
-  r.y = p.y;
-  r.z = p.z;
-  return r;
-}
-
-Vector3 translateY(Vector3 p, float d)
-{
-  Vector3 r;
-  r.x = p.x;
-  r.y = p.y + d;
-  r.z = p.z;
-  return r;
-}
-
-Vector2 projeta(Vector3 p, float d)
-{
-  Vector2 r;
-  r.x = p.x * d / p.z;
-  r.y = p.y * d / p.z;
-  return r;
 }
 
 Vector3 *getCilinderPoints(float height, float raio, bool isSideways)
@@ -398,7 +302,6 @@ Vector3 *getCilinderPoints(float height, float raio, bool isSideways)
 
 Vector3 *getGearPoints(float height)
 {
-  printf("\nGearPoints: %d", gearPoints);
   Vector3 *p = (Vector3 *)malloc(sizeof(Vector3) * offsetToNextGear * 2);
   float raio1 = 5, raio2 = 6, ang = 0;
   float raio = raio1;
@@ -428,8 +331,6 @@ Vector3 *getGearPoints(float height)
     p[i + 1 + offsetToNextGear] = Vector3(x2, y2, height);
     p[i + 2 + offsetToNextGear] = Vector3(lastX, lastY, height);
     p[i + 3 + offsetToNextGear] = Vector3(x1, y1, height);
-    // CV::line(innerX, innerY, innerX2, innerY2);
-    // CV::line(lastInnerX, lastInnerY, innerX, innerY);
     lastInnerX = innerX2;
     lastInnerY = innerY2;
     lastX = x2;
@@ -472,47 +373,47 @@ void keyboard(int key)
 {
   float moveSpeed = 1.0f;
 
-  if (key == 'w')
+  switch (key)
   {
+  case 'w':
     basePos.y -= moveSpeed;
-  }
-  else if (key == 's')
-  {
+    break;
+  case 's':
     basePos.y += moveSpeed;
-  }
-  else if (key == 'a')
-  {
+    break;
+  case 'a':
     basePos.x += moveSpeed * cos(cameraRotation);
     basePos.z -= moveSpeed * sin(cameraRotation);
-  }
-  else if (key == 'd')
-  {
+    break;
+  case 'd':
     basePos.x -= moveSpeed * cos(cameraRotation);
     basePos.z += moveSpeed * sin(cameraRotation);
-  }
-  else if (key == 201)
-  {
+    break;
+  case 'm':
+    rpmControl += 0.01f;
+    break;
+  case 'n':
+    rpmControl -= 0.01f;
+    break;
+  case 201:
     basePos.x -= moveSpeed * sin(cameraRotation);
     basePos.z -= moveSpeed * cos(cameraRotation);
-  }
-  else if (key == 203)
-  {
+    break;
+  case 203:
     basePos.x += moveSpeed * sin(cameraRotation);
     basePos.z += moveSpeed * cos(cameraRotation);
-  }
-  else if (key == 200)
-  {
+    break;
+  case 200:
     cameraRotation -= 0.1f;
-  }
-  else if (key == 202)
-  {
+    break;
+  case 202:
     cameraRotation += 0.1f;
+    break;
   }
 }
 
 void keyboardUp(int key)
 {
-  printf("\nLiberou: %d", key);
 }
 
 void mouse(int button, int state, int wheel, int direction, int x, int y)

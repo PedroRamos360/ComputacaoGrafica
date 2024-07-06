@@ -155,9 +155,11 @@
 	<stdlib.h>
 	"gl_canvas2d.h"
 
-1719318414 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\gl_canvas2d.cpp
+1720303580 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\gl_canvas2d.cpp
 	"gl_canvas2d.h"
 	<GL/glut.h>
+	<windows.h>
+	<GL/wglext.h>
 
 1710341387 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\gl_canvas2d.h
 	<stdio.h>
@@ -170,7 +172,7 @@
 
 1719828656 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\vector2.h
 
-1720301909 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\main.cpp
+1720303328 source:c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -180,7 +182,20 @@
 	"./Vector2.h"
 	"gl_canvas2d.h"
 
-1719854679 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\vector3.h
+1720303098 c:\users\ramos\documents\github\computacaografica\trab4pedroramos\src\vector3.h
 	<math.h>
 	<stdio.h>
+	"Vector2.h"
+
+1713401341 c:\users\ramos\documents\github\computacaografica\include\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
 

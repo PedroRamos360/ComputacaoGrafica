@@ -13,7 +13,7 @@ float angInit = 0;
 
 Vector3 rotacionaY(Vector3 p, float ang);
 Vector3 transladaZ(Vector3 p, float d);
-Vector2 projeta(Vector3 p, float d);
+Vector2 project(Vector3 p, float d);
 void desenha(Vector2 *p);
 
 Vector3 entrada[8] = {
@@ -35,7 +35,7 @@ void render()
     p = entrada[i];
     p = rotacionaY(p, angInit);
     p = transladaZ(p, 3);
-    saida[i] = projeta(p, 100);
+    saida[i] = project(p, 100);
   }
   desenha(saida);
   angInit += 0.01;
@@ -60,7 +60,7 @@ Vector3 transladaZ(Vector3 p, float d)
   return r;
 }
 
-Vector2 projeta(Vector3 p, float d)
+Vector2 project(Vector3 p, float d)
 {
   Vector2 r;
   r.x = p.x * d / p.z;
