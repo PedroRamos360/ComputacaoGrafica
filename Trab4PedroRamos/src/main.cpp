@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "./Vector3.h"
 #include "./Vector2.h"
+#include "./KeyboardManager.h"
 
 #include "gl_canvas2d.h"
 int screenWidth = 1200, screenHeight = 800;
@@ -40,6 +41,7 @@ float pistonTranslateY = -19;
 Vector3 movingCrankCenter = Vector3(0, 0, 0);
 float rpmControl = 0.01f;
 float mainRotation = 0;
+KeyboardManager keyboardManager = KeyboardManager(&cameraRotation, &rpmControl, &basePos);
 
 void render()
 {
@@ -371,45 +373,7 @@ void drawCilinder(Vector2 *p)
 
 void keyboard(int key)
 {
-  float moveSpeed = 1.0f;
-
-  switch (key)
-  {
-  case 'w':
-    basePos.y -= moveSpeed;
-    break;
-  case 's':
-    basePos.y += moveSpeed;
-    break;
-  case 'a':
-    basePos.x += moveSpeed * cos(cameraRotation);
-    basePos.z -= moveSpeed * sin(cameraRotation);
-    break;
-  case 'd':
-    basePos.x -= moveSpeed * cos(cameraRotation);
-    basePos.z += moveSpeed * sin(cameraRotation);
-    break;
-  case 'm':
-    rpmControl += 0.01f;
-    break;
-  case 'n':
-    rpmControl -= 0.01f;
-    break;
-  case 201:
-    basePos.x -= moveSpeed * sin(cameraRotation);
-    basePos.z -= moveSpeed * cos(cameraRotation);
-    break;
-  case 203:
-    basePos.x += moveSpeed * sin(cameraRotation);
-    basePos.z += moveSpeed * cos(cameraRotation);
-    break;
-  case 200:
-    cameraRotation -= 0.1f;
-    break;
-  case 202:
-    cameraRotation += 0.1f;
-    break;
-  }
+  keyboardManager.handleKeyStroke(key);
 }
 
 void keyboardUp(int key)
