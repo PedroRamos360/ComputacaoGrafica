@@ -7,12 +7,11 @@
 #include "./Vector3.h"
 #include "./Vector2.h"
 #include "./KeyboardManager.h"
+#include "./Prism.h"
 
 #include "gl_canvas2d.h"
 int screenWidth = 1200, screenHeight = 800;
 
-void drawGear(Vector2 *p);
-void drawCilinder(Vector2 *p);
 Vector3 *getCilinderPoints(float height, float raio, bool isSideways = false);
 Vector3 *getGearPoints(float z);
 void renderPistonCapsule();
@@ -27,7 +26,6 @@ int totalPoints = 100;
 float notFov = 600;
 float zStart = 40;
 Vector3 basePos = Vector3(0, 0, 0);
-
 float bigRadius = 2;
 float smallRadius = 1.5;
 float crankYTranslation = -19;
@@ -42,6 +40,7 @@ Vector3 movingCrankCenter = Vector3(0, 0, 0);
 float rpmControl = 0.01f;
 float mainRotation = 0;
 KeyboardManager keyboardManager = KeyboardManager(&cameraRotation, &rpmControl, &basePos);
+int pistonDir = -1;
 
 void render()
 {
@@ -93,7 +92,7 @@ void renderPistonCapsule()
   }
   CV::color(1, 0, 0);
   if (shouldDraw)
-    drawCilinder(saida);
+    Prism::draw(saida, totalPoints / 2, 1);
   free(saida);
   free(entrada);
 }
@@ -105,7 +104,6 @@ Vector3 pistonVecOperations(Vector3 p)
   return p;
 }
 
-int pistonDir = -1;
 void renderPiston()
 {
   Vector3 p;
@@ -127,7 +125,7 @@ void renderPiston()
   CV::color(0, 0, 1);
   pistonTranslateY = movingCrankCenter.y - 2;
   if (shouldDraw)
-    drawCilinder(saida);
+    Prism::draw(saida, totalPoints / 2, 1);
   free(saida);
   free(entrada);
 }
@@ -160,7 +158,7 @@ void renderMovingCrank()
   mainRotation += rpmControl;
   CV::color(0, 0.5, 0);
   if (shouldDraw)
-    drawCilinder(saida);
+    Prism::draw(saida, totalPoints / 2, 1);
   free(saida);
   free(entrada);
 }
@@ -184,7 +182,7 @@ void renderCrankIntersection()
   }
   CV::color(0, 0.5, 0.5);
   if (shouldDraw)
-    drawCilinder(saida);
+    Prism::draw(saida, totalPoints / 2, 1);
   free(saida);
   free(entrada);
 }
@@ -208,7 +206,7 @@ void renderMainCrank()
   }
   CV::color(0.5, 0.5, 0);
   if (shouldDraw)
-    drawCilinder(saida);
+    Prism::draw(saida, totalPoints / 2, 1);
   free(saida);
   free(entrada);
 }
@@ -247,7 +245,7 @@ void renderMainGear()
   CV::color(0, 0.5, 0.5);
   if (shouldDraw)
   {
-    drawGear(saida);
+    Prism::draw(saida, offsetToNextGear, 2);
   }
   free(saida);
   free(entrada);
@@ -271,7 +269,7 @@ void renderAuxiliarGear()
   CV::color(0, 0.5, 0.5);
   if (shouldDraw)
   {
-    drawGear(saida);
+    Prism::draw(saida, offsetToNextGear, 2);
   }
   free(saida);
   free(entrada);
@@ -345,30 +343,6 @@ Vector3 *getGearPoints(float height)
     i += 4;
   }
   return p;
-}
-
-void drawGear(Vector2 *p)
-{
-  for (int i = 0; i < offsetToNextGear; i += 2)
-  {
-    int nextIndex = i + 1;
-    CV::line(p[i].x, p[i].y, p[nextIndex].x, p[nextIndex].y);
-    CV::line(p[i + offsetToNextGear].x, p[i + offsetToNextGear].y, p[nextIndex + offsetToNextGear].x, p[nextIndex + offsetToNextGear].y);
-    if (p[i + offsetToNextGear].x == 0 || p[i + offsetToNextGear].y == 0)
-      continue;
-    CV::line(p[i].x, p[i].y, p[i + offsetToNextGear].x, p[i + offsetToNextGear].y);
-  }
-}
-
-void drawCilinder(Vector2 *p)
-{
-  for (int i = 0; i < totalPoints / 2; i++)
-  {
-    int nextIndex = (i + 1) % (totalPoints / 2);
-    CV::line(p[i].x, p[i].y, p[nextIndex].x, p[nextIndex].y);
-    CV::line(p[i + totalPoints / 2].x, p[i + totalPoints / 2].y, p[nextIndex + totalPoints / 2].x, p[nextIndex + totalPoints / 2].y);
-    CV::line(p[i].x, p[i].y, p[i + totalPoints / 2].x, p[i + totalPoints / 2].y);
-  }
 }
 
 void keyboard(int key)
