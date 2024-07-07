@@ -1,3 +1,5 @@
+// Classe para renderizar um prisma, uma linha renderiza a base de baixo, outra a base de cima e a outra liga os pontos da base de baixo com a de cima.
+
 #include "Vector2.h"
 #include "gl_canvas2d.h"
 
