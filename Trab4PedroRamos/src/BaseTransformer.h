@@ -1,3 +1,6 @@
+// Classe com transformações básicas para todos objetos na cena: translação e rotação da câmera (e afastamento incial da
+// câmera com zStart (d))
+
 #include "Vector3.h"
 class BaseTransformer
 {

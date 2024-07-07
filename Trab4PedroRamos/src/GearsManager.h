@@ -1,3 +1,5 @@
+// Classe responsável por calcular e renderizar todos as engrenagens da cena
+
 #include "./Vector3.h"
 #include "./Vector2.h"
 #include "./Prism.h"
@@ -82,6 +84,20 @@ private:
     p = p.translateY(*smallRadius + *baseCrankSize + *crankYTranslation);
     return p;
   }
+
+public:
+  GearsManager(int *totalPoints, float *mainRotation, float *smallRadius, float *baseCrankSize, float *crankYTranslation, float *notFov, BaseTransformer *baseTransformer)
+  {
+    this->totalPoints = totalPoints;
+    this->mainRotation = mainRotation;
+    this->smallRadius = smallRadius;
+    this->baseCrankSize = baseCrankSize;
+    this->crankYTranslation = crankYTranslation;
+    this->notFov = notFov;
+    this->baseTransformer = baseTransformer;
+    initialize();
+  }
+
   void renderMainGear()
   {
     Vector3 p;
@@ -127,24 +143,5 @@ private:
     }
     free(saida);
     free(entrada);
-  }
-
-public:
-  GearsManager(int *totalPoints, float *mainRotation, float *smallRadius, float *baseCrankSize, float *crankYTranslation, float *notFov, BaseTransformer *baseTransformer)
-  {
-    this->totalPoints = totalPoints;
-    this->mainRotation = mainRotation;
-    this->smallRadius = smallRadius;
-    this->baseCrankSize = baseCrankSize;
-    this->crankYTranslation = crankYTranslation;
-    this->notFov = notFov;
-    this->baseTransformer = baseTransformer;
-    initialize();
-  }
-
-  void renderGears()
-  {
-    renderMainGear();
-    renderAuxiliarGear();
   }
 };

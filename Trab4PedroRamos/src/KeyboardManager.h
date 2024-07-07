@@ -1,3 +1,15 @@
+/* Classe para executar ações de acordo com as teclas pressionadas pelo usuário:
+ * w: move para cima
+ * s: move para baixo
+ * a: move para a esquerda
+ * d: move para a direita
+ * seta pra cima: move pra frente
+ * seta pra baixo: move pra trás
+ * m: aumenta a rotação do motor
+ * n: diminui a rotação do motor
+ * seta para esquerda e direita: gira a câmera
+ */
+
 #include "Vector3.h"
 #include <math.h>
 #include <stdio.h>
@@ -17,6 +29,7 @@ public:
     this->cameraRotation = cameraRotation;
     this->rpmControl = rpmControl;
     this->basePos = basePos;
+    printf("Esquema de botoes do teclado:\nw: move para cima\ns: move para baixo\na: move para a esquerda\nd: move para a direita\nseta pra cima: move pra frente\nseta pra baixo: move pra tras\nm: aumenta a rotacao do motor\nn: diminui a rotacao do motor\nseta para esquerda e direita: gira a camera\n");
   }
 
   void handleKeyStroke(int key)
