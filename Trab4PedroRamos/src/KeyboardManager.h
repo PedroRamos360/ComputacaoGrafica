@@ -8,6 +8,7 @@
  * m: aumenta a rotação do motor
  * n: diminui a rotação do motor
  * seta para esquerda e direita: gira a câmera
+ * k: alterna entre pistão 2D e 3D
  */
 
 #include "Vector3.h"
@@ -20,16 +21,18 @@ class KeyboardManager
 private:
   float *cameraRotation;
   float *rpmControl;
+  bool *show2DPiston;
   Vector3 *basePos;
   float moveSpeed = 1.0f;
 
 public:
-  KeyboardManager(float *cameraRotation, float *rpmControl, Vector3 *basePos)
+  KeyboardManager(float *cameraRotation, float *rpmControl, Vector3 *basePos, bool *show2DPiston)
   {
     this->cameraRotation = cameraRotation;
     this->rpmControl = rpmControl;
     this->basePos = basePos;
-    printf("Esquema de botoes do teclado:\nw: move para cima\ns: move para baixo\na: move para a esquerda\nd: move para a direita\nseta pra cima: move pra frente\nseta pra baixo: move pra tras\nm: aumenta a rotacao do motor\nn: diminui a rotacao do motor\nseta para esquerda e direita: gira a camera\n");
+    this->show2DPiston = show2DPiston;
+    printf("Esquema de botoes do teclado:\nw: move para cima\ns: move para baixo\na: move para a esquerda\nd: move para a direita\nseta pra cima: move pra frente\nseta pra baixo: move pra tras\nm: aumenta a rotacao do motor\nn: diminui a rotacao do motor\nseta para esquerda e direita: gira a camera\nk: alterna entre pistão 2D e 3D\n");
   }
 
   void handleKeyStroke(int key)
@@ -55,6 +58,9 @@ public:
       break;
     case 'n':
       *rpmControl -= 0.01f;
+      break;
+    case 'k':
+      *show2DPiston = !*show2DPiston;
       break;
     case 201:
       basePos->x -= moveSpeed * sin(*cameraRotation);

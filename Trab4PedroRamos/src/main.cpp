@@ -9,6 +9,7 @@
 #include "./GearsManager.h"
 #include "gl_canvas2d.h"
 #include "CilinderManager.h"
+#include "./Piston2D.h"
 
 int screenWidth = 1200, screenHeight = 800;
 int totalPoints = 100;
@@ -21,22 +22,31 @@ float baseCrankSize = 8;
 float cameraRotation = 0;
 float rpmControl = 0.01f;
 float mainRotation = 0;
-KeyboardManager keyboardManager = KeyboardManager(&cameraRotation, &rpmControl, &basePos);
+bool show2DPiston = false;
+KeyboardManager keyboardManager = KeyboardManager(&cameraRotation, &rpmControl, &basePos, &show2DPiston);
 BaseTransformer baseTransformer = BaseTransformer(&zStart, &basePos, &cameraRotation);
 GearsManager gearsManager = GearsManager(&totalPoints, &mainRotation, &smallRadius, &baseCrankSize, &crankYTranslation, &notFov, &baseTransformer);
 CilinderManager cilinderManager = CilinderManager(&totalPoints, &notFov, &smallRadius, &crankYTranslation, &baseCrankSize, &rpmControl, &mainRotation, &baseTransformer);
+Piston2D piston2D = Piston2D();
 
 void render()
 {
   CV::translate(screenWidth / 2, screenHeight / 2);
   CV::clear(0.8, 0.8, 1);
-  cilinderManager.renderMovingCrank();
-  cilinderManager.renderPiston();
-  cilinderManager.renderPistonCapsule();
-  cilinderManager.renderCrankIntersection();
-  cilinderManager.renderMainCrank();
-  gearsManager.renderMainGear();
-  gearsManager.renderAuxiliarGear();
+  if (show2DPiston)
+  {
+    piston2D.show2DPiston(rpmControl);
+  }
+  else
+  {
+    cilinderManager.renderMovingCrank();
+    cilinderManager.renderPiston();
+    cilinderManager.renderPistonCapsule();
+    cilinderManager.renderCrankIntersection();
+    cilinderManager.renderMainCrank();
+    gearsManager.renderMainGear();
+    gearsManager.renderAuxiliarGear();
+  }
 }
 
 void keyboard(int key)
