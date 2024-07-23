@@ -93,11 +93,15 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1718884668 source:c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\lookat.cpp
+1721690910 source:c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\lookat.cpp
 	<GL/glut.h>
 	<stdlib.h>
 	<ctype.h>
 	<stdio.h>
+	"Camera.h"
+	"KeyboardManager.h"
+	<vector>
+	"TreeGenerator.h"
 
 1713401341 c:\users\ramos\documents\github\computacaografica\include\gl\glut.h
 	"freeglut_std.h"
@@ -112,4 +116,34 @@
 	<GL/gl.h>
 	<GL/glu.h>
 	<stdlib.h>
+
+1721690551 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\camera.h
+	<math.h>
+
+1721669954 source:c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\baselookatforreference.cpp
+	<GL/glut.h>
+	<stdlib.h>
+	<ctype.h>
+	<stdio.h>
+
+1721681269 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\keyboardmanager.h
+	<GL/glut.h>
+
+1721684455 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\tree.h
+	<GL/gl.h>
+	"Vector3.h"
+	<GL/glu.h>
+
+1720306830 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\vector3.h
+	<math.h>
+	<stdio.h>
+	"Vector2.h"
+
+1719828656 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\vector2.h
+
+1721690803 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\treegenerator.h
+	<vector>
+	<cstdlib>
+	<ctime>
+	"Tree.h"
 
