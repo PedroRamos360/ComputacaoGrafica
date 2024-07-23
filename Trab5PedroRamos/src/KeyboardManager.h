@@ -78,8 +78,8 @@ public:
 
   void processInput()
   {
-    float movementSpeed = 0.01;
-    float verticalRotationSpeed = 0.005;
+    float movementSpeed = 0.5;
+    float verticalRotationSpeed = 0.1;
     float horizontalRotationSpeed = verticalRotationSpeed / 5;
     if (keyStates['w'])
     {

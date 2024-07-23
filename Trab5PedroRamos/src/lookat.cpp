@@ -7,6 +7,8 @@
 #include <vector>
 #include "TreeGenerator.h"
 #include "Floor.h"
+#include "SceneLight.h"
+#include <GL/wglext.h>
 
 #define SCREEN_X 700
 #define SCREEN_Y 700
@@ -25,6 +27,8 @@ Camera camera;
 TreeGenerator treeGenerator;
 KeyboardManager *KeyboardManager::instance = nullptr;
 Floor floorRenderer;
+SceneLight sceneLight;
+float lightAngle = 0.0f;
 
 void init(InitProps initProps)
 {
@@ -35,6 +39,8 @@ void init(InitProps initProps)
   glClearColor(0.8, 0.8, 1, 1);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   glEnable(GL_DEPTH_TEST);
+  sceneLight.startLighting();
+  floorRenderer.loadTexture();
 }
 
 void MouseFunc(int button, int state, int x, int y)
@@ -51,8 +57,11 @@ void display(void)
 
   floorRenderer.render();
   treeGenerator.renderTrees();
+  sceneLight.updatePosition(lightAngle);
+  lightAngle += 0.01f;
 
   glFlush();
+  glutSwapBuffers();
 }
 
 void resize(int width, int height)
@@ -66,12 +75,22 @@ void resize(int width, int height)
   glMatrixMode(GL_MODELVIEW);
 }
 
+void vSync()
+{
+  PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
+  if (wglSwapIntervalEXT)
+  {
+    wglSwapIntervalEXT(1);
+  }
+}
+
 int main()
 {
   int argc = 0;
   glutInit(&argc, NULL);
 
-  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+  // glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 
   glutInitWindowSize(SCREEN_X, SCREEN_Y);
   glutInitWindowPosition(450, 10);
@@ -80,8 +99,9 @@ int main()
   initProps.openness = 20.0;
   initProps.aspectRatio = 1.0;
   initProps.zNearDistance = 1.0;
-  initProps.zFarDistance = 200.0;
+  initProps.zFarDistance = 100.0;
   init(initProps);
+  vSync();
 
   glutDisplayFunc(display);
   glutMouseFunc(MouseFunc);
