@@ -120,7 +120,7 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1721741380 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\camera.h
+1721741600 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\camera.h
 	<cmath>
 	"Vector3.h"
 
@@ -133,10 +133,11 @@
 1721740196 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\keyboardmanager.h
 	<GL/glut.h>
 
-1721737866 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\tree.h
+1721744506 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\tree.h
 	<GL/gl.h>
 	"Vector3.h"
 	<GL/glu.h>
+	"RefinedTetrahedron.h"
 
 1721738582 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\vector3.h
 	<math.h>
@@ -145,7 +146,7 @@
 
 1719828656 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\vector2.h
 
-1721737706 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\treegenerator.h
+1721744546 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\treegenerator.h
 	<vector>
 	<cstdlib>
 	<ctime>
@@ -177,4 +178,23 @@
 1713401341 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\bmp.h
 	<stdio.h>
 	<stdlib.h>
+
+1721744606 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\refinedtetrahedron.h
+	<vector>
+	<GLFW/glfw3.h>
+	<GL/glcorearb.h>
+	<GL/glu.h>
+	<vector>
+
+1713401341 c:\users\ramos\documents\github\computacaografica\include\glfw\glfw3.h
+	<stddef.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/glcorearb.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<GLES3/gl3.h>
+	<GL/gl.h>
+	<GL/glu.h>
 

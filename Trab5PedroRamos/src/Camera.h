@@ -134,18 +134,6 @@ private:
     return rotated;
   }
 
-  Vector3 rotateAroundX(const Vector3 &vector, float angle)
-  {
-    float cosAngle = cos(angle);
-    float sinAngle = sin(angle);
-
-    Vector3 rotated;
-    rotated.x = vector.x;
-    rotated.y = cosAngle * vector.y - sinAngle * vector.z;
-    rotated.z = sinAngle * vector.y + cosAngle * vector.z;
-
-    return rotated;
-  }
   Vector3 rotateAroundAxis(const Vector3 &vector, const Vector3 &axis, float angle)
   {
     float cosAngle = cos(angle);

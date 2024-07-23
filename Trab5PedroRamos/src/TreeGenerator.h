@@ -19,7 +19,14 @@ private:
     {
       int randomIndex = rand() % points.size();
       Vector3 randomPoint = points[randomIndex];
-      TreeType treeType = rand() % 2 ? CUBE : PYRAMID;
+      int randResult = rand() % 3;
+      TreeType treeType;
+      if (randResult == 0)
+        treeType = CUBE;
+      else if (randResult == 1)
+        treeType = PYRAMID;
+      else
+        treeType = TETRAHEDRON;
       trees.push_back(Tree(randomPoint, treeType));
     }
   }

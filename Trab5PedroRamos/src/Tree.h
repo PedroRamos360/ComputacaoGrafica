@@ -1,11 +1,13 @@
 #include <GL/gl.h>
 #include "Vector3.h"
 #include <GL/glu.h>
+#include "RefinedTetrahedron.h"
 
 enum TreeType
 {
   CUBE,
-  PYRAMID
+  PYRAMID,
+  TETRAHEDRON,
 };
 
 class Tree
@@ -15,6 +17,7 @@ public:
   {
     this->position = position;
     this->type = type;
+    refinedTetrahedron.makeSubdivisions(3);
   }
 
   void render()
@@ -24,15 +27,12 @@ public:
     glPushMatrix();
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glTranslatef(position.x, position.y + cilinderHeight, position.z);
-    switch (type)
-    {
-    case CUBE:
+    if (type == CUBE)
       renderCube();
-      break;
-    case PYRAMID:
+    else if (type == PYRAMID)
       renderPyramid();
-      break;
-    }
+    else if (type == TETRAHEDRON)
+      refinedTetrahedron.render();
     renderCylinder(0.5f, cilinderHeight, 30, 30);
     glPopMatrix();
   }
@@ -40,6 +40,7 @@ public:
 private:
   Vector3 position;
   TreeType type;
+  RefinedTetrahedron refinedTetrahedron;
   void renderCylinder(float radius, float height, int slices, int stacks)
   {
     glPushMatrix();
