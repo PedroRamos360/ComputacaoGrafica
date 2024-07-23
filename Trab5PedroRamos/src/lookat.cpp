@@ -10,8 +10,8 @@
 #include "SceneLight.h"
 #include <GL/wglext.h>
 
-#define SCREEN_X 700
-#define SCREEN_Y 700
+#define SCREEN_X 800
+#define SCREEN_Y 600
 
 using namespace std;
 
@@ -24,11 +24,11 @@ struct InitProps
 };
 
 Camera camera;
-TreeGenerator treeGenerator;
 KeyboardManager *KeyboardManager::instance = nullptr;
-Floor floorRenderer;
+HeightMap heightMap;
+TreeGenerator treeGenerator(heightMap);
+Floor floorRenderer(heightMap);
 SceneLight sceneLight;
-float lightAngle = 0.0f;
 
 void init(InitProps initProps)
 {
@@ -53,12 +53,11 @@ void display(void)
   glLoadIdentity();
   KeyboardManager *keyboardManager = KeyboardManager::getInstance(&camera);
   keyboardManager->processInput();
-  gluLookAt(camera.eyex, camera.eyey, camera.eyez, camera.centerx, camera.centery, camera.centerz, 0, 1, 0);
+  gluLookAt(camera.eye.x, camera.eye.y, camera.eye.z, camera.center.x, camera.center.y, camera.center.z, 0, 1, 0);
 
   floorRenderer.render();
   treeGenerator.renderTrees();
-  sceneLight.updatePosition(lightAngle);
-  lightAngle += 0.01f;
+  sceneLight.setPosition(1.0f, 40.0f, 1.0f, 2.0f);
 
   glFlush();
   glutSwapBuffers();
@@ -90,7 +89,6 @@ int main()
   glutInit(&argc, NULL);
 
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-  // glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
 
   glutInitWindowSize(SCREEN_X, SCREEN_Y);
   glutInitWindowPosition(450, 10);
@@ -99,7 +97,7 @@ int main()
   initProps.openness = 20.0;
   initProps.aspectRatio = 1.0;
   initProps.zNearDistance = 1.0;
-  initProps.zFarDistance = 100.0;
+  initProps.zFarDistance = 1000.0;
   init(initProps);
   vSync();
 

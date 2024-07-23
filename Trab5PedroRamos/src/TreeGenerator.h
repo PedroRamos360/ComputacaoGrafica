@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Tree.h"
+#include "HeightMap.h"
 using namespace std;
 
 class TreeGenerator
@@ -9,24 +10,24 @@ class TreeGenerator
 private:
   vector<Tree> trees;
 
-  void generateTrees()
+  void generateTrees(HeightMap heightMap)
   {
-    int maxX = 20;
-    int maxZ = 20;
     srand(static_cast<unsigned int>(time(0)));
-    const int numTrees = 30;
+    const int numTrees = 60;
+    vector<Vector3> points = heightMap.getPoints();
     for (int i = 0; i < numTrees; ++i)
     {
-      float x = static_cast<float>(rand() % (maxX * 2) - maxX);
-      float z = static_cast<float>(rand() % (maxZ * 2) - maxZ);
-      trees.push_back(Tree(Vector3(x, 0, z)));
+      int randomIndex = rand() % points.size();
+      Vector3 randomPoint = points[randomIndex];
+      TreeType treeType = rand() % 2 ? CUBE : PYRAMID;
+      trees.push_back(Tree(randomPoint, treeType));
     }
   }
 
 public:
-  TreeGenerator()
+  TreeGenerator(HeightMap heightMap)
   {
-    generateTrees();
+    generateTrees(heightMap);
   }
 
   void renderTrees()

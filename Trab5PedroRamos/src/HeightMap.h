@@ -1,6 +1,6 @@
 #include "./Vector3.h"
 #include <vector>
-#include <cmath> // for sinf and cosf
+#include <cmath>
 
 using namespace std;
 
@@ -8,14 +8,13 @@ class HeightMap
 {
 private:
   vector<Vector3> points;
+  int maxX = 200;
+  int maxZ = 200;
+  int halfMaxX = maxX / 2;
+  int halfMaxZ = maxZ / 2;
 
   void generateHeightMap()
   {
-    int maxX = 100;
-    int maxZ = 100;
-    int halfMaxX = maxX / 2;
-    int halfMaxZ = maxZ / 2;
-
     for (int x = -halfMaxX; x < halfMaxX; ++x)
     {
       for (int z = -halfMaxZ; z < halfMaxZ; ++z)

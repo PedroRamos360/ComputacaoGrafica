@@ -1,7 +1,6 @@
 #include <GL/gl.h>
 #include "Vector3.h"
 #include <vector>
-#include "HeightMap.h"
 #include <cmath>
 #include "Bmp.h"
 #include <string>
@@ -19,9 +18,8 @@ private:
   GLuint textureID;
 
 public:
-  Floor()
+  Floor(HeightMap heightMap)
   {
-    HeightMap heightMap;
     this->points = heightMap.getPoints();
     this->gridWidth = static_cast<int>(sqrt(points.size()));
     this->gridHeight = gridWidth;

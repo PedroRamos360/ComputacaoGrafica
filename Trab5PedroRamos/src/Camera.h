@@ -1,4 +1,5 @@
-#include <math.h>
+#include <cmath>
+#include "Vector3.h"
 
 enum CameraDirection
 {
@@ -10,89 +11,150 @@ enum CameraDirection
   BACKWARDS
 };
 
+using namespace std;
+
 class Camera
 {
 public:
-  float eyex, eyey, eyez;
-  float centerx, centery, centerz;
+  Vector3 eye;
+  Vector3 center;
+  Vector3 direction = center - eye;
+  Vector3 right = direction.cross(Vector3(0.0f, 1.0f, 0.0f));
+  Vector3 up = right.cross(direction);
 
   Camera()
+      : eye(0.0f, 1.0f, 10.0f), center(0.0f, 0.0f, 0.0f)
   {
-    eyex = 0.0;
-    eyey = 1.0;
-    eyez = 10.0;
-    centerx = 0.0;
-    centery = 0.0;
-    centerz = 0.0;
+    direction.normalize();
+    right.normalize();
+    up.normalize();
   }
 
   void rotate(float angle, CameraDirection cameraDirection)
   {
-    float x = centerx - eyex;
-    float z = centerz - eyez;
-    float s = sin(angle);
-    float c = cos(angle);
+    Vector3 direction = center - eye;
+    direction.normalize();
+    Vector3 right = direction.cross(Vector3(0.0f, 1.0f, 0.0f));
+    right.normalize();
+    Vector3 up = right.cross(direction);
+    up.normalize();
 
     switch (cameraDirection)
     {
     case LEFT:
-      centerx = c * x + s * z + eyex;
-      centerz = -s * x + c * z + eyez;
-      break;
+      angle = -angle;
+
     case RIGHT:
-      centerx = c * x - s * z + eyex;
-      centerz = s * x + c * z + eyez;
-      break;
-    case UP:
-      centery += angle;
-      break;
-    case DOWN:
-      centery -= angle;
+    {
+      float cosAngle = cos(angle);
+      float sinAngle = sin(angle);
+
+      direction = rotateAroundY(direction, angle);
+      right = direction.cross(Vector3(0.0f, 1.0f, 0.0f));
+      right.normalize();
+      up = right.cross(direction);
+      up.normalize();
+
+      eye = center - direction;
       break;
     }
+
+    case DOWN:
+      angle = -angle;
+    case UP:
+    {
+      float cosAngle = cos(angle);
+      float sinAngle = sin(angle);
+
+      direction = rotateAroundAxis(direction, right, angle);
+      up = right.cross(direction);
+      up.normalize();
+
+      eye = center - direction;
+      break;
+    }
+    }
   }
+
   void translate(float distance, CameraDirection cameraDirection)
   {
-    float x = centerx - eyex;
-    float z = centerz - eyez;
-    float angle = atan2(z, x);
-    float s = sin(angle);
-    float c = cos(angle);
+    Vector3 direction = center - eye;
+    Vector3 right;
+    direction.normalize();
 
     switch (cameraDirection)
     {
     case FORWARD:
-      eyex += distance * c;
-      eyez += distance * s;
-      centerx += distance * c;
-      centerz += distance * s;
+      eye = eye + direction * distance;
+      center = center + direction * distance;
       break;
+
     case BACKWARDS:
-      eyex -= distance * c;
-      eyez -= distance * s;
-      centerx -= distance * c;
-      centerz -= distance * s;
+      eye = eye - direction * distance;
+      center = center - direction * distance;
       break;
+
     case LEFT:
-      eyex += distance * s;
-      eyez -= distance * c;
-      centerx += distance * s;
-      centerz -= distance * c;
+      right = direction.cross(Vector3(0.0f, 1.0f, 0.0f));
+      right.normalize();
+      eye = eye - right * distance;
+      center = center - right * distance;
       break;
+
     case RIGHT:
-      eyex -= distance * s;
-      eyez += distance * c;
-      centerx -= distance * s;
-      centerz += distance * c;
+      right = direction.cross(Vector3(0.0f, 1.0f, 0.0f));
+      right.normalize();
+      eye = eye + right * distance;
+      center = center + right * distance;
       break;
+
     case UP:
-      eyey += distance;
-      centery += distance;
+      eye.y += distance;
+      center.y += distance;
       break;
+
     case DOWN:
-      eyey -= distance;
-      centery -= distance;
+      eye.y -= distance;
+      center.y -= distance;
       break;
     }
+  }
+
+private:
+  Vector3 rotateAroundY(const Vector3 &vector, float angle)
+  {
+    float cosAngle = cos(angle);
+    float sinAngle = sin(angle);
+
+    Vector3 rotated;
+    rotated.x = cosAngle * vector.x - sinAngle * vector.z;
+    rotated.y = vector.y;
+    rotated.z = sinAngle * vector.x + cosAngle * vector.z;
+
+    return rotated;
+  }
+
+  Vector3 rotateAroundX(const Vector3 &vector, float angle)
+  {
+    float cosAngle = cos(angle);
+    float sinAngle = sin(angle);
+
+    Vector3 rotated;
+    rotated.x = vector.x;
+    rotated.y = cosAngle * vector.y - sinAngle * vector.z;
+    rotated.z = sinAngle * vector.y + cosAngle * vector.z;
+
+    return rotated;
+  }
+  Vector3 rotateAroundAxis(const Vector3 &vector, const Vector3 &axis, float angle)
+  {
+    float cosAngle = cos(angle);
+    float sinAngle = sin(angle);
+    Vector3 axisNorm = axis;
+    axisNorm.normalize();
+
+    Vector3 vectorValue = Vector3(vector.x, vector.y, vector.z);
+
+    return vectorValue * cosAngle + (axisNorm.cross(vector)) * sinAngle + axisNorm * (axisNorm.dot(vector)) * (1.0f - cosAngle);
   }
 };

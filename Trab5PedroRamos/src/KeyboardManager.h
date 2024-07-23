@@ -79,8 +79,8 @@ public:
   void processInput()
   {
     float movementSpeed = 0.5;
-    float verticalRotationSpeed = 0.1;
-    float horizontalRotationSpeed = verticalRotationSpeed / 5;
+    float verticalRotationSpeed = 0.02;
+    float horizontalRotationSpeed = verticalRotationSpeed;
     if (keyStates['w'])
     {
       camera->translate(movementSpeed, FORWARD);
