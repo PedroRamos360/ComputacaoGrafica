@@ -10,7 +10,6 @@ private:
   static KeyboardManager *instance;
   Camera *camera;
 
-  // Private constructor to prevent instantiation
   KeyboardManager(Camera *camera)
   {
     this->camera = camera;
@@ -24,9 +23,17 @@ private:
     glutKeyboardFunc(keyboardDownWrapper);
     glutSpecialUpFunc(specialFuncUpWrapper);
     glutSpecialFunc(specialFuncDownWrapper);
+    printf("Controles do teclado:\n");
+    printf("W: Mover para frente\n");
+    printf("S: Mover para tras\n");
+    printf("A: Mover para a esquerda\n");
+    printf("D: Mover para a direita\n");
+    printf("Q: Mover para cima\n");
+    printf("E: Mover para baixo\n");
+    printf("Setas: Rotacionar a camera\n");
+    printf("K: Alternar entre modo wireframe e solido\n");
   }
 
-  // Static wrapper functions for GLUT callbacks
   static void keyboardUpWrapper(unsigned char key, int x, int y)
   {
     instance->keyboardUp(key, x, y);
@@ -49,13 +56,13 @@ private:
 
   void keyboardUp(unsigned char key, int x, int y)
   {
-    keyStates[key] = false;
+    keyStates[tolower(key)] = false;
   }
 
   void keyboardDown(unsigned char key, int x, int y)
   {
-    keyStates[key] = true;
-    if (key == 'k')
+    keyStates[tolower(key)] = true;
+    if (tolower(key) == 'k')
     {
       if (wireframe)
       {

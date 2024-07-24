@@ -1,3 +1,24 @@
+/*
+Trabalho 5 - Pedro Ramos
+
+Requisitos básicos desenvolvidos:
+- Todos requisitos básicos foram implementados
+
+Requisitos extras desenvolvidos:
+- Uso de texturas no terreno
+- Imagem responsiva a diferentes tamanhos de tela
+
+Controles de teclado (também inclusos no console):
+- W: Move para frente
+- S: Move para trás
+- A: Move para a esquerda
+- D: Move para a direita
+- Q: Move para cima
+- E: Move para baixo
+- Setas direcionais: Rotacionam a câmera
+- K: Troca de wireframe para preenchimento de polígonos e vice-versa
+*/
+
 #include <GL/glut.h>
 #include <stdlib.h>
 #include <ctype.h>
