@@ -33,6 +33,7 @@ public:
     glTranslatef(0, 0.5, 0);
     glBegin(GL_TRIANGLES);
     glColor3f(0.0, 1.0, 0.0);
+    glNormal3f(0.0, 1.0, 0.0);
     for (Face face : facesToRender)
     {
       renderFace(face);
@@ -84,6 +85,9 @@ private:
 
   void renderFace(Face face)
   {
+    Vector3 normal = face.a;
+    normal.normalize();
+    glNormal3f(normal.x, normal.y, normal.z);
     glVertex3f(face.a.x, face.a.y, face.a.z);
     glVertex3f(face.b.x, face.b.y, face.b.z);
     glVertex3f(face.c.x, face.c.y, face.c.z);

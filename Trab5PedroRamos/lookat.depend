@@ -93,7 +93,7 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1721738894 source:c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\lookat.cpp
+1721782079 source:c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\lookat.cpp
 	<GL/glut.h>
 	<stdlib.h>
 	<ctype.h>
@@ -130,10 +130,10 @@
 	<ctype.h>
 	<stdio.h>
 
-1721740196 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\keyboardmanager.h
+1721782157 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\keyboardmanager.h
 	<GL/glut.h>
 
-1721744506 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\tree.h
+1721784438 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\tree.h
 	<GL/gl.h>
 	"Vector3.h"
 	<GL/glu.h>
@@ -179,7 +179,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1721744606 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\refinedtetrahedron.h
+1721783000 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\refinedtetrahedron.h
 	<vector>
 	<GLFW/glfw3.h>
 	<GL/glcorearb.h>

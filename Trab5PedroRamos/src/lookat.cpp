@@ -37,7 +37,6 @@ void init(InitProps initProps)
   gluPerspective(initProps.openness, initProps.aspectRatio, initProps.zNearDistance, initProps.zFarDistance);
   glMatrixMode(GL_MODELVIEW);
   glClearColor(0.8, 0.8, 1, 1);
-  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   glEnable(GL_DEPTH_TEST);
   sceneLight.startLighting();
   floorRenderer.loadTexture();

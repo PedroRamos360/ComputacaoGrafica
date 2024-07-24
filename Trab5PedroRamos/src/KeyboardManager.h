@@ -5,6 +5,7 @@ class KeyboardManager
 private:
   bool keyStates[256];
   bool specialKeyStates[256];
+  bool wireframe = false;
 
   static KeyboardManager *instance;
   Camera *camera;
@@ -54,6 +55,19 @@ private:
   void keyboardDown(unsigned char key, int x, int y)
   {
     keyStates[key] = true;
+    if (key == 'k')
+    {
+      if (wireframe)
+      {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        wireframe = false;
+      }
+      else
+      {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        wireframe = true;
+      }
+    }
   }
 
   void specialFuncUp(int key, int x, int y)
