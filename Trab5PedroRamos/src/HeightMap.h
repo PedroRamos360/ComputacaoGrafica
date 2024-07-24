@@ -19,7 +19,7 @@ private:
     {
       for (int z = -halfMaxZ; z < halfMaxZ; ++z)
       {
-        float y = sinf(x * 0.1f) * cosf(z * 0.1f);
+        float y = (sinf(x * 0.1) * cosf(z * 0.1)) + (sinf(x * 0.3) / 3 * cosf(z * 0.3) / 3);
         points.push_back(Vector3(x, y * 2, z));
       }
     }
