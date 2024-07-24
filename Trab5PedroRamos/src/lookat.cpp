@@ -15,14 +15,6 @@
 
 using namespace std;
 
-struct InitProps
-{
-  float openness;
-  float aspectRatio;
-  float zNearDistance;
-  float zFarDistance;
-};
-
 Camera camera;
 KeyboardManager *KeyboardManager::instance = nullptr;
 HeightMap heightMap;
@@ -30,11 +22,10 @@ TreeGenerator treeGenerator(heightMap);
 Floor floorRenderer(heightMap);
 SceneLight sceneLight;
 
-void init(InitProps initProps)
+void init()
 {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(initProps.openness, initProps.aspectRatio, initProps.zNearDistance, initProps.zFarDistance);
   glMatrixMode(GL_MODELVIEW);
   glClearColor(0.8, 0.8, 1, 1);
   glEnable(GL_DEPTH_TEST);
@@ -56,7 +47,7 @@ void display(void)
 
   floorRenderer.render();
   treeGenerator.renderTrees();
-  sceneLight.setPosition(1.0f, 40.0f, 1.0f, 2.0f);
+  sceneLight.setPosition(1.0f, 1.0f, 1.0f, 0.0f);
 
   glFlush();
   glutSwapBuffers();
@@ -67,9 +58,7 @@ void resize(int width, int height)
   glViewport(0, 0, width, height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-
-  gluPerspective(45.0, static_cast<float>(width) / height, 0.1, 100.0);
-
+  gluPerspective(45.0, static_cast<float>(width) / height, 1.0, 500.0);
   glMatrixMode(GL_MODELVIEW);
 }
 
@@ -92,12 +81,7 @@ int main()
   glutInitWindowSize(SCREEN_X, SCREEN_Y);
   glutInitWindowPosition(450, 10);
   glutCreateWindow("Trab5PedroRamos");
-  InitProps initProps;
-  initProps.openness = 20.0;
-  initProps.aspectRatio = 1.0;
-  initProps.zNearDistance = 1.0;
-  initProps.zFarDistance = 1000.0;
-  init(initProps);
+  init();
   vSync();
 
   glutDisplayFunc(display);
