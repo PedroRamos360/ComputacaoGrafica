@@ -49,6 +49,11 @@ public:
     return Vector3(x * v, y * v, z * v);
   }
 
+  Vector3 operator/(float v)
+  {
+    return Vector3(x / v, y / v, z / v);
+  }
+
   Vector3 crossProduct(const Vector3 &v) const
   {
     return Vector3(

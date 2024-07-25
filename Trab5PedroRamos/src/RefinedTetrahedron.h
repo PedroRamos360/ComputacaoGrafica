@@ -85,7 +85,7 @@ private:
 
   void renderFace(Face face)
   {
-    Vector3 normal = face.a;
+    Vector3 normal = (face.a + face.b + face.c) / 3.0f;
     normal.normalize();
     glNormal3f(normal.x, normal.y, normal.z);
     glVertex3f(face.a.x, face.a.y, face.a.z);
