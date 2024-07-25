@@ -18,26 +18,20 @@ class Camera
 public:
   Vector3 eye;
   Vector3 center;
-  Vector3 direction = center - eye;
-  Vector3 right = direction.cross(Vector3(0.0f, 1.0f, 0.0f));
-  Vector3 up = right.cross(direction);
+  Vector3 up;
 
   Camera()
-      : eye(0.0f, 1.0f, 10.0f), center(0.0f, 0.0f, 0.0f)
+      : eye(0.0f, 1.0f, 10.0f), center(0.0f, 0.0f, 0.0f), up(0.0f, 1.0f, 0.0f)
   {
-    direction.normalize();
-    right.normalize();
-    up.normalize();
+    translate(150.0f, BACKWARDS);
   }
 
   void rotate(float angle, CameraDirection cameraDirection)
   {
     Vector3 direction = center - eye;
     direction.normalize();
-    Vector3 right = direction.cross(Vector3(0.0f, 1.0f, 0.0f));
+    Vector3 right = direction.cross(up);
     right.normalize();
-    Vector3 up = right.cross(direction);
-    up.normalize();
 
     switch (cameraDirection)
     {
@@ -46,11 +40,8 @@ public:
 
     case RIGHT:
     {
-      float cosAngle = cos(angle);
-      float sinAngle = sin(angle);
-
       direction = rotateAroundY(direction, angle);
-      right = direction.cross(Vector3(0.0f, 1.0f, 0.0f));
+      right = direction.cross(up);
       right.normalize();
       up = right.cross(direction);
       up.normalize();
@@ -63,9 +54,6 @@ public:
       angle = -angle;
     case UP:
     {
-      float cosAngle = cos(angle);
-      float sinAngle = sin(angle);
-
       direction = rotateAroundAxis(direction, right, angle);
       up = right.cross(direction);
       up.normalize();

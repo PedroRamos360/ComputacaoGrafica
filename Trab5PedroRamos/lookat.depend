@@ -120,7 +120,7 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1721741600 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\camera.h
+1721918580 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\camera.h
 	<cmath>
 	"Vector3.h"
 
@@ -163,7 +163,7 @@
 	<string>
 	<GL/glcorearb.h>
 
-1721819945 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\heightmap.h
+1721917577 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\heightmap.h
 	"./Vector3.h"
 	<vector>
 	<cmath>
