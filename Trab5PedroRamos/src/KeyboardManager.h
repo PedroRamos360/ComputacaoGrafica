@@ -1,4 +1,7 @@
 #include <GL/glut.h>
+#include <chrono>
+
+using namespace std;
 
 class KeyboardManager
 {
@@ -6,6 +9,15 @@ private:
   bool keyStates[256];
   bool specialKeyStates[256];
   bool wireframe = false;
+  chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long long, std::nano>> lastTime = chrono::high_resolution_clock::now();
+
+  float getDeltaTime()
+  {
+    chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long long, std::nano>> currentTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+    return deltaTime.count();
+  }
 
   static KeyboardManager *instance;
   Camera *camera;
@@ -99,8 +111,9 @@ public:
 
   void processInput()
   {
-    float movementSpeed = 0.5;
-    float verticalRotationSpeed = 0.02;
+    float deltaTime = getDeltaTime();
+    float movementSpeed = 30 * deltaTime;
+    float verticalRotationSpeed = 2 * deltaTime;
     float horizontalRotationSpeed = verticalRotationSpeed;
     if (keyStates['w'])
     {

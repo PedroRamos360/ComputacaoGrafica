@@ -93,7 +93,7 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1721829436 source:c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\lookat.cpp
+1721869977 source:c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\lookat.cpp
 	<GL/glut.h>
 	<stdlib.h>
 	<ctype.h>
@@ -130,8 +130,9 @@
 	<ctype.h>
 	<stdio.h>
 
-1721827918 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\keyboardmanager.h
+1721871337 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\keyboardmanager.h
 	<GL/glut.h>
+	<chrono>
 
 1721784601 c:\users\ramos\documents\github\computacaografica\trab5pedroramos\src\tree.h
 	<GL/gl.h>
