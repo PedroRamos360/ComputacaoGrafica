@@ -13,8 +13,8 @@ Controles de teclado (também inclusos no console):
 - S: Move para trás
 - A: Move para a esquerda
 - D: Move para a direita
-- Q: Move para cima
-- E: Move para baixo
+- Q: Move para baixo
+- E: Move para cima
 - Setas direcionais: Rotacionam a câmera
 - K: Troca de wireframe para preenchimento de polígonos e vice-versa
 */

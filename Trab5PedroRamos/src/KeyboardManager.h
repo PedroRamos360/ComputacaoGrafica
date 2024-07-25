@@ -28,8 +28,8 @@ private:
     printf("S: Mover para tras\n");
     printf("A: Mover para a esquerda\n");
     printf("D: Mover para a direita\n");
-    printf("Q: Mover para cima\n");
-    printf("E: Mover para baixo\n");
+    printf("Q: Mover para baixo\n");
+    printf("E: Mover para cima\n");
     printf("Setas: Rotacionar a camera\n");
     printf("K: Alternar entre modo wireframe e solido\n");
   }
@@ -118,11 +118,11 @@ public:
     {
       camera->translate(movementSpeed, RIGHT);
     }
-    if (keyStates['q'])
+    if (keyStates['e'])
     {
       camera->translate(movementSpeed, UP);
     }
-    if (keyStates['e'])
+    if (keyStates['q'])
     {
       camera->translate(movementSpeed, DOWN);
     }
