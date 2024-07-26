@@ -6,7 +6,9 @@ Requisitos básicos desenvolvidos:
 
 Requisitos extras desenvolvidos:
 - Uso de texturas no terreno
+- Geração de árvores em posição aleatória a cada execução do programa e com diferentes geometrias de copas
 - Imagem responsiva a diferentes tamanhos de tela
+- Terreno gerado por curvas de bezier
 
 Controles de teclado (também inclusos no console):
 - W: Move para frente
